@@ -9,9 +9,6 @@ import {
 } from "@material-ui/icons/";
 
 const useStyles = makeStyles((theme) => ({
-  subheader: {
-    backgroundColor: theme.palette.background.paper,
-  },
   appBar: {
     top: "auto",
     bottom: 0,

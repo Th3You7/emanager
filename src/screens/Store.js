@@ -1,10 +1,11 @@
 import React from "react";
-import { AppBar } from "../components";
+import { BottomAppBar, UpperAppBar } from "../components";
 
 const Store = () => {
   return (
     <div>
-      <AppBar />
+      <UpperAppBar />
+      <BottomAppBar />
     </div>
   );
 };
