@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import MuiThemeProvider from "./providers/ThemeProvider";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
@@ -12,7 +13,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <ScrollToTop />
-      <App />
+      <MuiThemeProvider>
+        <App />
+      </MuiThemeProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

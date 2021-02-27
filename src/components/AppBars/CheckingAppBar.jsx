@@ -18,8 +18,10 @@ const CheckingAppBar = () => {
 
   return (
     <div className={classes.root}>
-      <Typography>269</Typography>
-      <Button>Add To Cart</Button>
+      <Typography component="h4" variant="h4">
+        269
+      </Typography>
+      <Button variant="contained">Add To Cart</Button>
     </div>
   );
 };

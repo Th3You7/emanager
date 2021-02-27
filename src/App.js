@@ -1,10 +1,10 @@
 import React from "react";
-import { Store } from "./screens";
+import { Store, Product } from "./screens";
 
 function App() {
   return (
     <div className="App">
-      <Store />
+      <Product />
     </div>
   );
 }
