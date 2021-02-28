@@ -5,11 +5,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "space-between",
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     position: "absolute",
     left: 0,
     bottom: 0,
     width: "100%",
+    background: theme.palette.background.paper,
+    boxShadow: theme.shadows[4],
   },
 }));
 

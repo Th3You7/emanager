@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: theme.spacing(2),
+    padding: theme.spacing(2, 0),
   },
   menuButton: {
     marginRight: theme.spacing(2),
