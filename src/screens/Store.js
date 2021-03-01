@@ -47,7 +47,7 @@ const Store = () => {
           <CategoryCard key={category} title={category} />
         ))}
       </div>
-      <Typography className={classes.title} component="h2" variant="h5">
+      <Typography className={classes.title} component="h2" variant="h3">
         Products
       </Typography>
       <div className={classes.products}>

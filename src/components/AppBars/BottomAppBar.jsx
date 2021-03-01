@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, IconButton, Fab } from "@material-ui/core/";
 import {
@@ -12,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     top: "auto",
     bottom: 0,
-    background: theme.palette.background.paper,
   },
   grow: {
     flexGrow: 1,
@@ -32,14 +32,20 @@ const BottomAppBar = () => {
 
   return (
     <>
-      <AppBar position="fixed" color="primary" className={classes.appBar}>
-        <Toolbar>
+      <AppBar position="fixed" color="inherit" className={classes.appBar}>
+        <Toolbar variant="regular">
           <IconButton edge="start" color="inherit" aria-label="open drawer">
             <Menu />
           </IconButton>
-          <Fab color="secondary" aria-label="add" className={classes.fabButton}>
-            <LocalGroceryStoreRounded />
-          </Fab>
+          <Link to="/cart">
+            <Fab
+              color="secondary"
+              aria-label="add"
+              className={classes.fabButton}
+            >
+              <LocalGroceryStoreRounded />
+            </Fab>
+          </Link>
           <div className={classes.grow} />
           <IconButton color="inherit">
             <LocalAtmRounded />

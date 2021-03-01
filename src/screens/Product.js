@@ -37,7 +37,7 @@ export default function Product() {
       <UpperAppBar />
       <img className={classes.img} src={img} alt="product" />
       <div className={classes.content}>
-        <Typography component="h2" variant="h4" gutterBottom>
+        <Typography variant="h1" gutterBottom>
           Nike Air Max 200
         </Typography>
         <FormControl variant="outlined">

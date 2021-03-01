@@ -1,6 +1,16 @@
 import { useState } from "react";
 
 const initTheme = {
+  overrides: {
+    MuiCardContent: {
+      root: {
+        padding: "8px",
+        "&:last-child": {
+          paddingBottom: 0,
+        },
+      },
+    },
+  },
   props: {
     MuiLink: {
       underline: "none",
@@ -23,6 +33,10 @@ const initTheme = {
 
   typography: {
     fontFamily: '"Quicksand", sans-serif',
+    h1: {
+      fontWeight: 700,
+      fontSize: "1rem",
+    },
   },
 };
 
