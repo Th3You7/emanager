@@ -4,7 +4,7 @@ import { Typography, Paper, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   paper: {
     display: "inline-block",
-    margin: theme.spacing(0.5),
+    margin: theme.spacing(0, 0.5),
     padding: theme.spacing(1),
   },
 }));

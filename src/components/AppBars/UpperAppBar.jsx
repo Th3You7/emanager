@@ -1,11 +1,14 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { IconButton } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import { DeleteRounded, ArrowBackRounded } from "@material-ui/icons/";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: (props) =>
+      props.pathname === "/product" ? "absolute" : "static",
+    width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -20,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SearchAppBar() {
-  const classes = useStyles();
+  const classes = useStyles(useLocation());
   const history = useHistory();
 
   const handleClick = () => {
@@ -30,12 +33,12 @@ export default function SearchAppBar() {
   return (
     <>
       <div className={classes.root}>
-        <IconButton color="inherit" aria-label="back" onClick={handleClick}>
-          <ArrowBackRounded fontSize="inherit" />
+        <IconButton aria-label="back" onClick={handleClick}>
+          <ArrowBackRounded fontSize="inherit" color="primary" />
         </IconButton>
 
         <IconButton color="inherit" aria-label="delete">
-          <DeleteRounded fontSize="inherit" color="disabled" />
+          <DeleteRounded fontSize="inherit" />
         </IconButton>
       </div>
     </>

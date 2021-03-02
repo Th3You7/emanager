@@ -40,18 +40,22 @@ const Cart = () => {
         ))}
       </div>
       <div className={classes.total}>
-        <Typography component="h5" variant="subtitle1">
-          Subtotal:{" "}
-          <Typography component="span" variant="subtitle2">
-            300
+        <div>
+          <Typography component="span" variant="body2">
+            Subtotal:{" "}
           </Typography>
-        </Typography>
-        <Typography component="h5" variant="subtitle1">
-          Earning:{" "}
-          <Typography component="span" variant="subtitle2">
-            150
+          <Typography component="span" variant="body1">
+            250DH
           </Typography>
-        </Typography>
+        </div>
+        <div>
+          <Typography component="span" variant="body2">
+            Earning:{" "}
+          </Typography>
+          <Typography component="span" variant="body1">
+            150DH
+          </Typography>
+        </div>
       </div>
       <CheckingAppBar />
     </div>

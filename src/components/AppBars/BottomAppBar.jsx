@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, IconButton, Fab } from "@material-ui/core/";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { AppBar, Toolbar, IconButton, Fab, Badge } from "@material-ui/core/";
 import {
   LocalGroceryStoreRounded,
   AccountCircleRounded,
@@ -27,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -8,
+    top: -9,
+    padding: "0 4px",
+  },
+}))(Badge);
+
 const BottomAppBar = () => {
   const classes = useStyles();
 
@@ -43,7 +51,9 @@ const BottomAppBar = () => {
               aria-label="add"
               className={classes.fabButton}
             >
-              <LocalGroceryStoreRounded />
+              <StyledBadge badgeContent={4} color="primary" overlap="circle">
+                <LocalGroceryStoreRounded />
+              </StyledBadge>
             </Fab>
           </Link>
           <div className={classes.grow} />

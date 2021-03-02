@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CheckingAppBar, UpperAppBar } from "../components";
 import {
+  Fab,
   Typography,
   TextField,
   MenuItem,
@@ -10,11 +11,12 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import img from "../assets/sneaker.jpg";
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: { width: "100%", position: "relative", height: "100vh" },
   img: {
     width: "100%",
-    height: "43vh",
+    height: "50vh",
   },
   content: {
     padding: theme.spacing(2),
@@ -22,13 +24,25 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginTop: theme.spacing(3),
   },
+  form: {
+    width: "100%",
+  },
+  fab: {
+    width: "100%",
+    margin: "70px auto 0",
+  },
 }));
 
 export default function Product() {
   const [size, setSize] = useState("");
+  const history = useHistory();
 
   const handleChange = (e) => {
     setSize(e.target.value);
+  };
+
+  const handleClick = () => {
+    history.replace("/cart");
   };
   const classes = useStyles();
 
@@ -37,10 +51,10 @@ export default function Product() {
       <UpperAppBar />
       <img className={classes.img} src={img} alt="product" />
       <div className={classes.content}>
-        <Typography variant="h1" gutterBottom>
+        <Typography component="h2" variant="h5" gutterBottom>
           Nike Air Max 200
         </Typography>
-        <FormControl variant="outlined">
+        <FormControl variant="outlined" className={classes.form}>
           <InputLabel id="demo-simple-select-outlined-label">Size</InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -66,9 +80,16 @@ export default function Product() {
             variant="outlined"
             required
           />
+          <Fab
+            color="primary"
+            variant="extended"
+            className={classes.fab}
+            onClick={handleClick}
+          >
+            Add To Cart
+          </Fab>
         </FormControl>
       </div>
-      <CheckingAppBar />
     </div>
   );
 }

@@ -4,9 +4,9 @@ const initTheme = {
   overrides: {
     MuiCardContent: {
       root: {
-        padding: "8px",
+        //padding: "8px",
         "&:last-child": {
-          paddingBottom: 0,
+          paddingBottom: 8,
         },
       },
     },
@@ -26,16 +26,27 @@ const initTheme = {
       xl: 1200,
     },
   },
-
   palette: {
     type: "light",
+    primary: {
+      main: "#333333",
+      light: "#5c5c5c",
+      dark: "#0c0c0c",
+      contrastText: "#ffffff",
+    },
+    secondary: {
+      main: "#f8d9e0",
+      dark: "#c5a7ae",
+      contrastText: "#333333",
+    },
+    text: {
+      primary: "#333333",
+      secondary: "#828282",
+    },
   },
-
   typography: {
-    fontFamily: '"Quicksand", sans-serif',
-    h1: {
-      fontWeight: 700,
-      fontSize: "1rem",
+    body2: {
+      fontWeight: "700",
     },
   },
 };

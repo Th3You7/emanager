@@ -11,11 +11,14 @@ const useStyles = makeStyles((theme) => ({
   },
   carousel: {
     display: "flex",
-    overflowY: "scroll",
+    //overflowY: "scroll",
     marginBottom: theme.spacing(3.5),
   },
 
-  title: {},
+  title: {
+    marginBottom: theme.spacing(1.5),
+    fontWeight: 700,
+  },
 
   products: {
     display: "flex",
@@ -30,9 +33,9 @@ const Store = () => {
   return (
     <div className={classes.root}>
       {/* <UpperAppBar /> */}
-      <Typography className={classes.title} component="h2" variant="h5">
+      {/* <Typography className={classes.title} component="h2" variant="h5">
         Categories
-      </Typography>
+      </Typography> */}
       <div className={classes.carousel}>
         {[
           "Hoddies",
@@ -47,7 +50,7 @@ const Store = () => {
           <CategoryCard key={category} title={category} />
         ))}
       </div>
-      <Typography className={classes.title} component="h2" variant="h3">
+      <Typography className={classes.title} component="h2" variant="h5">
         Products
       </Typography>
       <div className={classes.products}>
