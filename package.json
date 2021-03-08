@@ -1,0 +1,25 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "an app for ecommerce management",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --watch server --exec node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Th3You7/eCommerce.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Th3You7/eCommerce/issues"
+  },
+  "homepage": "https://github.com/Th3You7/eCommerce#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
