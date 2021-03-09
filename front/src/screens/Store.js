@@ -39,6 +39,8 @@ const Store = () => {
     dispatch(productsAction());
   }, [dispatch]);
 
+  if (error) return error;
+
   return (
     <div className={classes.root}>
       {/* <UpperAppBar /> */}
@@ -67,9 +69,10 @@ const Store = () => {
         {products.map((product) => (
           <ProductCard
             key={product._id || product}
+            id={product._id}
             title={product.name}
             price={product.price}
-            img={img}
+            img={product.image}
             fetching={fetching}
           />
         ))}

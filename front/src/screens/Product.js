@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CheckingAppBar, UpperAppBar } from "../components";
 import {
   Fab,
@@ -11,7 +11,10 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import img from "../assets/sneaker.jpg";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { productDetailsAction } from "../actions/productsAction";
+
 const useStyles = makeStyles((theme) => ({
   root: { width: "100%", position: "relative", height: "100vh" },
   img: {
@@ -36,6 +39,17 @@ const useStyles = makeStyles((theme) => ({
 export default function Product() {
   const [size, setSize] = useState("");
   const history = useHistory();
+  const classes = useStyles();
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const { fetching, error, product } = useSelector(
+    (state) => state.productDetailsReducer
+  );
+
+  useEffect(() => {
+    dispatch(productDetailsAction(id));
+  }, [id, dispatch]);
 
   const handleChange = (e) => {
     setSize(e.target.value);
@@ -44,15 +58,16 @@ export default function Product() {
   const handleClick = () => {
     history.replace("/cart");
   };
-  const classes = useStyles();
 
+  if (fetching) return "loading";
+  if (error) return "error";
   return (
     <div className={classes.root}>
       <UpperAppBar />
-      <img className={classes.img} src={img} alt="product" />
+      <img className={classes.img} src={product.image} alt={product.name} />
       <div className={classes.content}>
         <Typography component="h2" variant="h5" gutterBottom>
-          Nike Air Max 200
+          {product.name}
         </Typography>
         <FormControl variant="outlined" className={classes.form}>
           <InputLabel id="demo-simple-select-outlined-label">Size</InputLabel>
@@ -64,10 +79,11 @@ export default function Product() {
             label="Size"
             required
           >
-            <MenuItem value={40}>40</MenuItem>
-            <MenuItem value={41}>41</MenuItem>
-            <MenuItem value={42}>42</MenuItem>
-            <MenuItem value={43}>43</MenuItem>
+            {Object.keys(product.availableSizes).map((size) => (
+              <MenuItem key={size} value={size}>
+                {size}
+              </MenuItem>
+            ))}
           </Select>
           <TextField
             className={classes.textField}

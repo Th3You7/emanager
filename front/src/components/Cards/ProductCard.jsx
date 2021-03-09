@@ -54,20 +54,22 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const ProductCard = (props) => {
-  const { title, price, img, fetching } = props;
+  const { id, title, price, img, fetching } = props;
   const location = useLocation();
   const classes = useStyles((props = location));
+
+  const to = `/product/${id}`;
   return (
     <Card className={classes.card}>
       <CardActionArea className={classes.area}>
         {fetching ? (
           <Skeleton variant="rect" height={140} width="100%" />
         ) : (
-          <Link to="/product">
+          <Link to={to}>
             <CardMedia
               className={classes.img}
               component="img"
-              alt="product"
+              alt={title}
               image={img}
               title={title}
             />
