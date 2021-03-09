@@ -1,7 +1,7 @@
 data = {
   products: [
     {
-      id: 1,
+      _id: 1,
       name: "Nike Air Max",
       category: "Sneakers",
       image: "nike.jpg",
@@ -14,7 +14,7 @@ data = {
       },
     },
     {
-      id: 2,
+      _id: 2,
       name: "Black Hoddie",
       category: "Hoddies",
       image: "hoddie.jpg",
@@ -27,7 +27,7 @@ data = {
       },
     },
     {
-      id: 3,
+      _id: 3,
       name: "White Hoddie",
       category: "Hoddies",
       image: "whoddie.jpg",
@@ -40,7 +40,7 @@ data = {
       },
     },
     {
-      id: 4,
+      _id: 4,
       name: "Adidas Yezzy",
       category: "Sneakers",
       image: "adidas.jpg",
@@ -53,7 +53,7 @@ data = {
       },
     },
     {
-      id: 5,
+      _id: 5,
       name: "Ripped Jean",
       category: "Jeans",
       image: "rippedjean.jpg",
@@ -64,7 +64,7 @@ data = {
       },
     },
     {
-      id: 6,
+      _id: 6,
       name: "Skinny Jean",
       category: "Jeans",
       image: "skinnyjean.jpg",
@@ -76,7 +76,7 @@ data = {
       },
     },
     {
-      id: 7,
+      _id: 7,
       name: "Leather",
       category: "Leather",
       image: "leather.jpg",
@@ -86,7 +86,7 @@ data = {
       },
     },
     {
-      id: 8,
+      _id: 8,
       name: "White T-Shirt",
       category: "T-shirt",
       image: "wtshirt.jpg",
@@ -98,7 +98,7 @@ data = {
       },
     },
     {
-      id: 9,
+      _id: 9,
       name: "Black T-Shirt",
       category: "T-shirt",
       image: "btshirt.jpg",
@@ -110,7 +110,7 @@ data = {
       },
     },
     {
-      id: 10,
+      _id: 10,
       name: "Shirt",
       category: "Shirt",
       image: "shirt.jpg",

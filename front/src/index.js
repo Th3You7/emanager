@@ -6,16 +6,21 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-import { HashRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import ScrollToTop from "./hooks/useScrollToTop";
+
+import store from "./store";
+import { Provider } from "react-redux";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <ScrollToTop />
-      <MuiThemeProvider>
-        <App />
-      </MuiThemeProvider>
+      <Provider store={store}>
+        <MuiThemeProvider>
+          <App />
+        </MuiThemeProvider>
+      </Provider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { productsAction } from "../actions/productsAction";
 import { makeStyles, Typography } from "@material-ui/core";
 import { BottomAppBar, CategoryCard, ProductCard } from "../components";
-import { data } from "./data";
 import img from "../assets/sneaker.jpg";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +30,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Store = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { fetching, products, error } = useSelector(
+    (state) => state.productsReducer
+  );
+
+  useEffect(() => {
+    dispatch(productsAction());
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
@@ -53,13 +62,15 @@ const Store = () => {
       <Typography className={classes.title} component="h2" variant="h5">
         Products
       </Typography>
+
       <div className={classes.products}>
-        {data.map((product, index) => (
+        {products.map((product) => (
           <ProductCard
-            key={index}
-            title={product.title}
+            key={product._id || product}
+            title={product.name}
             price={product.price}
             img={img}
+            fetching={fetching}
           />
         ))}
       </div>

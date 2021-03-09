@@ -9,6 +9,7 @@ import {
   Badge,
   withStyles,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 
 import { useLocation, Link } from "react-router-dom";
 
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   cardContent: {
-    width: (props) => (props.pathname === "/store" ? "70%" : "100%"),
+    width: (props) => (props.pathname === "/store" ? "100%" : "70%"),
   },
 
   area: {
@@ -53,38 +54,50 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const ProductCard = (props) => {
-  const { title, price, img } = props;
+  const { title, price, img, fetching } = props;
   const location = useLocation();
   const classes = useStyles((props = location));
   return (
     <Card className={classes.card}>
       <CardActionArea className={classes.area}>
-        <Link to="/product">
-          <CardMedia
-            className={classes.img}
-            component="img"
-            alt="product"
-            image={img}
-            title={title}
-          />
-        </Link>
+        {fetching ? (
+          <Skeleton variant="rect" height={140} width="100%" />
+        ) : (
+          <Link to="/product">
+            <CardMedia
+              className={classes.img}
+              component="img"
+              alt="product"
+              image={img}
+              title={title}
+            />
+          </Link>
+        )}
       </CardActionArea>
       <CardContent className={classes.cardContent}>
-        <Typography component="h4" variant="body2">
-          {title}
-        </Typography>
+        {fetching ? (
+          <Skeleton variant="text" width="70%" />
+        ) : (
+          <Typography component="h4" variant="body2">
+            {title}
+          </Typography>
+        )}
         {location.pathname === "/cart" ? (
           <Typography variant="subtitle2">Size: 40</Typography>
         ) : null}
         <div style={{ display: "flex" }}>
-          <Typography
-            component="h4"
-            variant="body1"
-            className={classes.price}
-            style={{ marginRight: "48px" }}
-          >
-            {price}DH
-          </Typography>
+          {fetching ? (
+            <Skeleton variant="text" width="40%" />
+          ) : (
+            <Typography
+              component="h4"
+              variant="body1"
+              className={classes.price}
+              style={{ marginRight: "48px" }}
+            >
+              {price}DH
+            </Typography>
+          )}
           {location.pathname === "/cart" ? (
             <Typography
               component="h4"
