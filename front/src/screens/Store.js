@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { productsAction } from "../actions/productsAction";
 import { makeStyles, Typography } from "@material-ui/core";
 import { BottomAppBar, CategoryCard, ProductCard } from "../components";
-import img from "../assets/sneaker.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,7 +71,7 @@ const Store = () => {
             id={product._id}
             title={product.name}
             price={product.price}
-            img={product.image}
+            // img={product.image}
             fetching={fetching}
           />
         ))}

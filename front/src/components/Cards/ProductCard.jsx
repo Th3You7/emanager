@@ -12,6 +12,8 @@ import {
 import { Skeleton } from "@material-ui/lab";
 
 import { useLocation, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { removeFromCartAction } from "../../actions/cartAction";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -56,7 +58,12 @@ const StyledBadge = withStyles((theme) => ({
 const ProductCard = (props) => {
   const { id, title, price, img, fetching } = props;
   const location = useLocation();
+  const dispatch = useDispatch();
   const classes = useStyles((props = location));
+
+  const handleRemove = () => {
+    dispatch(removeFromCartAction(id));
+  };
 
   const to = `/product/${id}`;
   return (
@@ -112,7 +119,12 @@ const ProductCard = (props) => {
         </div>
       </CardContent>
       {location.pathname === "/cart" ? (
-        <StyledBadge color="error" badgeContent={"X"}></StyledBadge>
+        <StyledBadge
+          color="error"
+          badgeContent={"X"}
+          onClick={handleRemove}
+          style={{ cursor: "pointer" }}
+        ></StyledBadge>
       ) : null}
     </Card>
   );

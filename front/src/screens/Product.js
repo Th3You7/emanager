@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CheckingAppBar, UpperAppBar } from "../components";
+import { UpperAppBar } from "../components";
 import {
   Fab,
   Typography,
@@ -10,10 +10,11 @@ import {
   Select,
   makeStyles,
 } from "@material-ui/core";
-import img from "../assets/sneaker.jpg";
+
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productDetailsAction } from "../actions/productsAction";
+import { addToCartAction } from "../actions/cartAction";
 
 const useStyles = makeStyles((theme) => ({
   root: { width: "100%", position: "relative", height: "100vh" },
@@ -42,7 +43,6 @@ export default function Product() {
   const classes = useStyles();
   const { id } = useParams();
   const dispatch = useDispatch();
-
   const { fetching, error, product } = useSelector(
     (state) => state.productDetailsReducer
   );
@@ -57,6 +57,8 @@ export default function Product() {
 
   const handleClick = () => {
     history.replace("/cart");
+
+    dispatch(addToCartAction(product));
   };
 
   if (fetching) return "loading";

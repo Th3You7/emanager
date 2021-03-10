@@ -1,8 +1,7 @@
 import React from "react";
 import { ProductCard, UpperAppBar, CheckingAppBar } from "../components";
 import { makeStyles, Typography } from "@material-ui/core";
-import { data } from "./data";
-import img from "../assets/sneaker.jpg";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,19 +24,21 @@ const useStyles = makeStyles((theme) => ({
 
 const Cart = () => {
   const classes = useStyles();
+  const { products } = useSelector((state) => state.cartReducer);
   return (
     <div className={classes.root}>
       <UpperAppBar />
       <div>
-        {data.map((product, index) => (
-          <div className={classes.product} key={index}>
-            <ProductCard
-              title={product.title}
-              price={product.price}
-              img={img}
-            />
-          </div>
-        ))}
+        {products &&
+          products.map((product) => (
+            <div className={classes.product} key={product._id}>
+              <ProductCard
+                id={product._id}
+                title={product.name}
+                price={product.price}
+              />
+            </div>
+          ))}
       </div>
       <div className={classes.total}>
         <div>

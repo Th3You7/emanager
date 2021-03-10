@@ -4,8 +4,13 @@ import {
   productsReducer,
   productDetailsReducer,
 } from "./reducers/productsReducer";
+import cartReducer from "./reducers/cartReducer";
 
-const reducer = combineReducers({ productsReducer, productDetailsReducer });
+const reducer = combineReducers({
+  productsReducer,
+  productDetailsReducer,
+  cartReducer,
+});
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
