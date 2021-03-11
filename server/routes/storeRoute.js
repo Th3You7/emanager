@@ -1,10 +1,14 @@
 const express = require("express");
 const storeRouter = express.Router();
 
-const { data } = require("../data");
+const { Product } = require("../models/productModel");
 
-storeRouter.get("/store", (req, res) => {
-  res.send(data.products);
+storeRouter.get("/store/:ctgry?", async (req, res) => {
+  const { ctgry } = req.params;
+  const category = ctgry || "hoddies";
+  const products = await Product.find({ category }).sort({ name: 1 });
+
+  res.send(products);
 });
 
 exports.storeRouter = storeRouter;

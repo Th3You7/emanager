@@ -1,12 +1,12 @@
 const express = require("express");
-const { data } = require("../data");
+const { Product } = require("../models/productModel");
 const productRouter = express.Router();
 
-productRouter.get("/:id?", (req, res) => {
+productRouter.get("/:id?", async (req, res) => {
   const { id } = req.params;
-  const product = data.products.filter((product) => product._id === Number(id));
+  const product = await Product.findById(id);
 
-  res.json(...product);
+  res.json(product);
 });
 
 exports.productRouter = productRouter;
