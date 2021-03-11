@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Product() {
   const [size, setSize] = useState("");
-  const [price, setPrice] = useState("");
+  const [soldPrice, setSoldPrice] = useState("");
   const [err, setErr] = useState(false);
   const history = useHistory();
   const classes = useStyles();
@@ -61,7 +61,7 @@ export default function Product() {
   };
 
   const handlePrice = (e) => {
-    setPrice(e.target.value);
+    setSoldPrice(e.target.value);
   };
 
   const handleErr = () => {
@@ -71,12 +71,12 @@ export default function Product() {
   console.log(product);
 
   const handleClick = () => {
-    if (price === "" || size === "") {
+    if (soldPrice === "" || size === "") {
       setErr(true);
       return;
     }
-    dispatch(addToCartAction({ ...product, size, priceSold: price }));
-    history.replace(`/cart/${id}?size=${size}&price=${price}`);
+    dispatch(addToCartAction({ ...product, size, soldPrice }));
+    history.replace(`/cart/${id}?size=${size}&price=${soldPrice}`);
   };
 
   if (fetching) return "loading";
@@ -178,7 +178,7 @@ export default function Product() {
           InputLabelProps={{
             shrink: true,
           }}
-          value={price}
+          value={soldPrice}
           variant="outlined"
           onChange={handlePrice}
         />

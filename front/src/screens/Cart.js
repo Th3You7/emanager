@@ -27,7 +27,7 @@ const Cart = () => {
   const { products } = useSelector((state) => state.cartReducer);
 
   const subTotal = products.reduce(
-    (acc, curr) => acc + Number(curr.priceSold),
+    (acc, curr) => acc + Number(curr.soldPrice),
     0
   );
   const earning = () => {
@@ -49,7 +49,7 @@ const Cart = () => {
                 title={product.name}
                 price={product.price}
                 size={product.size}
-                priceSold={product.priceSold}
+                soldPrice={product.soldPrice}
               />
             </div>
           ))}

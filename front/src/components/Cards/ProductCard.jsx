@@ -56,7 +56,7 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const ProductCard = (props) => {
-  const { id, title, price, img, fetching, priceSold, size } = props;
+  const { id, title, price, img, fetching, soldPrice, size } = props;
   const location = useLocation();
   const dispatch = useDispatch();
   const classes = useStyles((props = location));
@@ -115,7 +115,7 @@ const ProductCard = (props) => {
               variant="body1"
               className={classes.price}
             >
-              {priceSold}DH
+              {soldPrice}DH
             </Typography>
           )}
         </div>
