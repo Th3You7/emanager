@@ -8,6 +8,7 @@ import {
   LocalAtmRounded,
   Menu,
 } from "@material-ui/icons/";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -37,6 +38,7 @@ const StyledBadge = withStyles((theme) => ({
 
 const BottomAppBar = () => {
   const classes = useStyles();
+  const { products } = useSelector((store) => store.cartReducer);
 
   return (
     <>
@@ -51,7 +53,11 @@ const BottomAppBar = () => {
               aria-label="add"
               className={classes.fabButton}
             >
-              <StyledBadge badgeContent={4} color="primary" overlap="circle">
+              <StyledBadge
+                badgeContent={products.length}
+                color="primary"
+                overlap="circle"
+              >
                 <LocalGroceryStoreRounded />
               </StyledBadge>
             </Fab>

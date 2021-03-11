@@ -56,7 +56,7 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const ProductCard = (props) => {
-  const { id, title, price, img, fetching } = props;
+  const { id, title, price, img, fetching, priceSold, size } = props;
   const location = useLocation();
   const dispatch = useDispatch();
   const classes = useStyles((props = location));
@@ -64,6 +64,8 @@ const ProductCard = (props) => {
   const handleRemove = () => {
     dispatch(removeFromCartAction(id));
   };
+
+  const regEx = /^\/cart/;
 
   const to = `/product/${id}`;
   return (
@@ -91,9 +93,9 @@ const ProductCard = (props) => {
             {title}
           </Typography>
         )}
-        {location.pathname === "/cart" ? (
-          <Typography variant="subtitle2">Size: 40</Typography>
-        ) : null}
+        {regEx.test(location.pathname) && (
+          <Typography variant="subtitle2">Size: {size}</Typography>
+        )}
         <div style={{ display: "flex" }}>
           {fetching ? (
             <Skeleton variant="text" width="40%" />
@@ -107,25 +109,25 @@ const ProductCard = (props) => {
               {price}DH
             </Typography>
           )}
-          {location.pathname === "/cart" ? (
+          {regEx.test(location.pathname) && (
             <Typography
               component="h4"
               variant="body1"
               className={classes.price}
             >
-              250.00
+              {priceSold}DH
             </Typography>
-          ) : null}
+          )}
         </div>
       </CardContent>
-      {location.pathname === "/cart" ? (
+      {regEx.test(location.pathname) && (
         <StyledBadge
           color="error"
           badgeContent={"X"}
           onClick={handleRemove}
           style={{ cursor: "pointer" }}
         ></StyledBadge>
-      ) : null}
+      )}
     </Card>
   );
 };

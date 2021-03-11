@@ -20,8 +20,8 @@ data = {
       image: "hoddie.jpg",
       price: 150,
       availableSizes: {
-        sm: 2,
-        md: 2,
+        s: 2,
+        m: 2,
         l: 2,
         xl: 2,
       },

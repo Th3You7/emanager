@@ -25,17 +25,31 @@ const useStyles = makeStyles((theme) => ({
 const Cart = () => {
   const classes = useStyles();
   const { products } = useSelector((state) => state.cartReducer);
+
+  const subTotal = products.reduce(
+    (acc, curr) => acc + Number(curr.priceSold),
+    0
+  );
+  const earning = () => {
+    const subPrice = products.reduce(
+      (acc, curr) => acc + Number(curr.price),
+      0
+    );
+    return subTotal - subPrice;
+  };
   return (
     <div className={classes.root}>
       <UpperAppBar />
       <div>
         {products &&
-          products.map((product) => (
-            <div className={classes.product} key={product._id}>
+          products.map((product, index) => (
+            <div className={classes.product} key={index}>
               <ProductCard
                 id={product._id}
                 title={product.name}
                 price={product.price}
+                size={product.size}
+                priceSold={product.priceSold}
               />
             </div>
           ))}
@@ -43,18 +57,18 @@ const Cart = () => {
       <div className={classes.total}>
         <div>
           <Typography component="span" variant="body2">
-            Subtotal:{" "}
+            Earning:{" "}
           </Typography>
           <Typography component="span" variant="body1">
-            250DH
+            {earning()}DH
           </Typography>
         </div>
         <div>
           <Typography component="span" variant="body2">
-            Earning:{" "}
+            Subtotal:{" "}
           </Typography>
           <Typography component="span" variant="body1">
-            150DH
+            {subTotal}DH
           </Typography>
         </div>
       </div>

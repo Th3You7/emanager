@@ -1,6 +1,5 @@
 import React from "react";
-import { Typography, Button, makeStyles, Fab } from "@material-ui/core";
-import { useHistory, useLocation } from "react-router-dom";
+import { makeStyles, Fab } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,26 +21,12 @@ const useStyles = makeStyles((theme) => ({
 
 const CheckingAppBar = () => {
   const classes = useStyles();
-  const { pathname } = useLocation();
-  const history = useHistory();
-  const handleClick = () => {
-    history.push("/cart");
-  };
 
   return (
     <div className={classes.root}>
-      {/* <Typography component="h4" variant="h4">
-        269
-      </Typography> */}
-      {pathname === "/product" ? (
-        <Button variant="contained" onClick={handleClick}>
-          Add To Cart
-        </Button>
-      ) : (
-        <Fab variant="extended" className={classes.fab}>
-          Check Out
-        </Fab>
-      )}
+      <Fab variant="extended" className={classes.fab}>
+        Check Out
+      </Fab>
     </div>
   );
 };
