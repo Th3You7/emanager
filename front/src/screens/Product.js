@@ -68,8 +68,6 @@ export default function Product() {
     setErr(false);
   };
 
-  console.log(product);
-
   const handleClick = () => {
     if (soldPrice === "" || size === "") {
       setErr(true);

@@ -3,6 +3,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import { IconButton } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import { DeleteRounded, ArrowBackRounded } from "@material-ui/icons/";
+import { removeAllAction } from "../../actions/cartAction";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,11 +27,16 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchAppBar() {
   const classes = useStyles(useLocation());
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     history.replace("/store");
   };
 
+  const handleDelete = () => {
+    dispatch(removeAllAction());
+    console.log("delete clicked");
+  };
   return (
     <>
       <div className={classes.root}>
@@ -37,7 +44,7 @@ export default function SearchAppBar() {
           <ArrowBackRounded fontSize="inherit" color="primary" />
         </IconButton>
 
-        <IconButton color="inherit" aria-label="delete">
+        <IconButton color="inherit" aria-label="delete" onClick={handleDelete}>
           <DeleteRounded fontSize="inherit" />
         </IconButton>
       </div>

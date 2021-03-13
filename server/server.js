@@ -16,7 +16,7 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-app.use("/", storeRouter);
+app.use("/store", storeRouter);
 app.use("/product", productRouter);
 
 const port = process.env.PORT || 5000;
