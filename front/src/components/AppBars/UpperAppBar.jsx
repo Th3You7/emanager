@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   root: {
     position: (props) =>
-      props.pathname === "/product" ? "absolute" : "static",
+      /^\/product/.test(props.pathname) ? "absolute" : "static",
     width: "100%",
     display: "flex",
     alignItems: "center",
@@ -35,7 +35,6 @@ export default function SearchAppBar() {
 
   const handleDelete = () => {
     dispatch(removeAllAction());
-    console.log("delete clicked");
   };
   return (
     <>

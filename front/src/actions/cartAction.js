@@ -13,8 +13,8 @@ const addToCartAction = (product) => (dispatch, getState) => {
   );
 };
 
-const removeFromCartAction = (productID) => (dispatch, getState) => {
-  dispatch({ type: REMOVE_FROM_CART, payload: productID });
+const removeFromCartAction = (productIndex) => (dispatch, getState) => {
+  dispatch({ type: REMOVE_FROM_CART, payload: productIndex });
 
   localStorage.setItem(
     "products",
@@ -22,7 +22,7 @@ const removeFromCartAction = (productID) => (dispatch, getState) => {
   );
 };
 
-const removeAllAction = () => (dispatch, getState) => {
+const removeAllAction = () => (dispatch) => {
   dispatch({ type: REMOVE_ALL });
 
   localStorage.clear();

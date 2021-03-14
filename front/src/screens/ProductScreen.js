@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: { width: "100%", position: "relative", height: "100vh" },
   img: {
     width: "100%",
-    height: "40vh",
+    height: "55vh",
   },
   content: {
     padding: theme.spacing(2),

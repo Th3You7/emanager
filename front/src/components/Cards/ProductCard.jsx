@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeFromCartAction } from "../../actions/cartAction";
 
@@ -19,27 +19,24 @@ const useStyles = makeStyles((theme) => ({
   card: {
     overflow: "visible",
     flex: "0 1 48%",
-    display: (props) => (props.pathname === "/store" ? "block" : "flex"),
+    display: (props) => (/^\/store/.test(props.pathname) ? "block" : "flex"),
     height: (props) =>
-      props.pathname === "/store" ? "auto" : theme.spacing(12),
+      /^\/store/.test(props.pathname) ? "auto" : theme.spacing(12),
     marginBottom: theme.spacing(2),
   },
 
   cardContent: {
-    width: (props) => (props.pathname === "/store" ? "100%" : "70%"),
+    width: (props) => (/^\/store/.test(props.pathname) ? "100%" : "70%"),
   },
 
   area: {
-    width: (props) => (props.pathname === "/store" ? "100%" : "30%"),
+    width: (props) => (/^\/store/.test(props.pathname) ? "100%" : "30%"),
   },
   img: {
     width: "100%",
     height: "100%",
-    objectFit: (props) => (props.pathname === "/store" ? "fill" : "contain"),
-  },
-
-  title: {
-    color: (props) => (props.pathname === "/store" ? "red" : "yellow"),
+    objectFit: (props) =>
+      /^\/store/.test(props.pathname) ? "fill" : "contain",
   },
 
   price: {
@@ -56,33 +53,37 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const ProductCard = (props) => {
-  const { id, title, price, img, fetching, soldPrice, size } = props;
+  const { id, title, price, img, fetching, soldPrice, size, index } = props;
   const location = useLocation();
   const dispatch = useDispatch();
   const classes = useStyles((props = location));
-
-  const handleRemove = () => {
-    dispatch(removeFromCartAction(id));
-  };
+  const history = useHistory();
 
   const regEx = /^\/cart/;
-
   const to = `/product/${id}`;
+
+  const handleRemove = () => {
+    dispatch(removeFromCartAction(index));
+  };
+
+  const handleClick = () => {
+    history.push(to);
+  };
+
   return (
     <Card className={classes.card}>
       <CardActionArea className={classes.area}>
         {fetching ? (
           <Skeleton variant="rect" height={140} width="100%" />
         ) : (
-          <Link to={to}>
-            <CardMedia
-              className={classes.img}
-              component="img"
-              alt={title}
-              image={img}
-              title={title}
-            />
-          </Link>
+          <CardMedia
+            className={classes.img}
+            component="img"
+            alt={title}
+            image={img}
+            title={title}
+            onClick={handleClick}
+          />
         )}
       </CardActionArea>
       <CardContent className={classes.cardContent}>

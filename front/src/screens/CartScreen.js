@@ -46,6 +46,7 @@ const Cart = () => {
             <div className={classes.product} key={index}>
               <ProductCard
                 id={product._id}
+                index={index}
                 title={product.name}
                 price={product.price}
                 size={product.size}

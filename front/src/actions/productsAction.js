@@ -8,10 +8,10 @@ import {
   PRODUCT_DETAILS_FAIL,
 } from "../constants/productsConstants";
 
-const productsAction = () => async (dispatch) => {
+const productsAction = (category = "") => async (dispatch) => {
   dispatch({ type: PRODUCTS_REQUEST });
   try {
-    const { data } = await Axios.get("/store");
+    const { data } = await Axios.get(`/store/${category}`);
     dispatch({ type: PRODUCTS_SUCCESS, payload: data });
   } catch (err) {
     dispatch({ type: PRODUCTS_FAIL, payload: err.message });

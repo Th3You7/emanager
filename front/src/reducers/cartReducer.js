@@ -13,8 +13,11 @@ const cartReducer = (state = { products: [] }, action) => {
       };
 
     case REMOVE_FROM_CART:
-      const removedProductId = action.payload;
-      const newArr = state.products.filter((x) => x._id !== removedProductId);
+      const removedProductIndex = action.payload;
+      const newArr = state.products.filter(
+        (x, index) => index !== removedProductIndex
+      );
+
       return {
         ...state,
         products: [...newArr],
