@@ -9,7 +9,7 @@ function App() {
         <Route exact path="/">
           <Redirect to="/store" />
         </Route>
-        <Route path="/store/:category?">
+        <Route path="/store/:ctgry?">
           <Store />
         </Route>
         <Route path="/product/:id">

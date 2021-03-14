@@ -16,7 +16,7 @@ const CategoryCard = ({ title }) => {
   const history = useHistory();
 
   const handleClick = (category) => {
-    history.push(`/store/${category}`);
+    history.push(`/store/${category.toLowerCase()}`);
   };
   return (
     <Paper className={classes.paper} onClick={() => handleClick(title)}>

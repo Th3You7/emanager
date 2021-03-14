@@ -39,30 +39,19 @@ const useStyles = makeStyles((theme) => ({
 const Store = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { category } = useParams();
+  const { ctgry } = useParams();
   const { fetching, products, error } = useSelector(
     (state) => state.productsReducer
   );
 
-  console.log(category);
-
   useEffect(() => {
-    if (category) {
-      dispatch(productsAction());
-    } else {
-      dispatch(productsAction(category));
-    }
-  }, [dispatch, category]);
+    ctgry ? dispatch(productsAction(ctgry)) : dispatch(productsAction());
+  }, [dispatch, ctgry]);
 
   if (error) return error;
 
   return (
     <div className={classes.root}>
-      {/* <UpperAppBar /> */}
-      {/* <Typography className={classes.title} component="h2" variant="h5">
-        Categories
-      </Typography> */}
-
       <div className={classes.carousel}>
         {[
           "Hoddies",
@@ -93,6 +82,12 @@ const Store = () => {
             fetching={fetching}
           />
         ))}
+        {products.length === 0 && (
+          <Typography>
+            No {ctgry.replace(ctgry[0], ctgry[0].toUpperCase())} Products In The
+            Stock
+          </Typography>
+        )}
       </div>
       <BottomAppBar />
     </div>

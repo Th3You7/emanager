@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "100vh",
     position: "relative",
+    paddingBottom: theme.spacing(8),
   },
   product: {
     width: "90%",

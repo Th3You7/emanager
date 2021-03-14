@@ -2,14 +2,13 @@ const express = require("express");
 const { storeRouter } = require("./routes/storeRoute");
 const { productRouter } = require("./routes/productRoute");
 const mongoose = require("mongoose");
-const { Product } = require("./models/productModel");
-const asyncHandler = require("express-async-handler");
 
 const app = express();
 
 mongoose.connect(process.env.MONGO_URI || "mongodb://localhost/ecommerce", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 app.use((err, req, res, next) => {

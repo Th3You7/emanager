@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     bottom: 0,
     width: "100%",
-    background: theme.palette.background.paper,
+    background: "transparent",
     //boxShadow: theme.shadows[4],
   },
   fab: {
