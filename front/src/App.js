@@ -1,5 +1,5 @@
 import React from "react";
-import { Store, Product, Cart } from "./screens";
+import { Store, Product, Cart, Admin } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 
 function App() {
@@ -17,6 +17,9 @@ function App() {
         </Route>
         <Route path="/cart/:id?">
           <Cart />
+        </Route>
+        <Route path="/admin">
+          <Admin />
         </Route>
       </Switch>
     </div>

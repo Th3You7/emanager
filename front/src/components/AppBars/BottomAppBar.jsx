@@ -47,26 +47,28 @@ const BottomAppBar = () => {
           <IconButton edge="start" color="inherit" aria-label="open drawer">
             <Menu />
           </IconButton>
-          <Link to="/cart">
-            <Fab
-              color="secondary"
-              aria-label="add"
-              className={classes.fabButton}
+
+          <Fab
+            color="secondary"
+            aria-label="add"
+            className={classes.fabButton}
+            component={Link}
+            to="/cart"
+          >
+            <StyledBadge
+              badgeContent={products.length}
+              color="primary"
+              overlap="circle"
             >
-              <StyledBadge
-                badgeContent={products.length}
-                color="primary"
-                overlap="circle"
-              >
-                <LocalGroceryStoreRounded />
-              </StyledBadge>
-            </Fab>
-          </Link>
+              <LocalGroceryStoreRounded />
+            </StyledBadge>
+          </Fab>
+
           <div className={classes.grow} />
           <IconButton color="inherit">
             <LocalAtmRounded />
           </IconButton>
-          <IconButton edge="end" color="inherit">
+          <IconButton edge="end" color="inherit" component={Link} to="/admin">
             <AccountCircleRounded />
           </IconButton>
         </Toolbar>

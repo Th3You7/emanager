@@ -8,8 +8,8 @@ storeRouter.get(
   "/:ctgry?",
   asyncHandler(async (req, res) => {
     const { ctgry } = req.params;
-    // const category = ctgry || null;
-    const products = await Product.find({}).sort({ name: 1 });
+    const category = ctgry || "hoddies";
+    const products = await Product.find({ category }).sort({ name: 1 });
 
     res.send(products);
   })

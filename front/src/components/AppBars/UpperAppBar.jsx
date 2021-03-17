@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: theme.spacing(2, 0),
+    padding: theme.spacing(1.5, 0),
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchAppBar() {
   const classes = useStyles(useLocation());
   const history = useHistory();
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -37,16 +38,16 @@ export default function SearchAppBar() {
     dispatch(removeAllAction());
   };
   return (
-    <>
-      <div className={classes.root}>
-        <IconButton aria-label="back" onClick={handleClick}>
-          <ArrowBackRounded fontSize="inherit" color="primary" />
-        </IconButton>
+    <div className={classes.root}>
+      <IconButton aria-label="back" onClick={handleClick}>
+        <ArrowBackRounded fontSize="inherit" color="primary" />
+      </IconButton>
 
+      {pathname !== "/admin" && (
         <IconButton color="inherit" aria-label="delete" onClick={handleDelete}>
           <DeleteRounded fontSize="inherit" />
         </IconButton>
-      </div>
-    </>
+      )}
+    </div>
   );
 }

@@ -9,25 +9,27 @@ import {
 
 const defaultState = {
   fetching: true,
-  products: [1, 2, 3, 4],
+  products: [],
 };
 
 const productsReducer = (state = defaultState, action) => {
   switch (action.type) {
     case PRODUCTS_REQUEST:
       return {
-        fetching: true,
+        ...state,
         products: [1, 2, 3, 4],
       };
 
     case PRODUCTS_SUCCESS:
       return {
+        ...state,
         fetching: false,
         products: action.payload,
       };
 
     case PRODUCTS_FAIL:
       return {
+        ...state,
         fetching: false,
         products: [],
         error: action.payload,
