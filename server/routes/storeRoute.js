@@ -15,4 +15,4 @@ storeRouter.get(
   })
 );
 
-exports.storeRouter = storeRouter;
+module.exports = storeRouter;

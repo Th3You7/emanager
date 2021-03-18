@@ -13,4 +13,4 @@ productRouter.get(
   })
 );
 
-exports.productRouter = productRouter;
+module.exports = productRouter;
