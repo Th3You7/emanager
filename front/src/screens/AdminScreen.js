@@ -6,11 +6,12 @@ import {
   LocalOfferOutlined,
   DashboardOutlined,
 } from "@material-ui/icons";
+import { useHistory } from "react-router";
 
 const data = [
-  { name: "Dashboard", icon: <DashboardOutlined /> },
-  { name: "Wallets", icon: <AccountBalanceWalletOutlined /> },
-  { name: "Products", icon: <LocalOfferOutlined /> },
+  { name: "Dashboard", path: "/dashboard", icon: <DashboardOutlined /> },
+  { name: "Wallets", path: "/wallets", icon: <AccountBalanceWalletOutlined /> },
+  { name: "Products", path: "/allproducts", icon: <LocalOfferOutlined /> },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -19,13 +20,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Admin() {
   const classes = useStyles();
+  const history = useHistory();
+  const handleClick = () => {
+    history.goBack();
+  };
+
   return (
     <div className={classes.root}>
-      <UpperAppBar />
+      <UpperAppBar handleClick={handleClick} />
       <AdminProfile />
       {data.map((item, index) => {
         return (
-          <AdminNavigation key={index} name={item.name}>
+          <AdminNavigation
+            key={index}
+            name={item.name}
+            path={`/admin${item.path}`}
+          >
             {item.icon}
           </AdminNavigation>
         );

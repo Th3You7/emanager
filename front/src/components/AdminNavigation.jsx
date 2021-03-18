@@ -1,6 +1,7 @@
 import React from "react";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,10 +23,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AdminNavigation({ children, name }) {
+export default function AdminNavigation({ children, name, path }) {
   const classes = useStyles();
+  const history = useHistory();
+  const handleClick = () => {
+    history.push(path);
+  };
   return (
-    <Paper variant="outlined" className={classes.paper} elevation={0}>
+    <Paper
+      variant="outlined"
+      className={classes.paper}
+      elevation={0}
+      onClick={handleClick}
+    >
       <div className={classes.flex}>
         {children}
         <p className={classes.p}>{name}</p>

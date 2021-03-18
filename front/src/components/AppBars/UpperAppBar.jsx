@@ -24,15 +24,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar() {
+export default function UpperAppBar({ handleClick }) {
   const classes = useStyles(useLocation());
-  const history = useHistory();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-
-  const handleClick = () => {
-    history.replace("/store");
-  };
 
   const handleDelete = () => {
     dispatch(removeAllAction());

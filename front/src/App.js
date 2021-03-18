@@ -1,5 +1,5 @@
 import React from "react";
-import { Store, Product, Cart, Admin } from "./screens";
+import { Store, Product, Cart, Admin, AllProducts } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 
 function App() {
@@ -18,8 +18,11 @@ function App() {
         <Route path="/cart/:id?">
           <Cart />
         </Route>
-        <Route path="/admin">
+        <Route exact path="/admin">
           <Admin />
+        </Route>
+        <Route path="/admin/allproducts">
+          <AllProducts />
         </Route>
       </Switch>
     </div>

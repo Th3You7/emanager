@@ -68,13 +68,17 @@ export default function Product() {
     setErr(false);
   };
 
-  const handleClick = () => {
+  const handleCheck = () => {
     if (soldPrice === "" || size === "") {
       setErr(true);
       return;
     }
     dispatch(addToCartAction({ ...product, size, soldPrice }));
     history.replace(`/cart/${id}?size=${size}&price=${soldPrice}`);
+  };
+
+  const handleClick = () => {
+    history.goBack();
   };
 
   if (fetching) return "loading";
@@ -111,7 +115,7 @@ export default function Product() {
         </div>
       )}
 
-      <UpperAppBar />
+      <UpperAppBar handleClick={handleClick} />
       <img className={classes.img} src={image} alt={product.name} />
       <div className={classes.content}>
         <div
@@ -185,7 +189,7 @@ export default function Product() {
         color="primary"
         variant="extended"
         className={classes.fab}
-        onClick={handleClick}
+        onClick={handleCheck}
       >
         Add To Cart
       </Fab>

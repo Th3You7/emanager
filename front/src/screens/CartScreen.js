@@ -2,6 +2,7 @@ import React from "react";
 import { ProductCard, UpperAppBar, CheckingAppBar } from "../components";
 import { makeStyles, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const Cart = () => {
   const classes = useStyles();
   const { products } = useSelector((state) => state.cartReducer);
+  const history = useHistory();
 
   const subTotal = products.reduce(
     (acc, curr) => acc + Number(curr.soldPrice),
@@ -38,9 +40,13 @@ const Cart = () => {
     );
     return subTotal - subPrice;
   };
+
+  const handleClick = () => {
+    history.push("/store");
+  };
   return (
     <div className={classes.root}>
-      <UpperAppBar />
+      <UpperAppBar handleClick={handleClick} />
       <div>
         {products &&
           products.map((product, index) => (
