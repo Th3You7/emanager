@@ -3,6 +3,7 @@ import ReduxThunk from "redux-thunk";
 import {
   productsReducer,
   productDetailsReducer,
+  allProductsReducer,
 } from "./reducers/productsReducer";
 import cartReducer from "./reducers/cartReducer";
 
@@ -17,6 +18,7 @@ const initState = {
 const reducer = combineReducers({
   productsReducer,
   productDetailsReducer,
+  allProductsReducer,
   cartReducer,
 });
 

@@ -6,6 +6,9 @@ import {
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
+  ALL_PRODUCTS_FAIL,
+  ALL_PRODUCTS_REQUEST,
+  ALL_PRODUCTS_SUCCESS,
 } from "../constants/productsConstants";
 
 const productsAction = (category = "") => async (dispatch) => {
@@ -29,4 +32,13 @@ const productDetailsAction = (productId) => async (dispatch) => {
   }
 };
 
-export { productsAction, productDetailsAction };
+const allProductsAction = () => async (dispatch) => {
+  dispatch({ type: ALL_PRODUCTS_REQUEST });
+  try {
+    const { data } = await Axios.get(`/admin/allproducts`);
+    dispatch({ type: ALL_PRODUCTS_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({ type: ALL_PRODUCTS_FAIL, payload: err.message });
+  }
+};
+export { productsAction, productDetailsAction, allProductsAction };

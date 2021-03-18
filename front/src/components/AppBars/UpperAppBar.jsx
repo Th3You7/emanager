@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { IconButton } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import { DeleteRounded, ArrowBackRounded } from "@material-ui/icons/";
