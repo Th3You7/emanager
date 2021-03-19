@@ -1,32 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AddRounded, DeleteRounded, EditRounded } from "@material-ui/icons";
 import { DataGrid } from "@material-ui/data-grid";
 import { UpperAppBar } from "../components";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { allProductsAction } from "../actions/productsAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     //padding: theme.spacing(2),
-  },
-
-  flex: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    margin: theme.spacing(1, "auto", 2),
-    width: "90%",
-  },
-
-  btn: {
-    margin: theme.spacing(0, 0, 0, 1),
+    height: "100vh",
   },
 
   container: {
-    height: 500,
+    height: 580,
     width: "90%",
     margin: theme.spacing(0, "auto"),
   },
@@ -41,8 +28,10 @@ const columns = [
 
 export default function AllProductsScreen() {
   const classes = useStyles();
+  const [id, setId] = useState(null);
   const [page, setPage] = useState(0);
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const { products, fetching, error } = useSelector(
     (state) => state.allProductsReducer
@@ -51,61 +40,35 @@ export default function AllProductsScreen() {
   useEffect(() => {
     dispatch(allProductsAction());
   }, [dispatch]);
-
   const handleClick = () => {
-    history.goBack();
+    history.replace("/admin");
   };
 
   if (error) return error;
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleClick={handleClick} />
-      <div className={classes.flex}>
-        <Button
-          variant="contained"
-          startIcon={<AddRounded />}
-          color="primary"
-          size="small"
-          className={classes.btn}
-        >
-          {" "}
-          Add
-        </Button>
-        <Button
-          variant="contained"
-          startIcon={<DeleteRounded />}
-          color="secondary"
-          size="small"
-          className={classes.btn}
-        >
-          {" "}
-          Delete
-        </Button>
-        <Button
-          variant="contained"
-          startIcon={<EditRounded />}
-          color="default"
-          size="small"
-          className={classes.btn}
-        >
-          {" "}
-          Edit
-        </Button>
-      </div>
+      <UpperAppBar handleClick={handleClick} id={id} location={location} />
+
       <div className={classes.container}>
         <DataGrid
           page={page}
           onPageChange={(params) => {
             setPage(params.page);
           }}
+          disableColumnMenu={true}
           pageSize={10}
           columns={columns.map((column) => ({
             ...column,
           }))}
+          onRowSelected={(row) => {
+            setId(row.data.id);
+          }}
+          //onSelectionModelChange={(row) => setId(null)}
           rows={products}
           loading={fetching}
           getRowId={(row) => row._id}
+          disableColumnSelector={true}
           //   components={{
           //     Toolbar: customToolBar,
           //   }}

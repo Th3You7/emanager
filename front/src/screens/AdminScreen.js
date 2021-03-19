@@ -22,7 +22,7 @@ export default function Admin() {
   const classes = useStyles();
   const history = useHistory();
   const handleClick = () => {
-    history.goBack();
+    history.replace("/store");
   };
 
   return (

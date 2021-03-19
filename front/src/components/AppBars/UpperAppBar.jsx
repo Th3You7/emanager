@@ -1,8 +1,13 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-import { IconButton } from "@material-ui/core/";
+import { Link, useLocation } from "react-router-dom";
+import { Fab, IconButton } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
-import { DeleteRounded, ArrowBackRounded } from "@material-ui/icons/";
+import {
+  DeleteRounded,
+  ArrowBackRounded,
+  AddRounded,
+  EditRounded,
+} from "@material-ui/icons/";
 import { removeAllAction } from "../../actions/cartAction";
 import { useDispatch } from "react-redux";
 
@@ -22,9 +27,19 @@ const useStyles = makeStyles((theme) => ({
   flexGrow: {
     flexGrow: 2,
   },
+
+  flex: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+
+  btn: {
+    margin: theme.spacing(0, 1.2, 0, 0),
+  },
 }));
 
-export default function UpperAppBar({ handleClick }) {
+export default function UpperAppBar({ handleClick, id, location }) {
   const classes = useStyles(useLocation());
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -38,10 +53,51 @@ export default function UpperAppBar({ handleClick }) {
         <ArrowBackRounded fontSize="inherit" color="primary" />
       </IconButton>
 
-      {pathname !== "/admin" && (
+      {!/^\/admin/.test(pathname) && (
         <IconButton color="inherit" aria-label="delete" onClick={handleDelete}>
           <DeleteRounded fontSize="inherit" />
         </IconButton>
+      )}
+
+      {pathname === "/admin/allproducts" && (
+        <div className={classes.flex}>
+          <Fab
+            color="primary"
+            size="small"
+            aria-label="add"
+            className={classes.btn}
+          >
+            <AddRounded />
+          </Fab>
+
+          {id && (
+            <Fab
+              color="secondary"
+              size="small"
+              aria-label="delete"
+              className={classes.btn}
+            >
+              <DeleteRounded />
+            </Fab>
+          )}
+          {id && (
+            <Fab
+              color="default"
+              size="small"
+              className={classes.btn}
+              component={Link}
+              aria-label="delete"
+              to={{
+                pathname: `/edit/${id}`,
+                state: {
+                  bg: location,
+                },
+              }}
+            >
+              <EditRounded />
+            </Fab>
+          )}
+        </div>
       )}
     </div>
   );

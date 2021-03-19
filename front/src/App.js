@@ -1,11 +1,22 @@
 import React from "react";
-import { Store, Product, Cart, Admin, AllProducts } from "./screens";
-import { Redirect, Route, Switch } from "react-router";
+import { Store, Product, Cart, Admin, AllProducts, Edit } from "./screens";
+import { Redirect, Route, Switch, useLocation } from "react-router";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+  app: {
+    position: "relative",
+    minHeight: "100vh",
+  },
+}));
 
 function App() {
+  const location = useLocation();
+  const classes = useStyles();
+  const background = location.state && location.state.bg;
   return (
-    <div className="App">
-      <Switch>
+    <div className={classes.app}>
+      <Switch location={background || location}>
         <Route exact path="/">
           <Redirect to="/store" />
         </Route>
@@ -24,7 +35,10 @@ function App() {
         <Route path="/admin/allproducts">
           <AllProducts />
         </Route>
+        <Route path="/edit/:id" children={<Edit />} />
       </Switch>
+
+      {background && <Route path="/edit/:id" children={<Edit />} />}
     </div>
   );
 }
