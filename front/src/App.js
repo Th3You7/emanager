@@ -35,7 +35,6 @@ function App() {
         <Route path="/admin/allproducts">
           <AllProducts />
         </Route>
-        <Route path="/edit/:id" children={<Edit />} />
       </Switch>
 
       {background && <Route path="/edit/:id" children={<Edit />} />}

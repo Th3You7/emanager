@@ -93,4 +93,21 @@ const allProductsReducer = (state = defaultState, action) => {
       return state;
   }
 };
-export { productsReducer, productDetailsReducer, allProductsReducer };
+
+const currSelProdReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SELECT_PROD":
+      return {
+        ...action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+export {
+  productsReducer,
+  productDetailsReducer,
+  allProductsReducer,
+  currSelProdReducer,
+};

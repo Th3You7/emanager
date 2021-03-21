@@ -41,4 +41,14 @@ const allProductsAction = () => async (dispatch) => {
     dispatch({ type: ALL_PRODUCTS_FAIL, payload: err.message });
   }
 };
-export { productsAction, productDetailsAction, allProductsAction };
+
+const currSelProdAction = (product) => (dispatch) => {
+  dispatch({ type: "SELECT_PROD", payload: product });
+};
+
+export {
+  productsAction,
+  productDetailsAction,
+  allProductsAction,
+  currSelProdAction,
+};

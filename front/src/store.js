@@ -4,8 +4,11 @@ import {
   productsReducer,
   productDetailsReducer,
   allProductsReducer,
+  currSelProdReducer,
 } from "./reducers/productsReducer";
 import cartReducer from "./reducers/cartReducer";
+
+import editReducer from "./reducers/editReducer";
 
 const initState = {
   cartReducer: {
@@ -19,7 +22,9 @@ const reducer = combineReducers({
   productsReducer,
   productDetailsReducer,
   allProductsReducer,
+  currSelProdReducer,
   cartReducer,
+  editReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import editAction, { reset } from "../actions/editAction";
+import { CircularProgress, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -88,28 +91,27 @@ const FILE_SIZE = 100 * 1024;
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
 const schema = yup.object().shape({
-  name: yup.string().required("*Name is required"),
+  name: yup.string(),
   price: yup
     .number()
     .positive("*Price must be a positive number")
     .required("*Price is Required"),
-  quantity: yup.number().positive().required("*Quantity is Required"),
+  quantity: yup.number().positive(),
   category: yup.string().required("*Category is Required"),
-  image: yup
-    .mixed()
-    .required("*Img is required")
-    .test(
-      "fileSize",
-      "File too large",
-      (value) => value === null || (value[0] && value[0].size <= FILE_SIZE)
-    )
-    .test(
-      "fileFormat",
-      "Unsupported Format",
-      (value) =>
-        value === null ||
-        (value[0] && SUPPORTED_FORMATS.includes(value[0].type))
-    ),
+  // image: yup.mixed(),
+  // .required("*Img is required")
+  // .test(
+  //   "fileSize",
+  //   "File too large",
+  //   (value) => value === null || (value[0] && value[0].size <= FILE_SIZE)
+  // )
+  // .test(
+  //   "fileFormat",
+  //   "Unsupported Format",
+  //   (value) =>
+  //     value === null ||
+  //     (value[0] && SUPPORTED_FORMATS.includes(value[0].type))
+  // ),
 });
 
 export default function EditScreen() {
@@ -117,18 +119,42 @@ export default function EditScreen() {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: yupResolver(schema),
   });
   const classes = useStyles();
   const history = useHistory();
-  const onSubmit = () => console.log(errors);
+  const { id } = useParams();
+  const { search } = useLocation();
+  const dispatch = useDispatch();
+  const currProduct = useSelector((state) => state.currSelProdReducer);
+  const { loading, result, error } = useSelector((state) => state.editReducer);
+  const values = getValues();
 
-  console.log(errors);
+  const onSubmit = () => {
+    dispatch(editAction(id, values));
+  };
+
+  console.log(search.split("=")[1]);
 
   const handleClick = () => {
     history.replace("/admin/allproducts");
   };
+
+  useEffect(() => {
+    if (result || error) {
+      const timeout = setTimeout(() => {
+        history.replace(search.split("=")[1]);
+        dispatch(reset());
+      }, 6000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+
+    return;
+  }, [history, result, error, search, dispatch]);
 
   return (
     <div className={classes.overlay} onClick={handleClick}>
@@ -137,9 +163,13 @@ export default function EditScreen() {
           <label htmlFor="name" className={classes.label}>
             Product Name
           </label>
-          <input name="name" ref={register} className={classes.input} />
+          <input
+            name="name"
+            ref={register}
+            className={classes.input}
+            defaultValue={currProduct.name}
+          />
           {<p className={classes.p}>{errors.name?.message}</p>}
-
           <div className={classes.flex}>
             <div style={{ flex: "0 1 45%" }}>
               <label htmlFor="price" className={classes.label}>
@@ -150,6 +180,7 @@ export default function EditScreen() {
                 type="text"
                 ref={register}
                 className={classes.input}
+                defaultValue={currProduct.price}
               />
             </div>
 
@@ -172,7 +203,12 @@ export default function EditScreen() {
           <label htmlFor="category" className={classes.label}>
             Category
           </label>
-          <input name="category" ref={register} className={classes.input} />
+          <input
+            name="category"
+            ref={register}
+            className={classes.input}
+            defaultValue={currProduct.category}
+          />
           {<p className={classes.p}>{errors.category?.message}</p>}
           <label htmlFor="image" className={classes.label}>
             Image
@@ -185,7 +221,12 @@ export default function EditScreen() {
             defaultValue={null}
           />
           {<p className={classes.p}>{errors.image?.message}</p>}
-          <input type="submit" value="Edit Product" className={classes.btn} />
+          {!false && (
+            <input type="submit" value="Edit Product" className={classes.btn} />
+          )}
+          {loading && <CircularProgress color="primary" />}
+          {console.log(result)}
+          {result && <Typography color="error">Edit was successful</Typography>}
         </form>
       </div>
     </div>

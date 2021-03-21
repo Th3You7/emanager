@@ -39,11 +39,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UpperAppBar({ handleClick, id, location }) {
+export default function UpperAppBar({ handleClick, id, redirect }) {
   const classes = useStyles(useLocation());
   const { pathname } = useLocation();
+  const location = useLocation();
   const dispatch = useDispatch();
-
   const handleDelete = () => {
     dispatch(removeAllAction());
   };
@@ -89,6 +89,7 @@ export default function UpperAppBar({ handleClick, id, location }) {
               aria-label="delete"
               to={{
                 pathname: `/edit/${id}`,
+                search: `redirect=${redirect.pathname}`,
                 state: {
                   bg: location,
                 },

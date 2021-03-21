@@ -4,7 +4,10 @@ import { DataGrid } from "@material-ui/data-grid";
 import { UpperAppBar } from "../components";
 import { useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { allProductsAction } from "../actions/productsAction";
+import {
+  allProductsAction,
+  currSelProdAction,
+} from "../actions/productsAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +36,7 @@ export default function AllProductsScreen() {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+
   const { products, fetching, error } = useSelector(
     (state) => state.allProductsReducer
   );
@@ -40,6 +44,7 @@ export default function AllProductsScreen() {
   useEffect(() => {
     dispatch(allProductsAction());
   }, [dispatch]);
+
   const handleClick = () => {
     history.replace("/admin");
   };
@@ -48,7 +53,7 @@ export default function AllProductsScreen() {
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleClick={handleClick} id={id} location={location} />
+      <UpperAppBar handleClick={handleClick} id={id} redirect={location} />
 
       <div className={classes.container}>
         <DataGrid
@@ -63,6 +68,8 @@ export default function AllProductsScreen() {
           }))}
           onRowSelected={(row) => {
             setId(row.data.id);
+            console.log(row.data);
+            dispatch(currSelProdAction(row.data));
           }}
           //onSelectionModelChange={(row) => setId(null)}
           rows={products}

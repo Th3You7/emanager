@@ -2,7 +2,7 @@ const express = require("express");
 const adminRouter = express.Router();
 
 const asyncHandler = require("express-async-handler");
-const { Product } = require("../models/productModel");
+const Product = require("../models/productModel");
 
 adminRouter.get(
   "/allproducts",
