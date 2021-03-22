@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UpperAppBar({ handleClick, id, redirect }) {
   const classes = useStyles(useLocation());
   const { pathname } = useLocation();
+
   const location = useLocation();
   const dispatch = useDispatch();
   const handleDelete = () => {
@@ -50,7 +51,10 @@ export default function UpperAppBar({ handleClick, id, redirect }) {
   return (
     <div className={classes.root}>
       <IconButton aria-label="back" onClick={handleClick}>
-        <ArrowBackRounded fontSize="inherit" color="primary" />
+        <ArrowBackRounded
+          fontSize="inherit"
+          color={/^\/admin/ ^ /edit/.test(pathname) ? "secondary" : "primary"}
+        />
       </IconButton>
 
       {!/^\/admin/.test(pathname) && (
@@ -88,7 +92,7 @@ export default function UpperAppBar({ handleClick, id, redirect }) {
               component={Link}
               aria-label="delete"
               to={{
-                pathname: `/edit/${id}`,
+                pathname: `/admin/edit/${id}`,
                 search: `redirect=${redirect.pathname}`,
                 state: {
                   bg: location,

@@ -1,38 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import editAction, { reset } from "../actions/editAction";
-import { CircularProgress, Typography } from "@material-ui/core";
+import { reset, editAction } from "../actions/adminAction";
+import { CircularProgress, Snackbar, Typography } from "@material-ui/core";
+import { UpperAppBar } from "../components";
+import { Alert } from "@material-ui/lab/";
 
 const useStyles = makeStyles((theme) => ({
-  overlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    backgroundColor: "rgba(12, 12, 12, .7)",
+  // overlay: {
+  //   position: "absolute",
+  //   top: 0,
+  //   left: 0,
+  //   bottom: 0,
+  //   right: 0,
+  //   backgroundColor: "rgba(12, 12, 12, .7)",
+  // },
+
+  container: {
+    background: "#0e101c",
+    minHeight: "100vh",
   },
 
   form: {
-    background: "#0e101c",
-    width: "90%",
-    padding: theme.spacing(2),
-    margin: "0 auto",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%,-50%)",
-    borderRadius: "4px",
-    zIndex: 100,
+    width: "100%",
+    padding: theme.spacing(0, 4),
+    // margin: "0 auto",
+    // position: "absolute",
+    // top: "50%",
+    // left: "50%",
+    // transform: "translate(-50%,-50%)",
   },
 
   input: {
     display: "block",
+    background: theme.palette.background.paper,
     boxSizing: "border-box",
     width: "100%",
     borderRadius: "4px",
@@ -70,18 +75,28 @@ const useStyles = makeStyles((theme) => ({
   },
 
   p: {
-    color: "red",
+    color: theme.palette.error["dark"],
     marginBottom: 0,
+  },
+  success: {
+    color: theme.palette.success["dark"],
+    fontSize: theme.spacing(2.5),
+    margin: theme.spacing(4, 0),
+  },
+
+  falied: {
+    color: theme.palette.error["dark"],
+    fontSize: theme.spacing(2.5),
+    margin: theme.spacing(4, 0),
   },
 
   btn: {
     borderRadius: "4px",
     background: "#ec5990",
     color: "white",
-    textTransform: "uppercase",
     border: "none",
     margin: theme.spacing(3, 0, 1),
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(1.2),
     fontSize: "16px",
     fontWeight: 300,
   },
@@ -98,7 +113,7 @@ const schema = yup.object().shape({
     .required("*Price is Required"),
   quantity: yup.number().positive(),
   category: yup.string().required("*Category is Required"),
-  // image: yup.mixed(),
+  image: yup.mixed(),
   // .required("*Img is required")
   // .test(
   //   "fileSize",
@@ -123,6 +138,7 @@ export default function EditScreen() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
   const history = useHistory();
   const { id } = useParams();
@@ -130,35 +146,49 @@ export default function EditScreen() {
   const dispatch = useDispatch();
   const currProduct = useSelector((state) => state.currSelProdReducer);
   const { loading, result, error } = useSelector((state) => state.editReducer);
-  const values = getValues();
 
   const onSubmit = () => {
+    const values = getValues();
     dispatch(editAction(id, values));
   };
 
-  console.log(search.split("=")[1]);
+  const handleClose = useCallback((event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (result) {
+      setOpen(true);
+    }
+  }, [setOpen, result]);
 
   const handleClick = () => {
     history.replace("/admin/allproducts");
+    dispatch(reset());
   };
 
-  useEffect(() => {
-    if (result || error) {
-      const timeout = setTimeout(() => {
-        history.replace(search.split("=")[1]);
-        dispatch(reset());
-      }, 6000);
-      return () => {
-        clearTimeout(timeout);
-      };
-    }
+  // useEffect(() => {
+  //   if (result || error) {
+  //     const timeout = setTimeout(() => {
+  //       history.replace(search.split("=")[1]);
+  //       dispatch(reset());
+  //     }, 6000);
+  //     return () => {
+  //       clearTimeout(timeout);
+  //     };
+  //   }
 
-    return;
-  }, [history, result, error, search, dispatch]);
+  //   return;
+  // }, [history, result, error, search, dispatch]);
 
   return (
-    <div className={classes.overlay} onClick={handleClick}>
-      <div className={classes.container} onClick={(e) => e.stopPropagation()}>
+    <>
+      <div className={classes.container}>
+        <UpperAppBar handleClick={handleClick} />
         <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <label htmlFor="name" className={classes.label}>
             Product Name
@@ -193,6 +223,7 @@ export default function EditScreen() {
                 type="text"
                 ref={register}
                 className={classes.input}
+                defaultValue={30}
               />
             </div>
           </div>
@@ -221,14 +252,22 @@ export default function EditScreen() {
             defaultValue={null}
           />
           {<p className={classes.p}>{errors.image?.message}</p>}
-          {!false && (
+          {!result && (
             <input type="submit" value="Edit Product" className={classes.btn} />
           )}
           {loading && <CircularProgress color="primary" />}
-          {console.log(result)}
-          {result && <Typography color="error">Edit was successful</Typography>}
+
+          <Snackbar open={open} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success">
+              Edit was successful!
+            </Alert>
+          </Snackbar>
+
+          {error && (
+            <Typography className={classes.error}>Error has occured</Typography>
+          )}
         </form>
       </div>
-    </div>
+    </>
   );
 }

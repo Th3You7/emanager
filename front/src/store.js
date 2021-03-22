@@ -8,7 +8,7 @@ import {
 } from "./reducers/productsReducer";
 import cartReducer from "./reducers/cartReducer";
 
-import editReducer from "./reducers/editReducer";
+import { editReducer, addReducer } from "./reducers/adminReducer";
 
 const initState = {
   cartReducer: {
@@ -25,6 +25,7 @@ const reducer = combineReducers({
   currSelProdReducer,
   cartReducer,
   editReducer,
+  addReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

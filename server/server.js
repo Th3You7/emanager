@@ -3,7 +3,6 @@ const storeRouter = require("./routes/storeRoute");
 const productRouter = require("./routes/productRoute");
 const adminRouter = require("./routes/adminRoute");
 const mongoose = require("mongoose");
-const editRouter = require("./routes/editRouter");
 
 const app = express();
 
@@ -24,10 +23,9 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-app.use("/store", storeRouter);
-app.use("/product", productRouter);
-app.use("/admin", adminRouter);
-app.use("/edit", editRouter);
+app.use("/api/store", storeRouter);
+app.use("/api/product", productRouter);
+app.use("/api/admin", adminRouter);
 
 const port = process.env.PORT || 5000;
 

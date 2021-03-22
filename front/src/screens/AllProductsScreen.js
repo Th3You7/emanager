@@ -68,7 +68,6 @@ export default function AllProductsScreen() {
           }))}
           onRowSelected={(row) => {
             setId(row.data.id);
-            console.log(row.data);
             dispatch(currSelProdAction(row.data));
           }}
           //onSelectionModelChange={(row) => setId(null)}

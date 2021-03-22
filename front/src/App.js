@@ -16,7 +16,7 @@ function App() {
   const background = location.state && location.state.bg;
   return (
     <div className={classes.app}>
-      <Switch location={background || location}>
+      <Switch>
         <Route exact path="/">
           <Redirect to="/store" />
         </Route>
@@ -35,9 +35,8 @@ function App() {
         <Route path="/admin/allproducts">
           <AllProducts />
         </Route>
+        <Route path="/admin/edit/:id" children={<Edit />} />
       </Switch>
-
-      {background && <Route path="/edit/:id" children={<Edit />} />}
     </div>
   );
 }
