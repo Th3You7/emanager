@@ -77,7 +77,7 @@ export default function Product() {
     history.replace(`/cart/${id}?size=${size}&price=${soldPrice}`);
   };
 
-  const handleClick = () => {
+  const handleBack = () => {
     history.goBack();
   };
 
@@ -115,7 +115,7 @@ export default function Product() {
         </div>
       )}
 
-      <UpperAppBar handleClick={handleClick} />
+      <UpperAppBar handleBack={handleBack} />
       <img className={classes.img} src={image} alt={product.name} />
       <div className={classes.content}>
         <div

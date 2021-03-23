@@ -21,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Admin() {
   const classes = useStyles();
   const history = useHistory();
-  const handleClick = () => {
+  const handleBack = () => {
     history.replace("/store");
   };
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleClick={handleClick} />
+      <UpperAppBar handleBack={handleBack} />
       <AdminProfile />
       {data.map((item, index) => {
         return (

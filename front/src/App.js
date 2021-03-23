@@ -1,5 +1,5 @@
 import React from "react";
-import { Store, Product, Cart, Admin, AllProducts, Edit } from "./screens";
+import { Store, Product, Cart, Admin, AllProducts, Edit, Add } from "./screens";
 import { Redirect, Route, Switch, useLocation } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -36,6 +36,7 @@ function App() {
           <AllProducts />
         </Route>
         <Route path="/admin/edit/:id" children={<Edit />} />
+        <Route path="/admin/add" children={<Add />} />
       </Switch>
     </div>
   );

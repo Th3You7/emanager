@@ -5,6 +5,7 @@ import {
   EDIT_FAIL,
   EDIT_REQUEST,
   EDIT_SUCCESS,
+  RESET,
 } from "../constants/adminConstant";
 
 const initialState = { result: null, error: null, loading: false };
@@ -30,7 +31,7 @@ const editReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
-    case "RESET":
+    case RESET:
       return initialState;
 
     default:
@@ -59,6 +60,9 @@ const addReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+
+    case RESET:
+      return initialState;
 
     default:
       return state;

@@ -24,7 +24,7 @@ const addAction = (values) => async (dispatch) => {
   dispatch({ type: ADD_REQUEST });
 
   try {
-    const result = await Axios.post(`/api/admin/add`, values);
+    const result = await Axios.post(`/api/admin/addproduct`, values);
     dispatch({ type: ADD_SUCCESS, payload: result });
   } catch (err) {
     dispatch({ type: ADD_FAIL, payload: err.message });

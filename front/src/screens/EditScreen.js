@@ -166,7 +166,7 @@ export default function EditScreen() {
     }
   }, [setOpen, result]);
 
-  const handleClick = () => {
+  const handleBack = () => {
     history.replace("/admin/allproducts");
     dispatch(reset());
   };
@@ -188,7 +188,7 @@ export default function EditScreen() {
   return (
     <>
       <div className={classes.container}>
-        <UpperAppBar handleClick={handleClick} />
+        <UpperAppBar handleBack={handleBack} />
         <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <label htmlFor="name" className={classes.label}>
             Product Name

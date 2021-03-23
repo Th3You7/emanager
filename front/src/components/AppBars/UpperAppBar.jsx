@@ -8,8 +8,6 @@ import {
   AddRounded,
   EditRounded,
 } from "@material-ui/icons/";
-import { removeAllAction } from "../../actions/cartAction";
-import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,18 +37,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UpperAppBar({ handleClick, id, redirect }) {
+export default function UpperAppBar({
+  handleDelete,
+  handleAdd,
+  handleBack,
+  id,
+  redirect,
+}) {
   const classes = useStyles(useLocation());
   const { pathname } = useLocation();
 
   const location = useLocation();
-  const dispatch = useDispatch();
-  const handleDelete = () => {
-    dispatch(removeAllAction());
-  };
+
   return (
     <div className={classes.root}>
-      <IconButton aria-label="back" onClick={handleClick}>
+      <IconButton aria-label="back" onClick={handleBack}>
         <ArrowBackRounded
           fontSize="inherit"
           color={/^\/admin/ ^ /edit/.test(pathname) ? "secondary" : "primary"}
@@ -70,6 +71,7 @@ export default function UpperAppBar({ handleClick, id, redirect }) {
             size="small"
             aria-label="add"
             className={classes.btn}
+            onClick={handleAdd}
           >
             <AddRounded />
           </Fab>

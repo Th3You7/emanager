@@ -37,9 +37,20 @@ adminRouter.post(
   asyncHandler(async (req, res) => {
     const values = req.body;
 
-    const product = new Product(values);
+    const data = {
+      name: values.name,
+      category: values.category.value,
+      image: "hoddie.jpg",
+      price: values.price,
+      availableSizes: {
+        40: 2,
+        41: 2,
+      },
+    };
 
-    const createdProduct = product.save();
+    const product = new Product(data);
+
+    const createdProduct = await product.save();
 
     res.json(createdProduct);
   })

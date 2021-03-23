@@ -45,15 +45,24 @@ export default function AllProductsScreen() {
     dispatch(allProductsAction());
   }, [dispatch]);
 
-  const handleClick = () => {
+  const handleBack = () => {
     history.replace("/admin");
+  };
+
+  const handleAdd = () => {
+    history.replace("/admin/add");
   };
 
   if (error) return error;
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleClick={handleClick} id={id} redirect={location} />
+      <UpperAppBar
+        handleBack={handleBack}
+        handleAdd={handleAdd}
+        id={id}
+        redirect={location}
+      />
 
       <div className={classes.container}>
         <DataGrid
