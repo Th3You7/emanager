@@ -29,7 +29,7 @@ const Cart = () => {
   const classes = useStyles();
   const { products } = useSelector((state) => state.cartReducer);
   const history = useHistory();
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
 
   const subTotal = products.reduce(
     (acc, curr) => acc + Number(curr.soldPrice),

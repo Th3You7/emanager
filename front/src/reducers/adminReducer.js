@@ -69,4 +69,33 @@ const addReducer = (state = initialState, action) => {
   }
 };
 
-export { editReducer, addReducer };
+const deleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EDIT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case EDIT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        result: action.payload,
+      };
+
+    case EDIT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case RESET:
+      return initialState;
+
+    default:
+      return state;
+  }
+};
+
+export { editReducer, addReducer, deleteReducer };

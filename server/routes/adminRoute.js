@@ -14,25 +14,6 @@ adminRouter.get(
 );
 
 adminRouter.post(
-  "/edit/:id",
-  asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const values = req.body;
-
-    const product = await Product.findById(id);
-
-    if (product) {
-      product.name = values.name;
-      product.price = values.price;
-      product.category = product.category;
-    }
-    const updatedProduct = await product.save();
-
-    res.json(updatedProduct);
-  })
-);
-
-adminRouter.post(
   "/addproduct",
   asyncHandler(async (req, res) => {
     const values = req.body;
@@ -53,6 +34,43 @@ adminRouter.post(
     const createdProduct = await product.save();
 
     res.json(createdProduct);
+  })
+);
+
+adminRouter.put(
+  "/edit/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const values = req.body;
+
+    const product = await Product.findById(id);
+
+    if (product) {
+      product.name = values.name;
+      product.price = values.price;
+      product.category = values.category;
+      (product.image = "hoddie.jpg"),
+        (product.availableSizes = {
+          40: 2,
+          41: 2,
+        });
+    }
+    const updatedProduct = await product.save();
+
+    res.json(updatedProduct);
+  })
+);
+
+adminRouter.delete(
+  "/delete/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
+
+    const deletedProduct = product.remove();
+
+    res.json(deletedProduct);
   })
 );
 
