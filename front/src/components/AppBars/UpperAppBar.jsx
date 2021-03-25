@@ -38,28 +38,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpperAppBar({
-  handleDelete,
+  handleRemove,
   handleAdd,
   handleBack,
   id,
-  redirect,
 }) {
   const classes = useStyles(useLocation());
-  const { pathname } = useLocation();
-
   const location = useLocation();
+  const { pathname } = location;
 
   return (
     <div className={classes.root}>
       <IconButton aria-label="back" onClick={handleBack}>
         <ArrowBackRounded
           fontSize="inherit"
-          color={/^\/admin/ ^ /edit/.test(pathname) ? "secondary" : "primary"}
+          color={/^\/admin/ ^ /edit/.test(pathname) ? "primary" : "primary"}
         />
       </IconButton>
 
       {!/^\/admin/.test(pathname) && (
-        <IconButton color="inherit" aria-label="delete" onClick={handleDelete}>
+        <IconButton color="inherit" aria-label="delete" onClick={handleRemove}>
           <DeleteRounded fontSize="inherit" />
         </IconButton>
       )}
@@ -82,6 +80,14 @@ export default function UpperAppBar({
               size="small"
               aria-label="delete"
               className={classes.btn}
+              component={Link}
+              to={{
+                pathname: `/admin/remove/${id}`,
+                state: {
+                  from: "/admin/remove/:id",
+                  bg: location,
+                },
+              }}
             >
               <DeleteRounded />
             </Fab>
@@ -95,10 +101,6 @@ export default function UpperAppBar({
               aria-label="delete"
               to={{
                 pathname: `/admin/edit/${id}`,
-                search: `redirect=${redirect.pathname}`,
-                state: {
-                  bg: location,
-                },
               }}
             >
               <EditRounded />

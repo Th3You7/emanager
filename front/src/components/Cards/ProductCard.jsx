@@ -14,6 +14,7 @@ import { Skeleton } from "@material-ui/lab";
 import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeFromCartAction } from "../../actions/cartAction";
+import { resetProduct } from "../../actions/productsAction";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -67,6 +68,7 @@ const ProductCard = (props) => {
   };
 
   const handleClick = () => {
+    dispatch(resetProduct());
     history.push(to);
   };
 

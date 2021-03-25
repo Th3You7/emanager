@@ -1,104 +1,43 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory, useLocation, useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { reset, editAction } from "../actions/adminAction";
-import { CircularProgress, Snackbar, Typography } from "@material-ui/core";
+import {
+  CircularProgress,
+  Snackbar,
+  Typography,
+  TextField,
+  IconButton,
+  Button,
+} from "@material-ui/core";
+import Select from "react-select";
+import { SaveOutlined, PhotoCameraOutlined } from "@material-ui/icons";
 import { UpperAppBar } from "../components";
 import { Alert } from "@material-ui/lab/";
 
 const useStyles = makeStyles((theme) => ({
-  // overlay: {
-  //   position: "absolute",
-  //   top: 0,
-  //   left: 0,
-  //   bottom: 0,
-  //   right: 0,
-  //   backgroundColor: "rgba(12, 12, 12, .7)",
-  // },
-
   container: {
-    background: "#0e101c",
-    minHeight: "100vh",
-  },
-
-  form: {
-    width: "100%",
-    padding: theme.spacing(0, 4),
-    // margin: "0 auto",
-    // position: "absolute",
-    // top: "50%",
-    // left: "50%",
-    // transform: "translate(-50%,-50%)",
-  },
-
-  input: {
-    display: "block",
-    background: theme.palette.background.paper,
-    boxSizing: "border-box",
-    width: "100%",
-    borderRadius: "4px",
-    border: "1px solid white",
-    padding: "8px 12px",
-    marginBottom: "10px",
-    fontSize: "14px",
-  },
-
-  label: {
-    lineHeight: 2,
-    textAlign: "left",
-    display: "block",
-    marginBottom: "8px",
-    marginTop: "10px",
-    color: "white",
-    fontSize: "14px",
-    fontWeight: 200,
+    padding: theme.spacing(0, 2),
   },
 
   flex: {
     display: "flex",
     justifyContent: "space-between",
+    marginBottom: theme.spacing(2),
   },
 
-  inlineLabel: {
-    lineHeight: 2,
-    textAlign: "left",
-    marginBottom: "8px",
-    marginTop: "10px",
-    marginRight: "10px",
-    color: "white",
-    fontSize: "14px",
-    fontWeight: 200,
+  input: {
+    marginBottom: theme.spacing(3),
   },
 
-  p: {
-    color: theme.palette.error["dark"],
-    marginBottom: 0,
-  },
-  success: {
-    color: theme.palette.success["dark"],
-    fontSize: theme.spacing(2.5),
-    margin: theme.spacing(4, 0),
-  },
-
-  falied: {
+  failed: {
     color: theme.palette.error["dark"],
     fontSize: theme.spacing(2.5),
     margin: theme.spacing(4, 0),
-  },
-
-  btn: {
-    borderRadius: "4px",
-    background: "#ec5990",
-    color: "white",
-    border: "none",
-    margin: theme.spacing(3, 0, 1),
-    padding: theme.spacing(1.2),
-    fontSize: "16px",
-    fontWeight: 300,
   },
 }));
 
@@ -134,7 +73,7 @@ export default function EditScreen() {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
+    control,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -142,14 +81,14 @@ export default function EditScreen() {
   const classes = useStyles();
   const history = useHistory();
   const { id } = useParams();
-  const { search } = useLocation();
   const dispatch = useDispatch();
-  const currProduct = useSelector((state) => state.currSelProdReducer);
+  const { name, price, category } = useSelector(
+    (state) => state.currSelProdReducer
+  );
   const { loading, result, error } = useSelector((state) => state.editReducer);
 
-  const onSubmit = () => {
-    const values = getValues();
-    dispatch(editAction(id, values));
+  const onSubmit = (data) => {
+    dispatch(editAction(id, data));
   };
 
   const handleClose = useCallback((event, reason) => {
@@ -171,100 +110,124 @@ export default function EditScreen() {
     dispatch(reset());
   };
 
-  // useEffect(() => {
-  //   if (result || error) {
-  //     const timeout = setTimeout(() => {
-  //       history.replace(search.split("=")[1]);
-  //       dispatch(reset());
-  //     }, 6000);
-  //     return () => {
-  //       clearTimeout(timeout);
-  //     };
-  //   }
-
-  //   return;
-  // }, [history, result, error, search, dispatch]);
-
   return (
     <>
+      <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
-        <UpperAppBar handleBack={handleBack} />
-        <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-          <label htmlFor="name" className={classes.label}>
-            Product Name
-          </label>
-          <input
+        <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            error={errors.name ? true : false}
+            label="Name"
             name="name"
-            ref={register}
+            fullWidth
             className={classes.input}
-            defaultValue={currProduct.name}
+            margin="dense"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            // variant="filled"
+            inputRef={register}
+            defaultValue={name}
+            helperText={errors.name?.message}
           />
-          {<p className={classes.p}>{errors.name?.message}</p>}
           <div className={classes.flex}>
-            <div style={{ flex: "0 1 45%" }}>
-              <label htmlFor="price" className={classes.label}>
-                Price
-              </label>
-              <input
-                name="price"
-                type="text"
-                ref={register}
-                className={classes.input}
-                defaultValue={currProduct.price}
-              />
-            </div>
-
-            <div style={{ flex: "0 1 45%" }}>
-              <label htmlFor="quantity" className={classes.label}>
-                Quantity
-              </label>
-              <input
-                name="quantity"
-                type="text"
-                ref={register}
-                className={classes.input}
-                defaultValue={30}
-              />
-            </div>
+            <TextField
+              error={errors.price ? true : false}
+              style={{ flex: "0 1 46%" }}
+              className={classes.input}
+              label="Price"
+              name="price"
+              margin="dense"
+              // variant="filled"
+              inputRef={register}
+              helperText={errors.price?.message.slice(0, 29)}
+              defaultValue={price}
+            />
+            <TextField
+              error={errors.quantity ? true : false}
+              style={{ flex: "0 1 46%" }}
+              className={classes.input}
+              label="Quantity"
+              name="quantity"
+              margin="dense"
+              // variant="filled"
+              inputRef={register}
+              helperText={errors.quantity?.message.slice(0, 32)}
+            />
           </div>
-          {errors.price && (
-            <p className={classes.p}>{errors.price.message.slice(0, 29)}</p>
-          )}
-          {<p className={classes.p}>{errors.quantity?.message.slice(0, 32)}</p>}
-          <label htmlFor="category" className={classes.label}>
-            Category
-          </label>
-          <input
+          <Controller
             name="category"
-            ref={register}
+            defaultValue={category}
+            control={control}
             className={classes.input}
-            defaultValue={currProduct.category}
+            options={[
+              { value: "sneakers", label: "Sneakers" },
+              { value: "hoddies", label: "Hoddies" },
+              { value: "jean", label: "Jean" },
+            ]}
+            styles={{
+              option: (provided, state) => ({
+                ...provided,
+                color: state.isFocused || state.isSelected ? "white" : "black",
+              }),
+            }}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 0,
+              colors: {
+                ...theme.colors,
+                primary25: "#333333",
+                primary: "#0c0c0c",
+              },
+            })}
+            as={Select}
           />
-          {<p className={classes.p}>{errors.category?.message}</p>}
-          <label htmlFor="image" className={classes.label}>
-            Image
-          </label>
-          <input
-            name="image"
-            ref={register}
-            type="file"
-            className={classes.input}
-            defaultValue={null}
-          />
-          {<p className={classes.p}>{errors.image?.message}</p>}
+          {errors.category && (
+            <p style={{ color: "red", marginTop: 0 }}>*Category is required</p>
+          )}
+          <div style={{ marginBottom: "16px" }}>
+            <input
+              name="image"
+              accept="image/*"
+              className={classes.input}
+              id="icon-button-file"
+              type="file"
+              style={{ display: "none" }}
+              ref={register}
+            />
+            <label htmlFor="icon-button-file">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <PhotoCameraOutlined />
+              </IconButton>
+            </label>
+          </div>
+
           {!result && (
-            <input type="submit" value="Edit Product" className={classes.btn} />
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              className={classes.button}
+              startIcon={<SaveOutlined />}
+              type="submit"
+            >
+              Save
+            </Button>
           )}
           {loading && <CircularProgress color="primary" />}
-
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
-              Edit was successful!
+              Saved successfully!
             </Alert>
           </Snackbar>
-
           {error && (
-            <Typography className={classes.error}>Error has occured</Typography>
+            <Typography className={classes.failed}>
+              Error has occured
+            </Typography>
           )}
         </form>
       </div>

@@ -2,6 +2,9 @@ import {
   ADD_FAIL,
   ADD_REQUEST,
   ADD_SUCCESS,
+  DELETE_FAIL,
+  DELETE_REQUEST,
+  DELETE_SUCCESS,
   EDIT_FAIL,
   EDIT_REQUEST,
   EDIT_SUCCESS,
@@ -71,19 +74,19 @@ const addReducer = (state = initialState, action) => {
 
 const deleteReducer = (state = {}, action) => {
   switch (action.type) {
-    case EDIT_REQUEST:
+    case DELETE_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case EDIT_SUCCESS:
+    case DELETE_SUCCESS:
       return {
         ...state,
         loading: false,
         result: action.payload,
       };
 
-    case EDIT_FAIL:
+    case DELETE_FAIL:
       return {
         ...state,
         loading: false,

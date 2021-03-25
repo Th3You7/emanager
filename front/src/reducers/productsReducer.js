@@ -8,6 +8,7 @@ import {
   ALL_PRODUCTS_REQUEST,
   ALL_PRODUCTS_SUCCESS,
   ALL_PRODUCTS_FAIL,
+  RESET,
 } from "../constants/productsConstants";
 
 const defaultState = {
@@ -20,6 +21,7 @@ const productsReducer = (state = defaultState, action) => {
     case PRODUCTS_REQUEST:
       return {
         ...state,
+        fetching: true,
         products: [1, 2, 3, 4],
       };
 
@@ -63,6 +65,10 @@ const productDetailsReducer = (
         fetching: false,
         error: action.payload,
       };
+
+    case RESET:
+      return defaultState;
+
     default:
       return state;
   }
@@ -105,6 +111,7 @@ const currSelProdReducer = (state = {}, action) => {
       return state;
   }
 };
+
 export {
   productsReducer,
   productDetailsReducer,

@@ -9,6 +9,7 @@ import {
   ALL_PRODUCTS_FAIL,
   ALL_PRODUCTS_REQUEST,
   ALL_PRODUCTS_SUCCESS,
+  RESET,
 } from "../constants/productsConstants";
 
 const productsAction = (category = "") => async (dispatch) => {
@@ -46,9 +47,14 @@ const currSelProdAction = (product) => (dispatch) => {
   dispatch({ type: "SELECT_PROD", payload: product });
 };
 
+const resetProduct = () => (dispatch) => {
+  dispatch({ type: RESET });
+};
+
 export {
   productsAction,
   productDetailsAction,
   allProductsAction,
   currSelProdAction,
+  resetProduct,
 };

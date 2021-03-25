@@ -47,13 +47,13 @@ const Cart = () => {
     history.push("/store");
   };
 
-  const handleDelete = () => {
+  const handleRemove = () => {
     dispatch(removeAllAction());
   };
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleBack={handleBack} handleDelete={handleDelete} />
+      <UpperAppBar handleBack={handleBack} handleDelete={handleRemove} />
       <div>
         {products &&
           products.map((product, index) => (

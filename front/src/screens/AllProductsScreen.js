@@ -41,6 +41,15 @@ export default function AllProductsScreen() {
     (state) => state.allProductsReducer
   );
 
+  const { result } = useSelector((state) => state.deleteReducer);
+
+  useEffect(() => {
+    if (result) {
+      history.replace("/admin/allproducts");
+    }
+    return;
+  }, [result, dispatch, history]);
+
   useEffect(() => {
     dispatch(allProductsAction());
   }, [dispatch]);
@@ -50,7 +59,7 @@ export default function AllProductsScreen() {
   };
 
   const handleAdd = () => {
-    history.replace("/admin/add");
+    history.push("/admin/add");
   };
 
   if (error) return error;
