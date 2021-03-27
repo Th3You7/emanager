@@ -10,7 +10,7 @@ import { useHistory } from "react-router";
 
 const data = [
   { name: "Dashboard", path: "/dashboard", icon: <DashboardOutlined /> },
-  { name: "Wallets", path: "/wallets", icon: <AccountBalanceWalletOutlined /> },
+  { name: "Wallets", path: "/wallet", icon: <AccountBalanceWalletOutlined /> },
   { name: "Products", path: "/allproducts", icon: <LocalOfferOutlined /> },
 ];
 

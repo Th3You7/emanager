@@ -6,3 +6,4 @@ export { default as AllProducts } from "./AllProductsScreen";
 export { default as Edit } from "./EditScreen";
 export { default as Add } from "./AddScreen";
 export { default as Remove } from "./RemoveScreen";
+export { default as Wallet } from "./WalletScreen";

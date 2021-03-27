@@ -53,7 +53,7 @@ const Cart = () => {
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleBack={handleBack} handleDelete={handleRemove} />
+      <UpperAppBar handleBack={handleBack} handleRemove={handleRemove} />
       <div>
         {products &&
           products.map((product, index) => (

@@ -8,6 +8,7 @@ import {
   Edit,
   Add,
   Remove,
+  Wallet,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -35,6 +36,7 @@ function App() {
         <Route path="/admin/edit/:id" children={<Edit />} />
         <Route path="/admin/add" children={<Add />} />
         <Route path="/admin/remove/:id" children={<Remove />} />
+        <Route path="/admin/wallet" children={<Wallet />} />
       </Switch>
     </div>
   );
