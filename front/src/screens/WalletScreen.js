@@ -91,8 +91,7 @@ export default function WalletScreen() {
           </Typography>
           <div className={classes.flex}>
             <div>
-              <p className={classes.salesSubtitle}>Sales </p>
-              <Typography className={classes.salesTitle}>
+              <Typography className={classes.salesTitle} variant="subtitle2">
                 <NumberFormat
                   value={24569}
                   displayType={"text"}
@@ -101,10 +100,13 @@ export default function WalletScreen() {
                   className={classes.title}
                 />
               </Typography>
+              <p className={classes.salesSubtitle}>Sales </p>
             </div>
             <div>
-              <p className={classes.spendingsSubtitle}>Spending</p>
-              <Typography className={classes.spendingsTitle}>
+              <Typography
+                className={classes.spendingsTitle}
+                variant="subtitle2"
+              >
                 <NumberFormat
                   value={2456}
                   displayType={"text"}
@@ -113,6 +115,7 @@ export default function WalletScreen() {
                   className={classes.title}
                 />
               </Typography>
+              <p className={classes.spendingsSubtitle}>Spending</p>
             </div>
           </div>
         </Paper>

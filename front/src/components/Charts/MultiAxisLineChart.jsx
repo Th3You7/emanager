@@ -58,7 +58,7 @@ export default function MultiAxisLineChart() {
 
   return (
     <>
-      <Line data={data} options={options} height={200} />
+      <Line data={data} options={options} height={250} />
     </>
   );
 }
