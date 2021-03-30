@@ -13,4 +13,19 @@ categoryRouter.get(
   })
 );
 
+categoryRouter.post(
+  "/add",
+  asyncHandler(async (req, res) => {
+    const { name } = req.body;
+
+    const data = { name };
+
+    const category = new Category(data);
+
+    const result = await category.save();
+
+    res.json(result);
+  })
+);
+
 module.exports = categoryRouter;

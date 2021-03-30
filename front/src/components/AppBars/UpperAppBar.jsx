@@ -42,6 +42,7 @@ export default function UpperAppBar({
   handleAdd,
   handleBack,
   id,
+  categoryId,
 }) {
   const classes = useStyles(useLocation());
   const location = useLocation();
@@ -62,7 +63,8 @@ export default function UpperAppBar({
         </IconButton>
       )}
 
-      {pathname === "/admin/allproducts" && (
+      {(pathname === "/admin/allproducts" ||
+        pathname === "/admin/categories") && (
         <div className={classes.flex}>
           <Fab
             color="primary"
@@ -74,7 +76,7 @@ export default function UpperAppBar({
             <AddRounded />
           </Fab>
 
-          {id && (
+          {(id || categoryId) && (
             <Fab
               color="secondary"
               size="small"

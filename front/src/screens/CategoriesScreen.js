@@ -25,7 +25,7 @@ const columns = [
 
 export default function CategoriesScreen() {
   const classes = useStyles();
-  const [id, setId] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
   const [page, setPage] = useState(0);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -43,14 +43,18 @@ export default function CategoriesScreen() {
   };
 
   const handleAdd = () => {
-    history.push("/admin/add");
+    history.push("/admin/addcategory");
   };
 
   if (error) return error;
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleBack={handleBack} handleAdd={handleAdd} id={id} />
+      <UpperAppBar
+        handleBack={handleBack}
+        handleAdd={handleAdd}
+        categoryId={categoryId}
+      />
 
       <div className={classes.container}>
         <DataGrid
@@ -62,7 +66,7 @@ export default function CategoriesScreen() {
           pageSize={10}
           columns={columns}
           onRowSelected={(row) => {
-            setId(row.data.id);
+            setCategoryId(row.data.id);
             //dispatch(currSelProdAction(row.data));
           }}
           //onSelectionModelChange={(row) => setId(null)}

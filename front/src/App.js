@@ -11,6 +11,7 @@ import {
   Wallet,
   Dashboard,
   Categories,
+  AddCategory,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -39,6 +40,7 @@ function App() {
         <Route path="/admin/remove/:id" children={<Remove />} />
         <Route path="/admin/wallet" children={<Wallet />} />
         <Route path="/admin/dashboard" children={<Dashboard />} />
+        <Route path="/admin/addcategory" children={<AddCategory />} />
       </Switch>
     </div>
   );
