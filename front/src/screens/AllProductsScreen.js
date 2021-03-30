@@ -52,11 +52,20 @@ export default function AllProductsScreen() {
     history.push("/admin/add");
   };
 
+  const to = {
+    pathname: `/admin/remove/${id}`,
+  };
+
   if (error) return error;
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleBack={handleBack} handleAdd={handleAdd} id={id} />
+      <UpperAppBar
+        handleBack={handleBack}
+        handleAdd={handleAdd}
+        id={id}
+        to={to}
+      />
 
       <div className={classes.container}>
         <DataGrid

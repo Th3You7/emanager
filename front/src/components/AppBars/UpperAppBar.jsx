@@ -41,6 +41,7 @@ export default function UpperAppBar({
   handleRemove,
   handleAdd,
   handleBack,
+  to,
   id,
   categoryId,
 }) {
@@ -83,13 +84,7 @@ export default function UpperAppBar({
               aria-label="delete"
               className={classes.btn}
               component={Link}
-              to={{
-                pathname: `/admin/remove/${id}`,
-                state: {
-                  from: "/admin/remove/:id",
-                  bg: location,
-                },
-              }}
+              to={to}
             >
               <DeleteRounded />
             </Fab>

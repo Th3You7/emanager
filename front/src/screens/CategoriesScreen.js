@@ -2,8 +2,11 @@ import { makeStyles } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router";
-import { categoriesAction } from "../actions/categoriesAction";
+import { useHistory } from "react-router";
+import {
+  categoriesAction,
+  currSelCategoryAction,
+} from "../actions/categoriesAction";
 import { UpperAppBar } from "../components";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +49,10 @@ export default function CategoriesScreen() {
     history.push("/admin/addcategory");
   };
 
+  const to = {
+    pathname: `/admin/removecategory/${categoryId}`,
+  };
+
   if (error) return error;
 
   return (
@@ -54,6 +61,7 @@ export default function CategoriesScreen() {
         handleBack={handleBack}
         handleAdd={handleAdd}
         categoryId={categoryId}
+        to={to}
       />
 
       <div className={classes.container}>
@@ -67,7 +75,7 @@ export default function CategoriesScreen() {
           columns={columns}
           onRowSelected={(row) => {
             setCategoryId(row.data.id);
-            //dispatch(currSelProdAction(row.data));
+            dispatch(currSelCategoryAction(row.data));
           }}
           //onSelectionModelChange={(row) => setId(null)}
           rows={categories}

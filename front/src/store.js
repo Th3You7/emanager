@@ -18,6 +18,7 @@ import {
   categoriesReducer,
   addCategoryReducer,
   deleteCategoryReducer,
+  currSelCategoryReducer,
 } from "./reducers/categoriesReducer";
 
 const initState = {
@@ -36,6 +37,7 @@ const reducer = combineReducers({
   deleteCategoryReducer,
   allProductsReducer,
   currSelProdReducer,
+  currSelCategoryReducer,
   cartReducer,
   editReducer,
   addReducer,

@@ -6,6 +6,9 @@ import {
   ADD_CATEGORY_SUCCESS,
   ADD_CATEGORY_FAIL,
   RESET_CATEGORY,
+  REMOVE_CATEGORY_FAIL,
+  REMOVE_CATEGORY_REQUEST,
+  REMOVE_CATEGORY_SUCCESS,
 } from "../constants/categoriesConstant";
 import axios from "axios";
 
@@ -32,15 +35,19 @@ const addCategoryAction = (values) => async (dispatch) => {
 };
 
 const deleteCategoryAction = (id) => async (dispatch) => {
-  dispatch({ type: ADD_CATEGORY_REQUEST });
+  dispatch({ type: REMOVE_CATEGORY_REQUEST });
 
   try {
-    const response = await axios.post(`/api/category/delete/${id}`);
+    const response = await axios.delete(`/api/category/delete/${id}`);
 
-    dispatch({ type: ADD_CATEGORY_SUCCESS, payload: response });
+    dispatch({ type: REMOVE_CATEGORY_SUCCESS, payload: response });
   } catch (error) {
-    dispatch({ type: ADD_CATEGORY_FAIL, payload: error.message });
+    dispatch({ type: REMOVE_CATEGORY_FAIL, payload: error.message });
   }
+};
+
+const currSelCategoryAction = (product) => (dispatch) => {
+  dispatch({ type: "SELECT_PROD", payload: product });
 };
 
 const resetCategory = () => (dispatch) => {
@@ -52,4 +59,5 @@ export {
   addCategoryAction,
   deleteCategoryAction,
   resetCategory,
+  currSelCategoryAction,
 };

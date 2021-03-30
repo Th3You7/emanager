@@ -101,4 +101,21 @@ const deleteCategoryReducer = (state = initialState, action) => {
   }
 };
 
-export { categoriesReducer, addCategoryReducer, deleteCategoryReducer };
+const currSelCategoryReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SELECT_PROD":
+      return {
+        ...action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export {
+  categoriesReducer,
+  addCategoryReducer,
+  deleteCategoryReducer,
+  currSelCategoryReducer,
+};

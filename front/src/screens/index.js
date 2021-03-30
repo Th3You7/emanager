@@ -9,5 +9,7 @@ export { default as Add } from "./AddScreen";
 export { default as Remove } from "./RemoveScreen";
 
 export { default as AddCategory } from "./AddCategoryScreen";
+export { default as RemoveCategory } from "./RemoveCategoryScreen";
+
 export { default as Wallet } from "./WalletScreen";
 export { default as Dashboard } from "./DashboardScreen";

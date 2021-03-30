@@ -17,14 +17,20 @@ categoryRouter.post(
   "/add",
   asyncHandler(async (req, res) => {
     const { name } = req.body;
-
     const data = { name };
-
     const category = new Category(data);
-
     const result = await category.save();
-
     res.json(result);
+  })
+);
+
+categoryRouter.delete(
+  "/delete/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const category = await Category.findById(id);
+    const deletedCategory = category.remove();
+    res.json(deletedCategory);
   })
 );
 
