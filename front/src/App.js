@@ -10,6 +10,7 @@ import {
   Remove,
   Wallet,
   Dashboard,
+  Categories,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -32,6 +33,7 @@ function App() {
         <Route path="/cart/:id?" children={<Cart />} />
         <Route exact path="/admin" children={<Admin />} />
         <Route path="/admin/allproducts" children={<AllProducts />} />
+        <Route path="/admin/categories" children={<Categories />} />
         <Route path="/admin/edit/:id" children={<Edit />} />
         <Route path="/admin/add" children={<Add />} />
         <Route path="/admin/remove/:id" children={<Remove />} />

@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
-import { UpperAppBar } from "../components";
-import { useHistory, useLocation } from "react-router";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  allProductsAction,
-  currSelProdAction,
-} from "../actions/productsAction";
+import { useHistory, useLocation } from "react-router";
+import { categoriesAction } from "../actions/categoriesAction";
+import { UpperAppBar } from "../components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    //padding: theme.spacing(2),
     height: "100vh",
   },
 
@@ -25,23 +21,21 @@ const useStyles = makeStyles((theme) => ({
 const columns = [
   { field: "id", hide: true },
   { field: "name", headerName: "Name", width: 150 },
-  { field: "price", headerName: "Price", width: 70 },
-  { field: "category", headerName: "Status", width: 100 },
 ];
 
-export default function AllProductsScreen() {
+export default function CategoriesScreen() {
   const classes = useStyles();
   const [id, setId] = useState(null);
   const [page, setPage] = useState(0);
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { products, fetching, error } = useSelector(
-    (state) => state.allProductsReducer
+  const { categories, fetching, error } = useSelector(
+    (state) => state.categoriesReducer
   );
 
   useEffect(() => {
-    dispatch(allProductsAction());
+    dispatch(categoriesAction());
   }, [dispatch]);
 
   const handleBack = () => {
@@ -69,10 +63,10 @@ export default function AllProductsScreen() {
           columns={columns}
           onRowSelected={(row) => {
             setId(row.data.id);
-            dispatch(currSelProdAction(row.data));
+            //dispatch(currSelProdAction(row.data));
           }}
           //onSelectionModelChange={(row) => setId(null)}
-          rows={products}
+          rows={categories}
           loading={fetching}
           getRowId={(row) => row._id}
           disableColumnSelector={true}

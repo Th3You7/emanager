@@ -2,7 +2,7 @@ import React from "react";
 
 import { useHistory } from "react-router";
 import { HighChart, UpperAppBar } from "../components";
-import { makeStyles, Paper, Typography } from "@material-ui/core";
+import { makeStyles, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   paper: {
-    padding: theme.spacing(0),
     margin: theme.spacing(0, 0, 2),
   },
 }));

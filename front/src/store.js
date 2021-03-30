@@ -14,6 +14,8 @@ import {
   deleteReducer,
 } from "./reducers/adminReducer";
 
+import { categoriesReducer } from "./reducers/categoriesReducer";
+
 const initState = {
   cartReducer: {
     products: localStorage.getItem("products")
@@ -25,6 +27,7 @@ const initState = {
 const reducer = combineReducers({
   productsReducer,
   productDetailsReducer,
+  categoriesReducer,
   allProductsReducer,
   currSelProdReducer,
   cartReducer,

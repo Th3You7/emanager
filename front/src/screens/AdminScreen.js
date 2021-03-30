@@ -5,13 +5,17 @@ import {
   AccountBalanceWalletOutlined,
   LocalOfferOutlined,
   DashboardOutlined,
+  ShopOutlined,
+  StyleOutlined,
 } from "@material-ui/icons";
 import { useHistory } from "react-router";
 
 const data = [
-  { name: "Dashboard", path: "/dashboard", icon: <DashboardOutlined /> },
   { name: "Wallets", path: "/wallet", icon: <AccountBalanceWalletOutlined /> },
+  { name: "Dashboard", path: "/dashboard", icon: <DashboardOutlined /> },
+  { name: "Categories", path: "/categories", icon: <StyleOutlined /> },
   { name: "Products", path: "/allproducts", icon: <LocalOfferOutlined /> },
+  { name: "Sales", path: "/sales", icon: <ShopOutlined /> },
 ];
 
 const useStyles = makeStyles((theme) => ({
