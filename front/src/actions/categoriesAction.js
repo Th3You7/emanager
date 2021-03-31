@@ -15,7 +15,7 @@ import axios from "axios";
 const categoriesAction = () => async (dispatch) => {
   dispatch({ type: CATEGORIES_REQUEST });
   try {
-    const { data } = await axios.get("/api/category");
+    const { data } = await axios.get("/api/category/all");
     dispatch({ type: CATEGORIES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: CATEGORIES_FAIL, payload: error.message });
@@ -39,7 +39,6 @@ const deleteCategoryAction = (id) => async (dispatch) => {
 
   try {
     const response = await axios.delete(`/api/category/delete/${id}`);
-
     dispatch({ type: REMOVE_CATEGORY_SUCCESS, payload: response });
   } catch (error) {
     dispatch({ type: REMOVE_CATEGORY_FAIL, payload: error.message });

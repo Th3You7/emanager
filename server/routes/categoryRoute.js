@@ -5,7 +5,7 @@ const asyncHandler = require("express-async-handler");
 const Category = require("../models/categoryModel");
 
 categoryRouter.get(
-  "/",
+  "/all",
   asyncHandler(async (req, res) => {
     const categories = await Category.find({});
 
@@ -28,6 +28,7 @@ categoryRouter.delete(
   "/delete/:id",
   asyncHandler(async (req, res) => {
     const { id } = req.params;
+    console.log(id);
     const category = await Category.findById(id);
     const deletedCategory = category.remove();
     res.json(deletedCategory);

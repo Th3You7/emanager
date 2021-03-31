@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid } from "@material-ui/data-grid";
 import { UpperAppBar } from "../components";
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   allProductsAction,

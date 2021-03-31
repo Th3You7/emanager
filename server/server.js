@@ -4,6 +4,7 @@ const productRouter = require("./routes/productRoute");
 const adminRouter = require("./routes/adminRoute");
 const categoryRouter = require("./routes/categoryRoute");
 const mongoose = require("mongoose");
+const salesRouter = require("./routes/salesRoute");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/api/store", storeRouter);
 app.use("/api/product", productRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/category", categoryRouter);
+app.use("api/sales", salesRouter);
 
 const port = process.env.PORT || 5000;
 

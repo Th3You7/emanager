@@ -201,7 +201,7 @@ export default function AddScreen() {
             </label>
           </div>
 
-          {!result && (
+          {!result && !loading && (
             <Button
               variant="contained"
               color="primary"

@@ -47,6 +47,7 @@ export default function AddCategoryScreen() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [open, setOpen] = useState(false);
   const {
     handleSubmit,
     register,
@@ -57,7 +58,6 @@ export default function AddCategoryScreen() {
   const { loading, payload, error } = useSelector(
     (state) => state.addCategoryReducer
   );
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (payload) {
@@ -100,7 +100,7 @@ export default function AddCategoryScreen() {
             inputRef={register}
             helperText={errors.name?.message}
           />
-          {!payload && (
+          {!payload && !loading && (
             <Button
               variant="contained"
               color="primary"
