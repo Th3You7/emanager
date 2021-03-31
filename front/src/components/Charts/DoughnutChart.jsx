@@ -23,7 +23,7 @@ export default function DoughnutChart() {
 
   return (
     <>
-      <Doughnut data={data} option={options} height="120" />
+      <Doughnut data={data} option={options} height={120} />
     </>
   );
 }

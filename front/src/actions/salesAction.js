@@ -1,11 +1,15 @@
 import Axios from "axios";
-import { SALES_FAIL, SALES_SUCCESS } from "../constants/salesConstants";
+import {
+  SALES_FAIL,
+  SALES_REQUEST,
+  SALES_SUCCESS,
+} from "../constants/salesConstants";
 
 const salesAction = () => async (dispatch) => {
-  dispatch({ type: SALES_SUCCESS });
+  dispatch({ type: SALES_REQUEST });
 
   try {
-    const { data } = Axios.get("/api/sales/all");
+    const { data } = await Axios.get("/api/sales/all");
     dispatch({ type: SALES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: SALES_FAIL, payload: error.message });

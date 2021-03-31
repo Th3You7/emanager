@@ -3,9 +3,9 @@ const storeRouter = require("./routes/storeRoute");
 const productRouter = require("./routes/productRoute");
 const adminRouter = require("./routes/adminRoute");
 const categoryRouter = require("./routes/categoryRoute");
-const mongoose = require("mongoose");
 const salesRouter = require("./routes/salesRoute");
 
+const mongoose = require("mongoose");
 const app = express();
 
 mongoose.connect(process.env.MONGO_URI || "mongodb://localhost/ecommerce", {
@@ -29,7 +29,7 @@ app.use("/api/store", storeRouter);
 app.use("/api/product", productRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/category", categoryRouter);
-app.use("api/sales", salesRouter);
+app.use("/api/sales", salesRouter);
 
 const port = process.env.PORT || 5000;
 

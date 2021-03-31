@@ -13,3 +13,5 @@ export { default as RemoveCategory } from "./RemoveCategoryScreen";
 
 export { default as Wallet } from "./WalletScreen";
 export { default as Dashboard } from "./DashboardScreen";
+
+export { default as Sales } from "./SalesScreen";

@@ -13,6 +13,7 @@ import {
   Categories,
   AddCategory,
   RemoveCategory,
+  Sales,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -46,6 +47,7 @@ function App() {
           path="/admin/removecategory/:categoryId"
           children={<RemoveCategory />}
         />
+        <Route path="/admin/sales" children={<Sales />} />
       </Switch>
     </div>
   );
