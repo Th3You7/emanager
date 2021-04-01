@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CheckingAppBar = () => {
+const CheckingAppBar = ({ handleCheck }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Fab variant="extended" className={classes.fab}>
+      <Fab variant="extended" className={classes.fab} onClick={handleCheck}>
         Check Out
       </Fab>
     </div>

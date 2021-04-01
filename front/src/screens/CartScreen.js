@@ -51,6 +51,11 @@ const Cart = () => {
     dispatch(removeAllAction());
   };
 
+  const handleCheck = () => {
+    if (!products.length) return;
+    history.push("/confirm");
+  };
+
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} handleRemove={handleRemove} />
@@ -87,7 +92,7 @@ const Cart = () => {
           </Typography>
         </div>
       </div>
-      <CheckingAppBar />
+      <CheckingAppBar handleCheck={handleCheck} />
     </div>
   );
 };

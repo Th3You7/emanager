@@ -14,4 +14,16 @@ salesRouter.get(
   })
 );
 
+salesRouter.post(
+  "/add",
+  asyncHandler(async (req, res) => {
+    const data = req.body;
+    const sales = await Sales.insertMany(data);
+
+    console.log(sales);
+
+    res.json(sales);
+  })
+);
+
 module.exports = salesRouter;

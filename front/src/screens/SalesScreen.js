@@ -35,8 +35,6 @@ export default function SalesScreen() {
   const dispatch = useDispatch();
   const { sales, fetching, error } = useSelector((state) => state.salesReducer);
 
-  console.log(sales, fetching, error);
-
   useEffect(() => {
     dispatch(salesAction());
   }, [dispatch]);

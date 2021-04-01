@@ -1,4 +1,8 @@
 import {
+  ADD_SALES_FAIL,
+  ADD_SALES_REQUEST,
+  ADD_SALES_SUCCESS,
+  RESET_SALES,
   SALES_FAIL,
   SALES_REQUEST,
   SALES_SUCCESS,
@@ -8,6 +12,8 @@ const initialState = {
   fetching: true,
   sales: [],
 };
+
+const defaultlState = { result: null, error: null, loading: false };
 
 const salesReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -36,4 +42,34 @@ const salesReducer = (state = initialState, action) => {
   }
 };
 
-export { salesReducer };
+const addSalesReducer = (state = defaultlState, action) => {
+  switch (action.type) {
+    case ADD_SALES_REQUEST:
+      return {
+        ...state,
+        fetching: true,
+      };
+
+    case ADD_SALES_SUCCESS:
+      return {
+        ...state,
+        fetching: false,
+        result: action.payload,
+      };
+
+    case ADD_SALES_FAIL:
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload,
+      };
+
+    case RESET_SALES:
+      return defaultlState;
+
+    default:
+      return state;
+  }
+};
+
+export { salesReducer, addSalesReducer };

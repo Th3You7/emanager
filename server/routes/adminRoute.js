@@ -49,11 +49,11 @@ adminRouter.put(
       product.name = values.name;
       product.price = values.price;
       product.category = values.category;
-      (product.image = "hoddie.jpg"),
-        (product.availableSizes = {
-          40: 2,
-          41: 2,
-        });
+      product.image = "hoddie.jpg";
+      product.availableSizes = {
+        40: 2,
+        41: 2,
+      };
     }
     const updatedProduct = await product.save();
 

@@ -21,7 +21,7 @@ import {
   currSelCategoryReducer,
 } from "./reducers/categoriesReducer";
 
-import { salesReducer } from "./reducers/salesReducer";
+import { salesReducer, addSalesReducer } from "./reducers/salesReducer";
 
 const initState = {
   cartReducer: {
@@ -45,6 +45,7 @@ const reducer = combineReducers({
   addReducer,
   deleteReducer,
   salesReducer,
+  addSalesReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

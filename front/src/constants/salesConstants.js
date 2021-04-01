@@ -1,3 +1,9 @@
 export const SALES_REQUEST = "SALES_REQUEST";
 export const SALES_SUCCESS = "SALES_SUCCESS";
 export const SALES_FAIL = "SALES_FAIL";
+
+export const ADD_SALES_REQUEST = "ADD_SALES_REQUEST";
+export const ADD_SALES_SUCCESS = "ADD_SALES_SUCCESS";
+export const ADD_SALES_FAIL = "ADD_SALES_FAIL";
+
+export const RESET_SALES = "RESET_SALES";

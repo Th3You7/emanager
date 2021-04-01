@@ -52,13 +52,10 @@ export default function UpperAppBar({
   return (
     <div className={classes.root}>
       <IconButton aria-label="back" onClick={handleBack}>
-        <ArrowBackRounded
-          fontSize="inherit"
-          color={/^\/admin/ ^ /edit/.test(pathname) ? "primary" : "primary"}
-        />
+        <ArrowBackRounded fontSize="inherit" color="primary" />
       </IconButton>
 
-      {!/^\/admin/.test(pathname) && (
+      {!(/^\/admin/.test(pathname) || /^\/confirm/.test(pathname)) && (
         <IconButton color="inherit" aria-label="delete" onClick={handleRemove}>
           <DeleteRounded fontSize="inherit" />
         </IconButton>
