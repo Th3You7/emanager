@@ -31,7 +31,7 @@ export default function DashboardScreen() {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 300,
+      height: 250,
     },
     title: {
       text: "Sales Analytic",
@@ -67,39 +67,39 @@ export default function DashboardScreen() {
         data: [
           {
             name: "Chrome",
-            y: 61.41,
+            //y: 10,
           },
           {
             name: "Internet Explorer",
-            y: 11.84,
+            y: 10,
           },
           {
             name: "Firefox",
-            y: 10.85,
+            y: 5,
           },
           {
             name: "Edge",
-            y: 4.67,
+            y: 3,
           },
           {
             name: "Safari",
-            y: 4.18,
+            y: 22,
           },
           {
             name: "Sogou Explorer",
-            y: 1.64,
+            y: 16,
           },
           {
             name: "Opera",
-            y: 1.6,
+            y: 16,
           },
           {
             name: "QQ",
-            y: 1.2,
+            y: 10,
           },
           {
             name: "Other",
-            y: 2.61,
+            y: 8,
           },
         ],
       },

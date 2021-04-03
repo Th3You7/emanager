@@ -36,6 +36,9 @@ const categoriesReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
+    case RESET_CATEGORY:
+      return state;
+
     default:
       return state;
   }

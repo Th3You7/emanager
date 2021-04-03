@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { productsAction } from "../actions/productsAction";
-import { makeStyles, Typography } from "@material-ui/core";
+import { categoriesAction } from "../actions/categoriesAction";
+import { makeStyles, Paper, Typography } from "@material-ui/core";
 import { BottomAppBar, CategoryCard, ProductCard } from "../components";
 import { useParams } from "react-router";
+import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +45,11 @@ const Store = () => {
   const { fetching, products, error } = useSelector(
     (state) => state.productsReducer
   );
+  const categories = useSelector((state) => state.categoriesReducer);
+
+  useEffect(() => {
+    dispatch(categoriesAction());
+  }, [dispatch]);
 
   useEffect(() => {
     ctgry ? dispatch(productsAction(ctgry)) : dispatch(productsAction());
@@ -50,10 +57,26 @@ const Store = () => {
 
   if (error) return error;
 
+  const categoriesSection = () => {
+    return categories.categories.map((category) => (
+      <CategoryCard key={category._id} title={category.name} />
+    ));
+  };
+
+  const categoriesSkeleton = () => {
+    const arr = [1, 2, 3, 4];
+
+    return arr.map((x, i) => (
+      <Paper key={i} style={{ marginRight: "8px", padding: "8px" }}>
+        <Skeleton variant="text" width={60} height={20} />
+      </Paper>
+    ));
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.carousel}>
-        {[
+        {/* {[
           "Hoddies",
           "T-shirt",
           "Sneakers",
@@ -64,7 +87,9 @@ const Store = () => {
           "Jackets",
         ].map((category) => (
           <CategoryCard key={category} title={category} />
-        ))}
+        ))} */}
+
+        {categories.fetching ? categoriesSkeleton() : categoriesSection()}
       </div>
 
       <Typography className={classes.title} component="h2" variant="h5">
