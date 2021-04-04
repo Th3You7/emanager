@@ -6,7 +6,7 @@ import { makeStyles, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(0, 1),
   },
 
   paper: {
@@ -31,7 +31,7 @@ export default function DashboardScreen() {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 250,
+      height: 270,
     },
     title: {
       text: "Sales Analytic",
@@ -53,6 +53,7 @@ export default function DashboardScreen() {
       pie: {
         allowPointSelect: true,
         cursor: "pointer",
+        size: 125,
         dataLabels: {
           enabled: true,
           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
@@ -67,7 +68,7 @@ export default function DashboardScreen() {
         data: [
           {
             name: "Chrome",
-            //y: 10,
+            y: 10,
           },
           {
             name: "Internet Explorer",
@@ -184,12 +185,10 @@ export default function DashboardScreen() {
     <div>
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
-        <Paper className={classes.paper}>
-          <HighChart options={options} />
-        </Paper>
-        <Paper>
-          <HighChart options={options0} />
-        </Paper>
+        <HighChart options={options} />
+        {/* <Paper>
+          <HihgChart options={options0} />
+        </Paper> */}
       </div>
     </div>
   );

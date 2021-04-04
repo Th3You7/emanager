@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NumberFormat from "react-number-format";
 import { makeStyles, Paper, Typography } from "@material-ui/core";
 import { useHistory } from "react-router";
-import { Doughnut, MultiAxisLine, UpperAppBar } from "../components";
+import { HighChartStock, UpperAppBar } from "../components";
+import Highcharts from "highcharts/highstock";
+import { useDispatch, useSelector } from "react-redux";
+import { salesAction } from "../actions/salesAction";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    width: "90%",
+    width: "95%",
     margin: theme.spacing(0, "auto"),
   },
 
@@ -63,9 +66,95 @@ const useStyles = makeStyles((theme) => ({
 export default function WalletScreen() {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { sales, loading, error } = useSelector((state) => state.salesReducer);
+
+  useEffect(() => {
+    dispatch(salesAction());
+  }, [dispatch]);
+
   const handleBack = () => {
     history.push("/admin");
   };
+
+  const data = [
+    ...sales.map((sale) => [
+      new Date(sale.createdAt).getTime(),
+      sale.soldPrice,
+    ]),
+  ];
+
+  const options = {
+    // chart: {
+    //   type: "area",
+    // },
+    // title: {
+    //   text: "US and USSR nuclear stockpiles",
+    // },
+    // xAxis: {
+    //   allowDecimals: false,
+    //   labels: {
+    //     formatter: function () {
+    //       return this.value; // clean, unformatted number for year
+    //     },
+    //   },
+    //   accessibility: {
+    //     rangeDescription: "Range: 1940 to 2017.",
+    //   },
+    // },
+    // yAxis: {
+    //   title: {
+    //     enabled: false,
+    //   },
+    //   labels: {
+    //     formatter: function () {
+    //       return this.value / 1000 + "k";
+    //     },
+    //   },
+    // },
+    // tooltip: {
+    //   pointFormat:
+    //     "{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}",
+    // },
+    rangeSelector: {
+      selected: 1,
+    },
+
+    title: {
+      text: "All Sales",
+    },
+
+    series: [
+      {
+        name: "AAPL Stock Price",
+        data: data,
+        type: "areaspline",
+        threshold: null,
+        tooltip: {
+          valueDecimals: 2,
+        },
+        fillColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1,
+          },
+          stops: [
+            [0, Highcharts.getOptions().colors[1]],
+            [
+              1,
+              Highcharts.color(Highcharts.getOptions().colors[1])
+                .setOpacity(0)
+                .get("rgba"),
+            ],
+          ],
+        },
+      },
+    ],
+  };
+
+  if (error) return <div>{error}</div>;
 
   return (
     <>
@@ -90,41 +179,32 @@ export default function WalletScreen() {
             />
           </Typography>
           <div className={classes.flex}>
-            <div>
-              <Typography className={classes.salesTitle} variant="subtitle2">
-                <NumberFormat
-                  value={24569}
-                  displayType={"text"}
-                  thousandSeparator={true}
-                  prefix={"MAD"}
-                  className={classes.title}
-                />
-              </Typography>
-              <p className={classes.salesSubtitle}>Sales </p>
-            </div>
-            <div>
-              <Typography
-                className={classes.spendingsTitle}
-                variant="subtitle2"
-              >
-                <NumberFormat
-                  value={2456}
-                  displayType={"text"}
-                  thousandSeparator={true}
-                  prefix={"MAD"}
-                  className={classes.title}
-                />
-              </Typography>
-              <p className={classes.spendingsSubtitle}>Spending</p>
-            </div>
+            <Typography className={classes.salesTitle} variant="subtitle2">
+              <NumberFormat
+                value={sales.reduce((acc, curr) => acc + curr.soldPrice, 0)}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"MAD"}
+                className={classes.title}
+              />
+            </Typography>
+
+            <Typography className={classes.spendingsTitle} variant="subtitle2">
+              <NumberFormat
+                value={2456}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"MAD"}
+                className={classes.title}
+              />
+            </Typography>
           </div>
         </Paper>
-        <Paper className={classes.details}>
+        {/* <Paper className={classes.details}>
           <Doughnut />
-        </Paper>
-        <Paper className={classes.progress}>
-          <MultiAxisLine />
-        </Paper>
+        </Paper> */}
+
+        <HighChartStock options={options} />
       </div>
     </>
   );

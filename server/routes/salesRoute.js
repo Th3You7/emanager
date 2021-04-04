@@ -20,8 +20,6 @@ salesRouter.post(
     const data = req.body;
     const sales = await Sales.insertMany(data);
 
-    console.log(sales);
-
     res.json(sales);
   })
 );
