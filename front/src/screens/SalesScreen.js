@@ -24,6 +24,7 @@ const columns = [
   { field: "name", headerName: "Name", width: 150 },
   { field: "price", headerName: "Price", width: 70 },
   { field: "soldPrice", headerName: "Sold Price", width: 70 },
+  { field: "createdAt", headerName: "Date", width: 150 },
   { field: "category", headerName: "Category", width: 100 },
 ];
 

@@ -80,54 +80,35 @@ export default function WalletScreen() {
   const data = [
     ...sales.map((sale) => [
       new Date(sale.createdAt).getTime(),
-      sale.soldPrice,
+      sale.soldPrice - sale.price,
     ]),
   ];
 
+  console.log(data);
+
   const options = {
-    // chart: {
-    //   type: "area",
-    // },
-    // title: {
-    //   text: "US and USSR nuclear stockpiles",
-    // },
-    // xAxis: {
-    //   allowDecimals: false,
-    //   labels: {
-    //     formatter: function () {
-    //       return this.value; // clean, unformatted number for year
-    //     },
-    //   },
-    //   accessibility: {
-    //     rangeDescription: "Range: 1940 to 2017.",
-    //   },
-    // },
-    // yAxis: {
-    //   title: {
-    //     enabled: false,
-    //   },
-    //   labels: {
-    //     formatter: function () {
-    //       return this.value / 1000 + "k";
-    //     },
-    //   },
-    // },
-    // tooltip: {
-    //   pointFormat:
-    //     "{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}",
-    // },
     rangeSelector: {
       selected: 1,
     },
-
     title: {
-      text: "All Sales",
+      text: "Earnings",
+      align: "left",
+      style: {
+        fontSize: "20px",
+        color: "#5c5c5c",
+      },
     },
-
     series: [
       {
-        name: "AAPL Stock Price",
+        name: "Earning",
         data: data,
+        dataGrouping: {
+          approximation: "sum",
+          forced: true,
+          groupAll: true,
+          units: [["day", [1]]],
+        },
+        color: "green",
         type: "areaspline",
         threshold: null,
         tooltip: {
@@ -141,7 +122,7 @@ export default function WalletScreen() {
             y2: 1,
           },
           stops: [
-            [0, Highcharts.getOptions().colors[1]],
+            [1, Highcharts.getOptions().colors[1]],
             [
               1,
               Highcharts.color(Highcharts.getOptions().colors[1])

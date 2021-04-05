@@ -1,9 +1,10 @@
-import React from "react";
-
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
-import { HighChart, UpperAppBar } from "../components";
-import { makeStyles, Paper } from "@material-ui/core";
-
+import Highcharts from "highcharts/highstock";
+import { HighChart, HighChartStock, UpperAppBar } from "../components";
+import { makeStyles } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { salesAction } from "../actions/salesAction";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(0, 1),
@@ -17,10 +18,30 @@ const useStyles = makeStyles((theme) => ({
 export default function DashboardScreen() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { sales, error, fetching } = useSelector((state) => state.salesReducer);
+  const { categories } = useSelector((state) => state.categoriesReducer);
+  useEffect(() => {
+    dispatch(salesAction());
+  }, [dispatch]);
 
   const handleBack = () => {
     history.push("/admin");
   };
+
+  const data = [
+    ...categories
+      .map((category) =>
+        sales.filter(
+          (sale) => sale.category.toLowerCase() === category.name.toLowerCase()
+        )
+      )
+      .sort((a, b) => b.length - a.length)
+      .map((x, i) => {
+        if (x.length < 1 || i === 10) return null;
+        return { name: x[0].category, y: x.length };
+      }),
+  ];
 
   const options = {
     credits: {
@@ -31,18 +52,18 @@ export default function DashboardScreen() {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 270,
+      height: 250,
     },
     title: {
       text: "Sales Analytic",
       align: "left",
       style: {
-        fontSize: "24px",
+        fontSize: "20px",
         color: "#5c5c5c",
       },
     },
     tooltip: {
-      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+      pointFormat: "{series.name}: <b>{point.y}</b>",
     },
     accessibility: {
       point: {
@@ -63,122 +84,71 @@ export default function DashboardScreen() {
     series: [
       {
         minPointSize: 50,
-        name: "Brands",
+        name: "Products",
         colorByPoint: true,
-        data: [
-          {
-            name: "Chrome",
-            y: 10,
-          },
-          {
-            name: "Internet Explorer",
-            y: 10,
-          },
-          {
-            name: "Firefox",
-            y: 5,
-          },
-          {
-            name: "Edge",
-            y: 3,
-          },
-          {
-            name: "Safari",
-            y: 22,
-          },
-          {
-            name: "Sogou Explorer",
-            y: 16,
-          },
-          {
-            name: "Opera",
-            y: 16,
-          },
-          {
-            name: "QQ",
-            y: 10,
-          },
-          {
-            name: "Other",
-            y: 8,
-          },
-        ],
+        data: data,
+        dataGrouping: {
+          approximation: "sum",
+          forced: true,
+          groupAll: true,
+        },
       },
     ],
   };
 
-  const options0 = {
-    chart: {
-      plotShadow: false,
+  const salesData = [
+    ...sales.map((sale) => [
+      new Date(sale.createdAt).getTime(),
+      sale.soldPrice,
+    ]),
+  ];
 
-      height: 320,
-    },
-    credits: {
-      enabled: false,
+  const salesOptions = {
+    rangeSelector: {
+      selected: 1,
     },
     title: {
-      text: "Sales Analytic",
+      text: "All Sales",
       align: "left",
       style: {
-        fontSize: "24px",
+        fontSize: "20px",
         color: "#5c5c5c",
       },
     },
-
-    yAxis: {
-      title: {
-        enabled: false,
-      },
-    },
-
-    xAxis: {
-      accessibility: {
-        rangeDescription: "Range: 2010 to 2017",
-      },
-    },
-
-    legend: {
-      layout: "vertical",
-      align: "right",
-      verticalAlign: "middle",
-    },
-
-    plotOptions: {
-      series: {
-        label: {
-          connectorAllowed: false,
-        },
-        pointStart: 2010,
-      },
-    },
-
     series: [
       {
-        name: "Installation",
-        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
-      },
-      {
-        name: "Manufacturing",
-        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434],
+        name: "Sales",
+        data: salesData,
+        color: "black",
+        type: "areaspline",
+        threshold: null,
+        dataGrouping: {
+          approximation: "sum",
+          forced: true,
+          groupAll: true,
+        },
+        tooltip: {
+          valueDecimals: 2,
+        },
+        fillColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1,
+          },
+          stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [
+              1,
+              Highcharts.color(Highcharts.getOptions().colors[0])
+                .setOpacity(0)
+                .get("rgba"),
+            ],
+          ],
+        },
       },
     ],
-
-    responsive: {
-      rules: [
-        {
-          condition: {
-            maxWidth: 500,
-          },
-          chartOptions: {
-            legend: {
-              layout: "horizontal",
-              align: "center",
-              verticalAlign: "bottom",
-            },
-          },
-        },
-      ],
-    },
   };
 
   return (
@@ -186,9 +156,7 @@ export default function DashboardScreen() {
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
         <HighChart options={options} />
-        {/* <Paper>
-          <HihgChart options={options0} />
-        </Paper> */}
+        <HighChartStock options={salesOptions} />
       </div>
     </div>
   );
