@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, makeStyles, Typography } from "@material-ui/core";
-import { Link, useHistory, useParams } from "react-router-dom";
-import { deleteAction } from "../actions/adminAction";
+import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { UpperAppBar } from "../components";
+import { Link } from "react-router-dom";
+import { deleteSaleAction } from "../actions/salesAction";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,29 +26,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RemoveScreen() {
   const classes = useStyles();
-  const { id } = useParams();
+  const { saleId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const result = useSelector((state) => state.currSelProdReducer);
+  const result = useSelector((state) => state.currSelSaleReducer);
 
   const to = {
-    pathname: "/admin/allproducts",
+    pathname: "/admin/sales",
   };
 
+  console.log(saleId);
+
   const handleBack = () => {
-    history.replace("/admin/allproducts");
+    history.replace("/admin/sales");
   };
 
   const handleDelete = () => {
-    dispatch(deleteAction(id));
+    dispatch(deleteSaleAction(saleId));
   };
 
   return (
     <div className={classes.overlay}>
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
-        <Typography className={classes.title} variant="h3" component="h3">
-          Remove Product
+        <Typography variant="h3" component="h3" className={classes.title}>
+          Remove Sale
         </Typography>
         <Typography>
           Are You Sure You wanna Delete <br />

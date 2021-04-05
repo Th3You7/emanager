@@ -16,6 +16,12 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.error["light"],
     margin: theme.spacing(2, 0),
   },
+
+  title: {
+    fontWeight: 700,
+    fontSize: theme.spacing(3),
+    marginBottom: theme.spacing(4),
+  },
 }));
 
 export default function RemoveScreen() {
@@ -41,6 +47,9 @@ export default function RemoveScreen() {
     <div className={classes.overlay}>
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
+        <Typography variant="h3" component="h3" className={classes.title}>
+          Remove Category
+        </Typography>
         <Typography>
           Are You Sure You wanna Delete <br />
           <b>{result.name}</b> ?

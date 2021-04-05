@@ -84,8 +84,6 @@ export default function WalletScreen() {
     ]),
   ];
 
-  console.log(data);
-
   const options = {
     rangeSelector: {
       selected: 1,

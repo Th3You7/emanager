@@ -3,6 +3,9 @@ import {
   ADD_SALES_FAIL,
   ADD_SALES_REQUEST,
   ADD_SALES_SUCCESS,
+  REMOVE_SALE_FAIL,
+  REMOVE_SALE_REQUEST,
+  REMOVE_SALE_SUCCESS,
   RESET_SALES,
   SALES_FAIL,
   SALES_REQUEST,
@@ -41,8 +44,28 @@ const addSalesAction = (data) => async (dispatch) => {
   }
 };
 
+const deleteSaleAction = (id) => async (dispatch) => {
+  dispatch({ type: REMOVE_SALE_REQUEST });
+  try {
+    const response = await Axios.delete(`/api/sales/delete/${id}`);
+    dispatch({ type: REMOVE_SALE_SUCCESS, payload: response });
+  } catch (error) {
+    dispatch({ type: REMOVE_SALE_FAIL, payload: error.message });
+  }
+};
+
+const currSelSaleAction = (product) => (dispatch) => {
+  dispatch({ type: "SELECT_PROD", payload: product });
+};
+
 const resetSales = () => (dispatch) => {
   dispatch({ type: RESET_SALES });
 };
 
-export { salesAction, addSalesAction, resetSales };
+export {
+  salesAction,
+  addSalesAction,
+  deleteSaleAction,
+  resetSales,
+  currSelSaleAction,
+};

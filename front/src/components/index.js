@@ -7,7 +7,5 @@ export { default as ProductCard } from "./Cards/ProductCard";
 
 export { default as AdminProfile } from "./AdminProfile";
 export { default as AdminNavigation } from "./AdminNavigation";
-export { default as Doughnut } from "./Charts/DoughnutChart";
-export { default as MultiAxisLine } from "./Charts/MultiAxisLineChart";
 export { default as HighChartStock } from "./Charts/HighChartStock";
 export { default as HighChart } from "./Charts/HighChart";

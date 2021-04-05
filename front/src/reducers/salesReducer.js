@@ -2,6 +2,9 @@ import {
   ADD_SALES_FAIL,
   ADD_SALES_REQUEST,
   ADD_SALES_SUCCESS,
+  REMOVE_SALE_FAIL,
+  REMOVE_SALE_REQUEST,
+  REMOVE_SALE_SUCCESS,
   RESET_SALES,
   SALES_FAIL,
   SALES_REQUEST,
@@ -72,4 +75,46 @@ const addSalesReducer = (state = defaultlState, action) => {
   }
 };
 
-export { salesReducer, addSalesReducer };
+const deleteSaleReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case REMOVE_SALE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case REMOVE_SALE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        payload: action.payload,
+      };
+
+    case REMOVE_SALE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case RESET_SALES:
+      return initialState;
+
+    default:
+      return state;
+  }
+};
+
+const currSelSaleReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SELECT_PROD":
+      return {
+        ...action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export { salesReducer, addSalesReducer, deleteSaleReducer, currSelSaleReducer };

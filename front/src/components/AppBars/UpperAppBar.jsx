@@ -44,6 +44,7 @@ export default function UpperAppBar({
   to,
   id,
   categoryId,
+  saleId,
 }) {
   const classes = useStyles(useLocation());
   const location = useLocation();
@@ -62,19 +63,22 @@ export default function UpperAppBar({
       )}
 
       {(pathname === "/admin/allproducts" ||
-        pathname === "/admin/categories") && (
+        pathname === "/admin/categories" ||
+        pathname === "/admin/sales") && (
         <div className={classes.flex}>
-          <Fab
-            color="primary"
-            size="small"
-            aria-label="add"
-            className={classes.btn}
-            onClick={handleAdd}
-          >
-            <AddRounded />
-          </Fab>
+          {pathname !== "/admin/sales" && (
+            <Fab
+              color="primary"
+              size="small"
+              aria-label="add"
+              className={classes.btn}
+              onClick={handleAdd}
+            >
+              <AddRounded />
+            </Fab>
+          )}
 
-          {(id || categoryId) && (
+          {(id || categoryId || saleId) && (
             <Fab
               color="secondary"
               size="small"

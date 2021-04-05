@@ -24,4 +24,16 @@ salesRouter.post(
   })
 );
 
+salesRouter.delete(
+  "/delete/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const sale = await Sales.findById(id);
+    const deletedSale = sale.remove();
+
+    res.json(deletedSale);
+  })
+);
+
 module.exports = salesRouter;

@@ -15,4 +15,5 @@ export { default as Wallet } from "./WalletScreen";
 export { default as Dashboard } from "./DashboardScreen";
 
 export { default as Sales } from "./SalesScreen";
+export { default as RemoveSale } from "./RemoveSaleScreen";
 export { default as Confirm } from "./ConfirmScreen";

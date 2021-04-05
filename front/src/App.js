@@ -15,6 +15,7 @@ import {
   RemoveCategory,
   Sales,
   Confirm,
+  RemoveSale,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -49,6 +50,7 @@ function App() {
           children={<RemoveCategory />}
         />
         <Route path="/admin/sales" children={<Sales />} />
+        <Route path="/admin/removesale/:saleId" children={<RemoveSale />} />
         <Route path="/confirm" children={<Confirm />} />
       </Switch>
     </div>

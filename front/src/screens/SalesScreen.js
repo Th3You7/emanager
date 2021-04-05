@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UpperAppBar } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { salesAction } from "../actions/salesAction";
+import { salesAction, currSelSaleAction } from "../actions/salesAction";
 import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
@@ -24,7 +24,7 @@ const columns = [
   { field: "name", headerName: "Name", width: 150 },
   { field: "price", headerName: "Price", width: 70 },
   { field: "soldPrice", headerName: "Sold Price", width: 70 },
-  { field: "createdAt", headerName: "Date", width: 150 },
+  { field: "createdAt", headerName: "Date", width: 165 },
   { field: "category", headerName: "Category", width: 100 },
 ];
 
@@ -44,11 +44,15 @@ export default function SalesScreen() {
     history.push("/admin");
   };
 
+  const to = {
+    pathname: `/admin/removesale/${id}`,
+  };
+
   if (error) return error;
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleBack={handleBack} />
+      <UpperAppBar handleBack={handleBack} saleId={id} to={to} />
 
       <div className={classes.container}>
         <DataGrid
@@ -61,7 +65,7 @@ export default function SalesScreen() {
           columns={columns}
           onRowSelected={(row) => {
             setId(row.data.id);
-            //dispatch(currSelProdAction(row.data));
+            dispatch(currSelSaleAction(row.data));
           }}
           //onSelectionModelChange={(row) => setId(null)}
           rows={sales}
