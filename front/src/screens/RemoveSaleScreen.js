@@ -35,8 +35,6 @@ export default function RemoveScreen() {
     pathname: "/admin/sales",
   };
 
-  console.log(saleId);
-
   const handleBack = () => {
     history.replace("/admin/sales");
   };

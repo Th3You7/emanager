@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const columns = [
   { field: "id", hide: true },
-  { field: "name", headerName: "Name", width: 150 },
+  { field: "name", headerName: "Categories", width: 150 },
 ];
 
 export default function CategoriesScreen() {

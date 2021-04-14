@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const columns = [
   { field: "id", hide: true },
-  { field: "name", headerName: "Name", width: 150 },
+  { field: "name", headerName: "Sales", width: 150 },
   { field: "price", headerName: "Price", width: 70 },
   { field: "soldPrice", headerName: "Sold Price", width: 70 },
   { field: "createdAt", headerName: "Date", width: 165 },

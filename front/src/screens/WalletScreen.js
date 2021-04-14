@@ -160,7 +160,10 @@ export default function WalletScreen() {
           <div className={classes.flex}>
             <Typography className={classes.salesTitle} variant="subtitle2">
               <NumberFormat
-                value={sales.reduce((acc, curr) => acc + curr.soldPrice, 0)}
+                value={sales.reduce(
+                  (acc, curr) => acc + (curr.soldPrice - curr.price),
+                  0
+                )}
                 displayType={"text"}
                 thousandSeparator={true}
                 prefix={"MAD"}

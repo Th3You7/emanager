@@ -87,11 +87,6 @@ export default function DashboardScreen() {
         name: "Products",
         colorByPoint: true,
         data: data,
-        dataGrouping: {
-          approximation: "sum",
-          forced: true,
-          groupAll: true,
-        },
       },
     ],
   };
@@ -126,6 +121,7 @@ export default function DashboardScreen() {
           approximation: "sum",
           forced: true,
           groupAll: true,
+          units: [["day", [1]]],
         },
         tooltip: {
           valueDecimals: 2,

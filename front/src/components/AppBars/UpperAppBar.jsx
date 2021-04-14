@@ -7,6 +7,7 @@ import {
   ArrowBackRounded,
   AddRounded,
   EditRounded,
+  LocalGroceryStoreOutlined,
 } from "@material-ui/icons/";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,7 @@ export default function UpperAppBar({
   handleRemove,
   handleAdd,
   handleBack,
+  handleStore,
   to,
   id,
   categoryId,
@@ -56,9 +58,15 @@ export default function UpperAppBar({
         <ArrowBackRounded fontSize="inherit" color="primary" />
       </IconButton>
 
-      {!(/^\/admin/.test(pathname) || /^\/confirm/.test(pathname)) && (
+      {/^\/cart/.test(pathname) && (
         <IconButton color="inherit" aria-label="delete" onClick={handleRemove}>
           <DeleteRounded fontSize="inherit" />
+        </IconButton>
+      )}
+
+      {/^\/product/.test(pathname) && (
+        <IconButton color="inherit" aria-label="store" onClick={handleStore}>
+          <LocalGroceryStoreOutlined />
         </IconButton>
       )}
 

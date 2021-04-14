@@ -76,19 +76,6 @@ const Store = () => {
   return (
     <div className={classes.root}>
       <div className={classes.carousel}>
-        {/* {[
-          "Hoddies",
-          "T-shirt",
-          "Sneakers",
-          "Jeans",
-          "Shirt",
-          "Leather",
-          "Sweater",
-          "Jackets",
-        ].map((category) => (
-          <CategoryCard key={category} title={category} />
-        ))} */}
-
         {categories.fetching ? categoriesSkeleton() : categoriesSection()}
       </div>
 
