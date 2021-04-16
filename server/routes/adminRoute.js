@@ -17,16 +17,19 @@ adminRouter.post(
   "/addproduct",
   asyncHandler(async (req, res) => {
     const values = req.body;
-
+    const { availableSize, availableSizeValue } = values;
     const data = {
       name: values.name,
       category: values.category.value,
       image: "hoddie.jpg",
       price: values.price,
-      availableSizes: {
-        40: 2,
-        41: 2,
-      },
+      availableSizes: availableSize.reduce((acc, curr, i) => {
+        if (availableSizeValue[i] !== undefined) {
+          acc[curr.value] = availableSizeValue[i].value;
+        }
+
+        return acc;
+      }, {}),
     };
 
     const product = new Product(data);
