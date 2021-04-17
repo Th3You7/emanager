@@ -45,18 +45,19 @@ adminRouter.put(
   asyncHandler(async (req, res) => {
     const { id } = req.params;
     const values = req.body;
-
+    const { availableSize, availableSizeValue } = values;
     const product = await Product.findById(id);
-
     if (product) {
       product.name = values.name;
       product.price = values.price;
-      product.category = values.category;
+      product.category = values.category.value;
       product.image = "hoddie.jpg";
-      product.availableSizes = {
-        40: 2,
-        41: 2,
-      };
+      product.availableSizes = availableSize.reduce((acc, curr, i) => {
+        if (availableSizeValue[i] !== undefined) {
+          acc[curr.value] = availableSizeValue[i].value;
+        }
+        return acc;
+      }, {});
     }
     const updatedProduct = await product.save();
 

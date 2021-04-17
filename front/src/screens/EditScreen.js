@@ -14,6 +14,8 @@ import {
   IconButton,
   Button,
 } from "@material-ui/core";
+import CreatableSelect from "react-select/creatable";
+
 import Select from "react-select";
 import { SaveOutlined, PhotoCameraOutlined } from "@material-ui/icons";
 import { UpperAppBar } from "../components";
@@ -22,12 +24,6 @@ import { Alert } from "@material-ui/lab/";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(0, 2),
-  },
-
-  flex: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: theme.spacing(2),
   },
 
   input: {
@@ -45,13 +41,14 @@ const FILE_SIZE = 100 * 1024;
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
 const schema = yup.object().shape({
-  name: yup.string(),
+  name: yup.string().required(), //required
   price: yup
     .number()
     .positive("*Price must be a positive number")
     .required("*Price is Required"),
-  quantity: yup.number().positive(),
-  category: yup.string().required("*Category is Required"),
+  category: yup.object().required("*Category is Required"),
+  availableSize: yup.array().min(1),
+  availableSizeValue: yup.array().min(1),
   image: yup.mixed(),
   // .required("*Img is required")
   // .test(
@@ -82,10 +79,18 @@ export default function EditScreen() {
   const history = useHistory();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { name, price, category } = useSelector(
+  const { name, price, category, availableSizes } = useSelector(
     (state) => state.currSelProdReducer
   );
+
   const { loading, result, error } = useSelector((state) => state.editReducer);
+  const { categories } = useSelector((state) => state.categoriesReducer);
+
+  useEffect(() => {
+    if (result) {
+      setOpen(true);
+    }
+  }, [setOpen, result]);
 
   const onSubmit = (data) => {
     dispatch(editAction(id, data));
@@ -99,15 +104,55 @@ export default function EditScreen() {
     setOpen(false);
   }, []);
 
-  useEffect(() => {
-    if (result) {
-      setOpen(true);
-    }
-  }, [setOpen, result]);
-
   const handleBack = () => {
     history.replace("/admin/allproducts");
     dispatch(reset());
+  };
+
+  const categoryDefaultValue = {
+    value: category,
+    label: `${category.charAt(0).toUpperCase()}${category.slice(1)}`,
+  };
+
+  const availableSizesDefaultValue = Object.keys(availableSizes).map((x) => {
+    return {
+      label: x.toUpperCase(),
+      value: x,
+    };
+  });
+
+  const availableSizesValuesDefaultValue = Object.keys(availableSizes).map(
+    (x) => {
+      return {
+        label: availableSizes[x],
+        value: availableSizes[x],
+      };
+    }
+  );
+
+  const allCatgories = categories.map((x) => {
+    return {
+      value: x.name.toLowerCase(),
+      label: `${x.name.charAt(0).toUpperCase()}${x.name.slice(1)}`,
+    };
+  });
+
+  const isValidNewOption = (inputValue, selectValue, selectOptions) => {
+    if (inputValue.trim().length === 0) {
+      return false;
+    }
+
+    if (selectOptions.find((option) => option.name === inputValue)) {
+      return true;
+    }
+
+    selectValue.forEach((x) => {
+      if (Number(x.value) === Number(inputValue)) {
+        return true;
+      }
+    });
+
+    return true;
   };
 
   return (
@@ -130,41 +175,26 @@ export default function EditScreen() {
             defaultValue={name}
             helperText={errors.name?.message}
           />
-          <div className={classes.flex}>
-            <TextField
-              error={errors.price ? true : false}
-              style={{ flex: "0 1 46%" }}
-              className={classes.input}
-              label="Price"
-              name="price"
-              margin="dense"
-              // variant="filled"
-              inputRef={register}
-              helperText={errors.price?.message.slice(0, 29)}
-              defaultValue={price}
-            />
-            <TextField
-              error={errors.quantity ? true : false}
-              style={{ flex: "0 1 46%" }}
-              className={classes.input}
-              label="Quantity"
-              name="quantity"
-              margin="dense"
-              // variant="filled"
-              inputRef={register}
-              helperText={errors.quantity?.message.slice(0, 32)}
-            />
-          </div>
+
+          <TextField
+            error={errors.price ? true : false}
+            className={classes.input}
+            label="Price"
+            name="price"
+            margin="dense"
+            fullWidth
+            // variant="filled"
+            inputRef={register}
+            helperText={errors.price?.message.slice(0, 29)}
+            defaultValue={price}
+          />
+
           <Controller
             name="category"
-            defaultValue={category}
+            defaultValue={categoryDefaultValue}
             control={control}
             className={classes.input}
-            options={[
-              { value: "sneakers", label: "Sneakers" },
-              { value: "hoddies", label: "Hoddies" },
-              { value: "jean", label: "Jean" },
-            ]}
+            options={allCatgories}
             styles={{
               option: (provided, state) => ({
                 ...provided,
@@ -185,6 +215,94 @@ export default function EditScreen() {
           {errors.category && (
             <p style={{ color: "red", marginTop: 0 }}>*Category is required</p>
           )}
+
+          <Controller
+            name="availableSize"
+            defaultValue={availableSizesDefaultValue}
+            control={control}
+            className={classes.input}
+            options={[
+              { value: "sm", label: "SM" },
+              { value: "m", label: "M" },
+              { value: "l", label: "L" },
+              { value: "xl", label: "XL" },
+              { value: "xxl", label: "XXL" },
+              { value: "xxxl", label: "XXXL" },
+              { value: "38", label: "38" },
+              { value: "39", label: "39" },
+              { value: "40", label: "40" },
+              { value: "41", label: "41" },
+              { value: "42", label: "42" },
+              { value: "43", label: "43" },
+              { value: "44", label: "44" },
+              { value: "45", label: "45" },
+            ]}
+            styles={{
+              option: (provided, state) => ({
+                ...provided,
+                color: state.isFocused || state.isSelected ? "white" : "black",
+              }),
+            }}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 0,
+              colors: {
+                ...theme.colors,
+                primary25: "#333333",
+                primary: "#0c0c0c",
+              },
+            })}
+            isMulti
+            closeMenuOnSelect={true}
+            placeholder="Availabe Sizes"
+            as={Select}
+          />
+          {errors.availableSize && (
+            <p style={{ color: "red", marginTop: 0 }}>*Size is required</p>
+          )}
+          <Controller
+            name="availableSizeValue"
+            control={control}
+            className={classes.input}
+            styles={{
+              option: (provided, state) => ({
+                ...provided,
+                color: state.isFocused || state.isSelected ? "white" : "black",
+              }),
+            }}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 0,
+              colors: {
+                ...theme.colors,
+                primary25: "#333333",
+                primary: "#0c0c0c",
+              },
+            })}
+            rules={{ required: true }}
+            defaultValue={availableSizesValuesDefaultValue}
+            placeholder="Quantity"
+            render={(props) => (
+              <CreatableSelect
+                isValidNewOption={isValidNewOption}
+                isOptionSelected={() => false}
+                inputRef={props.ref}
+                value={props.value}
+                onChange={(v) => props.onChange(v)}
+                closeMenuOnSelect={false}
+                //menuIsOpen={false}
+                isMulti
+                placeholder="Quantity"
+              />
+            )}
+          />
+
+          {errors.availableSizeValue && (
+            <p style={{ color: "red", marginTop: 0 }}>
+              *Size value is required
+            </p>
+          )}
+
           <div style={{ marginBottom: "16px" }}>
             <input
               name="image"

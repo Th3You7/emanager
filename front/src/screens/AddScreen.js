@@ -76,6 +76,7 @@ export default function AddScreen() {
     resolver: yupResolver(schema),
   });
   const { loading, result, error } = useSelector((state) => state.addReducer);
+  const { categories } = useSelector((state) => state.categoriesReducer);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -118,6 +119,13 @@ export default function AddScreen() {
     return true;
   };
 
+  const allCatgories = categories.map((x) => {
+    return {
+      value: x.name.toLowerCase(),
+      label: `${x.name.charAt(0).toUpperCase()}${x.name.slice(1)}`,
+    };
+  });
+
   return (
     <>
       <UpperAppBar handleBack={handleBack} />
@@ -155,11 +163,7 @@ export default function AddScreen() {
             defaultValue=""
             control={control}
             className={classes.input}
-            options={[
-              { value: "sneakers", label: "Sneakers" },
-              { value: "hoddies", label: "Hoddies" },
-              { value: "jean", label: "Jean" },
-            ]}
+            options={allCatgories}
             styles={{
               option: (provided, state) => ({
                 ...provided,

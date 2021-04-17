@@ -94,7 +94,7 @@ const Store = () => {
             fetching={fetching}
           />
         ))}
-        {products.length === [] && (
+        {products.length === 0 && (
           <Typography>
             No {ctgry.replace(ctgry[0], ctgry[0].toUpperCase())} Products In The
             Stock

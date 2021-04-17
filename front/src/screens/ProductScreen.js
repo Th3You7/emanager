@@ -129,7 +129,7 @@ export default function Product() {
                     <FormControlLabel
                       key={productSize}
                       value={productSize}
-                      label={productSize}
+                      label={productSize.toUpperCase()}
                       control={<Radio />}
                     />
                   ))}

@@ -21,17 +21,9 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(0, 2),
   },
-
-  flex: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: theme.spacing(2),
-  },
-
   input: {
     marginBottom: theme.spacing(3),
   },
-
   failed: {
     color: theme.palette.error["dark"],
     fontSize: theme.spacing(2.5),
