@@ -9,7 +9,11 @@ import {
 } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { addSalesAction, resetSales } from "../actions/salesAction";
+import {
+  addSalesAction,
+  confirmSaleAction,
+  resetSales,
+} from "../actions/salesAction";
 import { removeAllAction } from "../actions/cartAction";
 import { Alert } from "@material-ui/lab";
 
@@ -62,6 +66,7 @@ export default function ConfirmScreen() {
   const handleClick = () => {
     dispatch(addSalesAction(products));
     dispatch(removeAllAction());
+    dispatch(confirmSaleAction(products));
   };
 
   const total = products.reduce((acc, curr) => acc + Number(curr.soldPrice), 0);

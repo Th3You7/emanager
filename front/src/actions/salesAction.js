@@ -10,6 +10,9 @@ import {
   SALES_FAIL,
   SALES_REQUEST,
   SALES_SUCCESS,
+  CONFIRM_SALES_REQUEST,
+  CONFIRM_SALES_SUCCESS,
+  CONFIRM_SALES_FAIL,
 } from "../constants/salesConstants";
 
 const salesAction = () => async (dispatch) => {
@@ -54,6 +57,17 @@ const deleteSaleAction = (id) => async (dispatch) => {
   }
 };
 
+const confirmSaleAction = (data) => async (dispatch) => {
+  dispatch({ type: CONFIRM_SALES_REQUEST });
+
+  try {
+    const result = await Axios.put("/api/sales/confirm", data);
+    dispatch({ type: CONFIRM_SALES_SUCCESS, payload: result });
+  } catch (error) {
+    dispatch({ type: CONFIRM_SALES_FAIL, payload: error.message });
+  }
+};
+
 const currSelSaleAction = (product) => (dispatch) => {
   dispatch({ type: "SELECT_PROD", payload: product });
 };
@@ -68,4 +82,5 @@ export {
   deleteSaleAction,
   resetSales,
   currSelSaleAction,
+  confirmSaleAction,
 };

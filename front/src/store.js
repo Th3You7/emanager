@@ -26,6 +26,7 @@ import {
   addSalesReducer,
   deleteSaleReducer,
   currSelSaleReducer,
+  confirmSalesReducer,
 } from "./reducers/salesReducer";
 
 const initState = {
@@ -53,6 +54,7 @@ const reducer = combineReducers({
   addSalesReducer,
   deleteSaleReducer,
   currSelSaleReducer,
+  confirmSalesReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

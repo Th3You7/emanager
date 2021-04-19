@@ -55,8 +55,6 @@ const Store = () => {
     ctgry ? dispatch(productsAction(ctgry)) : dispatch(productsAction());
   }, [dispatch, ctgry]);
 
-  if (error) return error;
-
   const categoriesSection = () => {
     return categories.categories.map((category) => (
       <CategoryCard key={category._id} title={category.name} />
@@ -73,16 +71,15 @@ const Store = () => {
     ));
   };
 
+  if (error) return error;
   return (
     <div className={classes.root}>
       <div className={classes.carousel}>
         {categories.fetching ? categoriesSkeleton() : categoriesSection()}
       </div>
-
       <Typography className={classes.title} component="h2" variant="h5">
         Products
       </Typography>
-
       <div className={classes.products}>
         {products.map((product) => (
           <ProductCard
@@ -94,7 +91,7 @@ const Store = () => {
             fetching={fetching}
           />
         ))}
-        {products.length === 0 && (
+        {products.length === 0 && ctgry && (
           <Typography>
             No {ctgry.replace(ctgry[0], ctgry[0].toUpperCase())} Products In The
             Stock

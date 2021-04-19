@@ -54,7 +54,7 @@ adminRouter.put(
       product.image = "hoddie.jpg";
       product.availableSizes = availableSize.reduce((acc, curr, i) => {
         if (availableSizeValue[i] !== undefined) {
-          acc[curr.value] = availableSizeValue[i].value;
+          acc[curr.value] = Number(availableSizeValue[i].value);
         }
         return acc;
       }, {});
