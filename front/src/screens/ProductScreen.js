@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
   price: {
     color: theme.palette.text.secondary,
   },
+
+  p: {
+    color: theme.palette.error["dark"],
+  },
 }));
 
 const schema = yup.object().shape({
@@ -59,6 +63,9 @@ export default function Product() {
   const { fetching, error, product } = useSelector(
     (state) => state.productDetailsReducer
   );
+
+  const { products } = useSelector((state) => state.cartReducer);
+
   const {
     control,
     handleSubmit,
@@ -83,6 +90,8 @@ export default function Product() {
   const handleStore = () => {
     history.replace("/cart");
   };
+
+  console.log(products);
 
   if (fetching) return "loading";
   if (error) return "error";
@@ -114,6 +123,10 @@ export default function Product() {
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <FormControl error={errors.size ? true : false}>
             <FormLabel component="legend">Size </FormLabel>
+            {Object.keys(product.availableSizes).reduce(
+              (acc, curr) => acc + Number(curr),
+              0
+            ) === 0 && <p className={classes.p}>Out of stock</p>}
             <Controller
               name="size"
               control={control}
@@ -125,14 +138,26 @@ export default function Product() {
                   onChange={(e) => props.onChange(e.target.value)}
                   row
                 >
-                  {Object.keys(product.availableSizes).map((productSize) => (
-                    <FormControlLabel
-                      key={productSize}
-                      value={productSize}
-                      label={productSize.toUpperCase()}
-                      control={<Radio />}
-                    />
-                  ))}
+                  {Object.keys(product.availableSizes).reduce(
+                    (acc, curr) => acc + Number(product.availableSizes[curr]),
+                    0
+                  ) === 0 && <p className={classes.p}>Out of stock</p>}
+                  {Object.keys(product.availableSizes).map((productSize) =>
+                    product.availableSizes[productSize] > 0 &&
+                    Object.keys(product.availableSizes).reduce(
+                      (acc, curr) => acc + Number(product.availableSizes[curr]),
+                      0
+                    ) -
+                      products.filter((x) => x._id === product._id).length >
+                      0 ? (
+                      <FormControlLabel
+                        key={productSize}
+                        value={productSize}
+                        label={productSize.toUpperCase()}
+                        control={<Radio />}
+                      />
+                    ) : null
+                  )}
                 </RadioGroup>
               )}
             />
