@@ -91,8 +91,6 @@ export default function Product() {
     history.replace("/cart");
   };
 
-  console.log(products);
-
   if (fetching) return "loading";
   if (error) return "error";
   return (

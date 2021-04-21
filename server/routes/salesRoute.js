@@ -66,6 +66,16 @@ salesRouter.put(
     //map over all products, and substract the sizes of sales
     const arr = remDup.map(async (x) => {
       const product = await Product.findById(x._id);
+
+      const nn = size.reduce((acc, curr) => {
+        if (`${product._id}` === curr._id) {
+          Object.keys(product.availableSizes).forEach((key) => {
+            if (curr.hasOwnProperty(key))
+              acc[key] = product.availableSizes[key] - curr[key];
+          });
+        }
+        return acc;
+      });
       product.availableSizes = {
         ...product.availableSizes,
         ...size.reduce((acc, curr) => {
