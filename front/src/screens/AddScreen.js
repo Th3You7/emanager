@@ -19,6 +19,7 @@ import { addAction, reset } from "../actions/adminAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,20 +48,21 @@ const schema = yup.object().shape({
   category: yup.object().required("*Category is Required"),
   availableSize: yup.array().min(1),
   availableSizeValue: yup.array().min(1),
-  image: yup.mixed(),
-  // .required("*Img is required")
-  // .test(
-  //   "fileSize",
-  //   "File too large",
-  //   (value) => value === null || (value[0] && value[0].size <= FILE_SIZE)
-  // )
-  // .test(
-  //   "fileFormat",
-  //   "Unsupported Format",
-  //   (value) =>
-  //     value === null ||
-  //     (value[0] && SUPPORTED_FORMATS.includes(value[0].type))
-  // ),
+  image: yup
+    .mixed()
+    // .required("*Img is required")
+    .test(
+      "fileSize",
+      "File too large",
+      (value) => value === null || (value[0] && value[0].size <= FILE_SIZE)
+    )
+    .test(
+      "fileFormat",
+      "Unsupported Format",
+      (value) =>
+        value === null ||
+        (value[0] && SUPPORTED_FORMATS.includes(value[0].type))
+    ),
 });
 
 export default function AddScreen() {
@@ -78,6 +80,9 @@ export default function AddScreen() {
   const { loading, result, error } = useSelector((state) => state.addReducer);
   const { categories } = useSelector((state) => state.categoriesReducer);
   const [open, setOpen] = useState(false);
+  const [img, setImage] = useState("");
+  const [errUpload, setErrUpload] = useState("");
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     if (result) {
@@ -85,8 +90,25 @@ export default function AddScreen() {
     }
   }, [setOpen, result]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     dispatch(addAction(data));
+  };
+
+  const handleImageChange = async (e) => {
+    setLoad(true);
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", img);
+    try {
+      const { data } = await axios.post("/api/admin/addimg", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setImage(data);
+      setLoad(false);
+    } catch (error) {
+      setErrUpload(error.message);
+      setLoad(false);
+    }
   };
 
   const handleClose = (event, reason) => {
@@ -126,11 +148,17 @@ export default function AddScreen() {
     };
   });
 
+  console.log(img);
+
   return (
     <>
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
-        <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          autoComplete="off"
+          encType="multipart/form-data"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <TextField
             error={errors.name ? true : false}
             label="Name"
@@ -145,7 +173,6 @@ export default function AddScreen() {
             inputRef={register}
             helperText={errors.name?.message}
           />
-
           <TextField
             error={errors.price ? true : false}
             className={classes.input}
@@ -157,7 +184,6 @@ export default function AddScreen() {
             inputRef={register}
             helperText={errors.price?.message.slice(0, 29)}
           />
-
           <Controller
             name="category"
             defaultValue=""
@@ -184,7 +210,6 @@ export default function AddScreen() {
           {errors.category && (
             <p style={{ color: "red", marginTop: 0 }}>*Category is required</p>
           )}
-
           <Controller
             name="availableSize"
             defaultValue=""
@@ -265,13 +290,11 @@ export default function AddScreen() {
               />
             )}
           />
-
           {errors.availableSizeValue && (
             <p style={{ color: "red", marginTop: 0 }}>
               *Size value is required
             </p>
           )}
-
           <div style={{ marginBottom: "16px" }}>
             <input
               name="image"
@@ -281,6 +304,7 @@ export default function AddScreen() {
               type="file"
               style={{ display: "none" }}
               ref={register}
+              onChange={handleImageChange}
             />
             <label htmlFor="icon-button-file">
               <IconButton
@@ -291,6 +315,11 @@ export default function AddScreen() {
                 <PhotoCameraOutlined />
               </IconButton>
             </label>
+            {img && <p style={{ marginTop: 0 }}>{img.filename}</p>}
+            {errUpload && (
+              <p style={{ color: "red", marginTop: 0 }}>{errUpload}</p>
+            )}
+            {load && <CircularProgress color="primary" />}
           </div>
 
           {!result && !loading && (

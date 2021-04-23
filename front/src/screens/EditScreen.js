@@ -82,7 +82,6 @@ export default function EditScreen() {
   const { name, price, category, availableSizes } = useSelector(
     (state) => state.currSelProdReducer
   );
-
   const { loading, result, error } = useSelector((state) => state.editReducer);
   const { categories } = useSelector((state) => state.categoriesReducer);
 

@@ -204,9 +204,6 @@ export default function ConfirmScreen() {
   return (
     <>
       <UpperAppBar handleBack={handleBack} />
-      {/*<div className={classes.container}>
-        
-      </div> */}
       <div className={classes.container}>{content(activeStep)}</div>
       {((!error && !result) || !result) && (
         <MobileStepper

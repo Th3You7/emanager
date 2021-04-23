@@ -1,8 +1,19 @@
 const express = require("express");
 const adminRouter = express.Router();
-
+const multer = require("multer");
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
+
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename(req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage });
+const cpUpload = upload.single("image");
 
 adminRouter.get(
   "/allproducts",
@@ -21,7 +32,6 @@ adminRouter.post(
     const data = {
       name: values.name,
       category: values.category.value,
-      image: "hoddie.jpg",
       price: values.price,
       availableSizes: availableSize.reduce((acc, curr, i) => {
         if (availableSizeValue[i] !== undefined) {
@@ -37,6 +47,16 @@ adminRouter.post(
     const createdProduct = await product.save();
 
     res.json(createdProduct);
+  })
+);
+
+adminRouter.post(
+  "/addimg",
+  cpUpload,
+  asyncHandler(async (req, res) => {
+    const file = req.file;
+    console.log(file);
+    res.send(file);
   })
 );
 
