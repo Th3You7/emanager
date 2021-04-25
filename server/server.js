@@ -5,8 +5,13 @@ const adminRouter = require("./routes/adminRoute");
 const categoryRouter = require("./routes/categoryRoute");
 const salesRouter = require("./routes/salesRoute");
 
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const mongoose = require("mongoose");
 const app = express();
+
+const { cloudinaryConfig } = require("./cloudinary");
 
 mongoose.connect(process.env.MONGO_URI || "mongodb://localhost/ecommerce", {
   useNewUrlParser: true,
@@ -20,6 +25,7 @@ app.use(
     extended: true,
   })
 );
+app.use("*", cloudinaryConfig);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });

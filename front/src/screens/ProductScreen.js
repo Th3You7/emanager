@@ -19,7 +19,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productDetailsAction } from "../actions/productsAction";
 import { addToCartAction } from "../actions/cartAction";
-import image from "../assets/sneaker.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: { width: "100%", position: "relative", height: "100vh" },
@@ -63,16 +62,13 @@ export default function Product() {
   const { fetching, error, product } = useSelector(
     (state) => state.productDetailsReducer
   );
-
   const { products } = useSelector((state) => state.cartReducer);
-
   const {
     control,
     handleSubmit,
     register,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-
   useEffect(() => {
     dispatch(productDetailsAction(id));
   }, [id, dispatch]);
@@ -96,7 +92,7 @@ export default function Product() {
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} handleStore={handleStore} />
-      <img className={classes.img} src={image} alt={product.name} />
+      <img className={classes.img} src={product.imageUrl} alt={product.name} />
       <div className={classes.content}>
         <div
           style={{

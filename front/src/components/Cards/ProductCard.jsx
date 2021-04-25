@@ -25,21 +25,17 @@ const useStyles = makeStyles((theme) => ({
       /^\/store/.test(props.pathname) ? "auto" : theme.spacing(12),
     marginBottom: theme.spacing(2),
   },
-
   cardContent: {
     width: (props) => (/^\/store/.test(props.pathname) ? "100%" : "70%"),
   },
-
   area: {
     width: (props) => (/^\/store/.test(props.pathname) ? "100%" : "30%"),
   },
   img: {
     width: "100%",
     height: "100%",
-    objectFit: (props) =>
-      /^\/store/.test(props.pathname) ? "fill" : "contain",
+    objectFit: "fill",
   },
-
   price: {
     color: theme.palette.text.secondary,
   },

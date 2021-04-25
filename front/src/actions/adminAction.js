@@ -25,7 +25,6 @@ const editAction = (id, values) => async (dispatch) => {
 
 const addAction = (values) => async (dispatch) => {
   dispatch({ type: ADD_REQUEST });
-
   try {
     const result = await Axios.post(`/api/admin/addproduct`, values);
     dispatch({ type: ADD_SUCCESS, payload: result });

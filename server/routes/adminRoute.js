@@ -1,19 +1,9 @@
 const express = require("express");
 const adminRouter = express.Router();
-const multer = require("multer");
 const asyncHandler = require("express-async-handler");
+const { uploader } = require("../cloudinary");
 const Product = require("../models/productModel");
-
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename(req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-const upload = multer({ storage });
-const cpUpload = upload.single("image");
+const { upload, bufferToUri } = require("../multer");
 
 adminRouter.get(
   "/allproducts",
@@ -33,6 +23,7 @@ adminRouter.post(
       name: values.name,
       category: values.category.value,
       price: values.price,
+      imageUrl: values.imageUrl,
       availableSizes: availableSize.reduce((acc, curr, i) => {
         if (availableSizeValue[i] !== undefined) {
           acc[curr.value] = availableSizeValue[i].value;
@@ -51,12 +42,21 @@ adminRouter.post(
 );
 
 adminRouter.post(
-  "/addimg",
-  cpUpload,
+  "/upload/addimg",
+  upload,
   asyncHandler(async (req, res) => {
-    const file = req.file;
-    console.log(file);
-    res.send(file);
+    if (req.file.originalname) {
+      const file = bufferToUri(req).content;
+      uploader
+        .upload(file)
+        .then((result) =>
+          res.json({
+            imageUrl: result.url,
+            originalname: req.file.originalname,
+          })
+        )
+        .catch((err) => res.status(400).json(err));
+    }
   })
 );
 

@@ -51,11 +51,11 @@ const schema = yup.object().shape({
   image: yup
     .mixed()
     // .required("*Img is required")
-    .test(
-      "fileSize",
-      "File too large",
-      (value) => value === null || (value[0] && value[0].size <= FILE_SIZE)
-    )
+    // .test(
+    //   "fileSize",
+    //   "File too large",
+    //   (value) => value === null || (value[0] && value[0].size <= FILE_SIZE)
+    // )
     .test(
       "fileFormat",
       "Unsupported Format",
@@ -91,7 +91,8 @@ export default function AddScreen() {
   }, [setOpen, result]);
 
   const onSubmit = async (data) => {
-    dispatch(addAction(data));
+    const { imageUrl } = img;
+    dispatch(addAction({ ...data, imageUrl }));
   };
 
   const handleImageChange = async (e) => {
@@ -100,7 +101,7 @@ export default function AddScreen() {
     const formData = new FormData();
     formData.append("image", img);
     try {
-      const { data } = await axios.post("/api/admin/addimg", formData, {
+      const { data } = await axios.post("/api/admin/upload/addimg", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setImage(data);
@@ -147,8 +148,6 @@ export default function AddScreen() {
       label: `${x.name.charAt(0).toUpperCase()}${x.name.slice(1)}`,
     };
   });
-
-  console.log(img);
 
   return (
     <>
@@ -315,13 +314,12 @@ export default function AddScreen() {
                 <PhotoCameraOutlined />
               </IconButton>
             </label>
-            {img && <p style={{ marginTop: 0 }}>{img.filename}</p>}
+            {img && <p style={{ marginTop: 0 }}>{img.originalname}</p>}
             {errUpload && (
               <p style={{ color: "red", marginTop: 0 }}>{errUpload}</p>
             )}
             {load && <CircularProgress color="primary" />}
           </div>
-
           {!result && !loading && (
             <Button
               variant="contained"
@@ -334,15 +332,12 @@ export default function AddScreen() {
               Save
             </Button>
           )}
-
           {loading && <CircularProgress color="primary" />}
-
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Saved successfully!
             </Alert>
           </Snackbar>
-
           {error && (
             <Typography className={classes.failed}>
               Error has occured

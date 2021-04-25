@@ -69,6 +69,7 @@ const Cart = () => {
                 title={product.name}
                 price={product.price}
                 size={product.size}
+                img={product.imageUrl}
                 soldPrice={product.soldPrice}
               />
             </div>
