@@ -1,7 +1,6 @@
 import React from "react";
 import { Avatar, Typography, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import logo from "../assets/pic.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +31,7 @@ export default function AdminProfile() {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Avatar alt="admin logo" className={classes.media} src={logo} />
+      <Avatar alt="admin logo" className={classes.media} />
 
       <div className={classes.info}>
         <Typography

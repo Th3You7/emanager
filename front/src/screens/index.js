@@ -16,4 +16,7 @@ export { default as Dashboard } from "./DashboardScreen";
 
 export { default as Sales } from "./SalesScreen";
 export { default as RemoveSale } from "./RemoveSaleScreen";
+export { default as Spending } from "./SpendingScreen";
+export { default as RemoveSpending } from "./RemoveSpendingScreen";
+export { default as AddSpending } from "./AddSpendingScreen";
 export { default as Confirm } from "./ConfirmScreen";

@@ -4,6 +4,7 @@ const productRouter = require("./routes/productRoute");
 const adminRouter = require("./routes/adminRoute");
 const categoryRouter = require("./routes/categoryRoute");
 const salesRouter = require("./routes/salesRoute");
+const spendingRouter = require("./routes/spendingRouter");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -36,6 +37,7 @@ app.use("/api/product", productRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/sales", salesRouter);
+app.use("/api/spending", spendingRouter);
 
 const port = process.env.PORT || 5000;
 

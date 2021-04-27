@@ -29,6 +29,13 @@ import {
   confirmSalesReducer,
 } from "./reducers/salesReducer";
 
+import {
+  spendingsReducer,
+  addSpendingReducer,
+  deleteSpendingReducer,
+  currSelSpendingReducer,
+} from "./reducers/spendingsReducer";
+
 const initState = {
   cartReducer: {
     products: localStorage.getItem("products")
@@ -55,6 +62,10 @@ const reducer = combineReducers({
   deleteSaleReducer,
   currSelSaleReducer,
   confirmSalesReducer,
+  spendingsReducer,
+  addSpendingReducer,
+  currSelSpendingReducer,
+  deleteSpendingReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
