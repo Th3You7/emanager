@@ -65,7 +65,7 @@ const BottomAppBar = () => {
           </Fab>
 
           <div className={classes.grow} />
-          <IconButton color="inherit">
+          <IconButton color="inherit" component={Link} to="/loan">
             <LocalAtmRounded />
           </IconButton>
           <IconButton edge="end" color="inherit" component={Link} to="/admin">

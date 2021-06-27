@@ -19,6 +19,7 @@ import {
   Spending,
   RemoveSpending,
   AddSpending,
+  Loan,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -61,6 +62,7 @@ function App() {
           path="/admin/removespending/:spendingId"
           children={<RemoveSpending />}
         />
+        <Route path="/loan" children={<Loan />} />
       </Switch>
     </div>
   );
