@@ -20,4 +20,8 @@ export { default as Spending } from "./SpendingScreen";
 export { default as RemoveSpending } from "./RemoveSpendingScreen";
 export { default as AddSpending } from "./AddSpendingScreen";
 export { default as Confirm } from "./ConfirmScreen";
+
 export { default as Loan } from "./LoanScreen";
+export { default as LoanProfile } from "./LoanProfileScreen";
+export { default as LoanProducts } from "./LoanProductsScreen";
+export { default as LoanPayments } from "./LoanPaymentsScreen";

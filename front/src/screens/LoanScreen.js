@@ -1,8 +1,18 @@
-import React from "react";
-import { LoanProfileCard, UpperAppBar } from "../components";
-import { fade, InputBase, makeStyles } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { UpperAppBar } from "../components";
+import {
+  fade,
+  InputBase,
+  makeStyles,
+  Paper,
+  Link,
+  Typography,
+} from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
 import { Search } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loanAction } from "../actions/loanAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,15 +62,34 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  paper: {
+    padding: theme.spacing(1),
+    marginBottom: theme.spacing(0.5),
+  },
+
+  typography: {
+    color: theme.palette.text.primary,
+
+    "&:hover": {
+      color: theme.palette.warning.main,
+    },
+  },
 }));
 
 export default function Loan() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { loans, loading, error } = useSelector((state) => state.loanReducer);
+
+  useEffect(() => {
+    dispatch(loanAction());
+  }, [dispatch]);
 
   const handleBack = () => {
     history.replace("/");
   };
+
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} />
@@ -78,8 +107,25 @@ export default function Loan() {
             inputProps={{ "aria-label": "search" }}
           />
         </div>
-        {[1, 2, 3, 4].map((it, i) => (
-          <LoanProfileCard key={it} />
+        {error && <p>{error}</p>}
+        {loading && <p>loading</p>}
+        {loans.map((i) => (
+          <Paper className={classes.paper} variant="outlined" key={i._id}>
+            <Link
+              component={RouterLink}
+              to={{
+                pathname: `./loan/${i._id}`,
+                state: {
+                  name: i.name,
+                  _id: i._id,
+                },
+              }}
+            >
+              <Typography noWrap className={classes.typography}>
+                {i.name}
+              </Typography>
+            </Link>
+          </Paper>
         ))}
       </div>
     </div>
