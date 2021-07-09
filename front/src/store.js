@@ -36,7 +36,12 @@ import {
   currSelSpendingReducer,
 } from "./reducers/spendingsReducer";
 
-import { loanReducer, loanProfileReducer } from "./reducers/loanReducer";
+import {
+  loanReducer,
+  loanProfileReducer,
+  loanPaymentsReducer,
+  loanProductsReducer,
+} from "./reducers/loanReducer";
 
 const initState = {
   cartReducer: {
@@ -70,6 +75,8 @@ const reducer = combineReducers({
   deleteSpendingReducer,
   loanReducer,
   loanProfileReducer,
+  loanProductsReducer,
+  loanPaymentsReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

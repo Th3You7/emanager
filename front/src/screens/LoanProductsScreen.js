@@ -4,11 +4,8 @@ import { DataGrid } from "@material-ui/data-grid";
 import { UpperAppBar } from "../components";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  allProductsAction,
-  currSelProdAction,
-} from "../actions/productsAction";
-import { useLocation } from "react-router-dom";
+import { loanProductsAction } from "../actions/loanAction";
+import { useLocation, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
 
 const columns = [
   { field: "id", hide: true },
-  { field: "name", headerName: "Products", width: 150 },
+  { field: "product", headerName: "Products", width: 150 },
   { field: "price", headerName: "Price", width: 70 },
-  { field: "category", headerName: "Status", width: 100 },
+  { field: "date", headerName: "Date", width: 150 },
 ];
 
 export default function LoanProductsScreen() {
@@ -37,13 +34,15 @@ export default function LoanProductsScreen() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { products, fetching, error } = useSelector(
-    (state) => state.allProductsReducer
+  const { profileid } = useParams();
+
+  const { data, loading, error } = useSelector(
+    (state) => state.loanProductsReducer
   );
 
   useEffect(() => {
-    dispatch(allProductsAction());
-  }, [dispatch]);
+    dispatch(loanProductsAction(profileid));
+  }, [dispatch, profileid]);
 
   const handleBack = () => {
     history.goBack();
@@ -68,18 +67,18 @@ export default function LoanProductsScreen() {
           disableColumnMenu={true}
           pageSize={10}
           columns={columns}
-          onRowSelected={(row) => {
-            setId(row.data.id);
-            dispatch(currSelProdAction(row.data));
-          }}
-          //onSelectionModelChange={(row) => setId(null)}
-          rows={products}
-          loading={fetching}
+          // onRowSelected={(row) => {
+          //   setId(row.data.id);
+          //   dispatch(currSelProdAction(row.data));
+          // }}
+          onSelectionModelChange={(row) => setId(null)}
+          rows={data}
+          loading={loading}
           getRowId={(row) => row._id}
           disableColumnSelector={true}
-          //   components={{
-          //     Toolbar: customToolBar,
-          //   }}
+          // components={{
+          //   Toolbar: customToolBar,
+          // }}
         />
       </div>
     </div>

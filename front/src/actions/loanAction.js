@@ -1,6 +1,12 @@
 import axios from "axios";
 import {
   LOAN_FAIL,
+  LOAN_PAYMENTS_FAIL,
+  LOAN_PAYMENTS_REQUEST,
+  LOAN_PAYMENTS_SUCCESS,
+  LOAN_PRODUCTS_FAIL,
+  LOAN_PRODUCTS_REQUEST,
+  LOAN_PRODUCTS_SUCCESS,
   LOAN_PROFILE_FAIL,
   LOAN_PROFILE_REQUEST,
   LOAN_PROFILE_SUCCESS,
@@ -19,15 +25,44 @@ const loanAction = () => async (dispatch) => {
   }
 };
 
-const loanProfileAction = (productid) => async (dispatch) => {
+const loanProfileAction = (profileid) => async (dispatch) => {
   dispatch({ type: LOAN_PROFILE_REQUEST });
 
   try {
-    const { data } = await axios.get(`/api/loan/${productid}`);
+    const { data } = await axios.get(`/api/loan/${profileid}`);
     dispatch({ type: LOAN_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAN_PROFILE_FAIL, payload: error });
   }
 };
 
-export { loanAction, loanProfileAction };
+const loanPaymentsAction = (profileid) => async (dispatch) => {
+  dispatch({ type: LOAN_PAYMENTS_REQUEST });
+
+  try {
+    const { data } = await axios.get(`/api/loan/${profileid}/payments`);
+    const { payments } = data;
+    dispatch({ type: LOAN_PAYMENTS_SUCCESS, payload: payments });
+  } catch (error) {
+    dispatch({ type: LOAN_PAYMENTS_FAIL, payload: error });
+  }
+};
+
+const loanProductsAction = (profileid) => async (dispatch) => {
+  dispatch({ type: LOAN_PRODUCTS_REQUEST });
+
+  try {
+    const { data } = await axios.get(`/api/loan/${profileid}/products`);
+    const { products } = data;
+    dispatch({ type: LOAN_PRODUCTS_SUCCESS, payload: products });
+  } catch (error) {
+    dispatch({ type: LOAN_PRODUCTS_FAIL, payload: error });
+  }
+};
+
+export {
+  loanAction,
+  loanProfileAction,
+  loanProductsAction,
+  loanPaymentsAction,
+};
