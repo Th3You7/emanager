@@ -33,6 +33,8 @@ export default function LoanProfileScreen() {
     history.replace("/loan");
   };
 
+  console.log(d.data);
+
   const data = [
     { name: "Products", path: "/products", icon: <LocalOfferOutlined /> },
     { name: "Payments", path: "/payments", icon: <PaymentOutlined /> },
@@ -41,7 +43,11 @@ export default function LoanProfileScreen() {
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} />
-      <LoanProfileHeader name={d.data?.name} givenName="wld saleh" />
+      <LoanProfileHeader
+        name={d.data?.name}
+        cover={d.data?.cover}
+        profile={d.data?.profile}
+      />
       {data.map((item, index) => {
         return (
           <AdminNavigation

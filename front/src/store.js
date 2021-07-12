@@ -41,6 +41,7 @@ import {
   loanProfileReducer,
   loanPaymentsReducer,
   loanProductsReducer,
+  loanProfileEditReducer,
 } from "./reducers/loanReducer";
 
 const initState = {
@@ -77,6 +78,7 @@ const reducer = combineReducers({
   loanProfileReducer,
   loanProductsReducer,
   loanPaymentsReducer,
+  loanProfileEditReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

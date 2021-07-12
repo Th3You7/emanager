@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, IconButton, Fab, Badge } from "@material-ui/core/";
@@ -7,8 +7,11 @@ import {
   AccountCircleRounded,
   LocalAtmRounded,
   Menu,
+  Brightness4Rounded,
+  Brightness7Rounded,
 } from "@material-ui/icons/";
 import { useSelector } from "react-redux";
+import { MuiThemeContext } from "../../providers/ThemeProvider";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -40,12 +43,22 @@ const BottomAppBar = () => {
   const classes = useStyles();
   const { products } = useSelector((store) => store.cartReducer);
 
+  const { theme, toggleTheme } = useContext(MuiThemeContext);
+  const {
+    palette: { type },
+  } = theme;
+
   return (
     <>
       <AppBar position="fixed" color="inherit" className={classes.appBar}>
         <Toolbar variant="regular">
-          <IconButton edge="start" color="inherit" aria-label="open drawer">
-            <Menu />
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={toggleTheme}
+          >
+            {type === "light" ? <Brightness4Rounded /> : <Brightness7Rounded />}
           </IconButton>
 
           <Fab

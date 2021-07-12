@@ -64,7 +64,7 @@ const useDarkTheme = () => {
         ...theme.palette,
         type: type === "light" ? "dark" : "light",
         background: {
-          default: type === "dark" ? "#ebeff1" : "#303030",
+          //default: type === "dark" ? "#ebeff1" : "#303030",
         },
       },
     };

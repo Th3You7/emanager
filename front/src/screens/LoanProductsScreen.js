@@ -5,7 +5,7 @@ import { UpperAppBar } from "../components";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { loanProductsAction } from "../actions/loanAction";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {

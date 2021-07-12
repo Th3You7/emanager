@@ -11,6 +11,10 @@ import {
   LOAN_PAYMENTS_FAIL,
   LOAN_PRODUCTS_SUCCESS,
   LOAN_PRODUCTS_FAIL,
+  LOAN_PROFILE_EDIT_REQUEST,
+  LOAN_PROFILE_EDIT_SUCCESS,
+  LOAN_PROFILE_EDIT_FAIL,
+  LOAN_RESET,
 } from "../constants/loanConstants";
 
 const defaultState = {
@@ -127,9 +131,45 @@ const loanPaymentsReducer = (state = { loading: false, data: [] }, action) => {
   }
 };
 
+const loanProfileEditReducer = (
+  state = { loading: false, result: null },
+  action
+) => {
+  switch (action.type) {
+    case LOAN_PROFILE_EDIT_REQUEST:
+      return {
+        loading: true,
+        result: [],
+      };
+
+    case LOAN_PROFILE_EDIT_SUCCESS:
+      return {
+        loading: false,
+        result: action.payload,
+      };
+
+    case LOAN_PROFILE_EDIT_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case LOAN_RESET:
+      return {
+        loading: false,
+        result: null,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   loanReducer,
   loanProfileReducer,
   loanPaymentsReducer,
   loanProductsReducer,
+  loanProfileEditReducer,
 };

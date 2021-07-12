@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  LOAN_PROFILE_EDIT_FAIL,
+  LOAN_PROFILE_EDIT_REQUEST,
+  LOAN_PROFILE_EDIT_SUCCESS,
   LOAN_FAIL,
   LOAN_PAYMENTS_FAIL,
   LOAN_PAYMENTS_REQUEST,
@@ -12,6 +15,7 @@ import {
   LOAN_PROFILE_SUCCESS,
   LOAN_REQUEST,
   LOAN_SUCCESS,
+  LOAN_RESET,
 } from "../constants/loanConstants";
 
 const loanAction = () => async (dispatch) => {
@@ -60,9 +64,25 @@ const loanProductsAction = (profileid) => async (dispatch) => {
   }
 };
 
+const loanProfileEditAction = (values, profileid) => async (dispatch) => {
+  dispatch({ type: LOAN_PROFILE_EDIT_REQUEST });
+
+  try {
+    const { data } = await axios.post(`/api/loan/${profileid}/edit`, values);
+    dispatch({ type: LOAN_PROFILE_EDIT_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: LOAN_PROFILE_EDIT_FAIL, payload: error });
+  }
+};
+
+const loanReset = () => (dispatch) => {
+  dispatch({ type: LOAN_RESET });
+};
 export {
   loanAction,
   loanProfileAction,
   loanProductsAction,
   loanPaymentsAction,
+  loanProfileEditAction,
+  loanReset,
 };

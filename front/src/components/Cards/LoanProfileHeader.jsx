@@ -1,14 +1,10 @@
-import React, { useState } from "react";
-import {
-  Avatar,
-  Typography,
-  Paper,
-  IconButton,
-  Menu,
-  MenuItem,
-} from "@material-ui/core";
-import { MoreVert } from "@material-ui/icons";
+import React from "react";
+import { Avatar, Typography, Paper, IconButton } from "@material-ui/core";
+import { EditRounded } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loanReset } from "../../actions/loanAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,47 +44,44 @@ const useStyles = makeStyles((theme) => ({
 
   menu: {
     textAlign: "right",
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: "100%",
+    zIndex: 100,
+  },
+
+  img: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
   },
 }));
 
-export default function AdminProfile({ name, givenName }) {
+export default function AdminProfile({ name, givenName, cover, profile }) {
   const classes = useStyles();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { profileid } = useParams();
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClick = () => {
+    history.push(`/loan/${profileid}/edit`);
   };
 
   return (
     <Paper variant="outlined" className={classes.root}>
       <div className={classes.cover}>
         <div className={classes.menu}>
-          <IconButton
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <MoreVert />
+          <IconButton onClick={handleClick}>
+            <EditRounded />
           </IconButton>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>Cover</MenuItem>
-          </Menu>
         </div>
+        {cover && <img className={classes.img} src={cover} alt="cover" />}
       </div>
 
-      <Avatar alt="admin logo" className={classes.media} />
+      <Avatar alt="admin logo" className={classes.media} src={profile} />
       <div className={classes.info}>
         <Typography
           variant="h5"
@@ -96,7 +89,7 @@ export default function AdminProfile({ name, givenName }) {
           color="primary"
           className={classes.title}
         >
-          {name}
+          {name && name.replace(/\b\w/g, (l) => l.toUpperCase())}
         </Typography>
         <Typography
           variant="subtitle1"
@@ -104,7 +97,7 @@ export default function AdminProfile({ name, givenName }) {
           color="textSecondary"
           className={classes.subtitle}
         >
-          {givenName}
+          560 DH
         </Typography>
       </div>
     </Paper>
