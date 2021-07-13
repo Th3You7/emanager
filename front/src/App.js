@@ -24,6 +24,7 @@ import {
   LoanPayments,
   LoanProducts,
   LoanProfileEdit,
+  LoanProfileRemove,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -71,6 +72,10 @@ function App() {
         <Route path="/loan/:profileid/products" children={<LoanProducts />} />
         <Route path="/loan/:profileid/payments" children={<LoanPayments />} />
         <Route path="/loan/:profileid/edit" children={<LoanProfileEdit />} />
+        <Route
+          path="/loan/:profileid/delete"
+          children={<LoanProfileRemove />}
+        />
       </Switch>
     </div>
   );

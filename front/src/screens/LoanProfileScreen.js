@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Paper } from "@material-ui/core";
 import { LoanProfileHeader, UpperAppBar, AdminNavigation } from "../components";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { LocalOfferOutlined, PaymentOutlined } from "@material-ui/icons";
@@ -13,6 +13,18 @@ const useStyles = makeStyles((theme) => ({
   container: {
     width: "90%",
     margin: theme.spacing(0, "auto"),
+  },
+  paper: {
+    width: "95%",
+    height: theme.spacing(6),
+    margin: theme.spacing(0, "auto", 0.5),
+    padding: theme.spacing(1),
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    justifyContent: "center",
+    background: theme.palette.error["light"],
+    color: theme.palette.error["contrastText"],
   },
 }));
 
@@ -33,7 +45,9 @@ export default function LoanProfileScreen() {
     history.replace("/loan");
   };
 
-  console.log(d.data);
+  const handleClick = () => {
+    history.push(`/loan/${profileid}/delete`);
+  };
 
   const data = [
     { name: "Products", path: "/products", icon: <LocalOfferOutlined /> },
@@ -59,6 +73,14 @@ export default function LoanProfileScreen() {
           </AdminNavigation>
         );
       })}
+      <Paper
+        variant="outlined"
+        className={classes.paper}
+        elevation={0}
+        onClick={handleClick}
+      >
+        Delete
+      </Paper>
     </div>
   );
 }
