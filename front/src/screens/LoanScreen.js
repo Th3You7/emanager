@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { UpperAppBar } from "../components";
 import {
   fade,
@@ -7,6 +7,7 @@ import {
   Paper,
   Link,
   Typography,
+  CircularProgress,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { Search } from "@material-ui/icons";
@@ -74,10 +75,18 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.warning.main,
     },
   },
+
+  circular: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: theme.spacing(4),
+  },
 }));
 
 export default function Loan() {
   const classes = useStyles();
+  const [input, setInput] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
   const { loans, loading, error } = useSelector((state) => state.loanReducer);
@@ -89,6 +98,8 @@ export default function Loan() {
   const handleBack = () => {
     history.replace("/");
   };
+
+  const handleChange = (e) => setInput(e.target.value);
 
   return (
     <div className={classes.root}>
@@ -105,28 +116,56 @@ export default function Loan() {
               input: classes.inputInput,
             }}
             inputProps={{ "aria-label": "search" }}
+            onChange={handleChange}
+            value={input}
           />
         </div>
         {error && <p>{error}</p>}
-        {loading && <p>loading</p>}
-        {loans.map((i) => (
-          <Paper className={classes.paper} variant="outlined" key={i._id}>
-            <Link
-              component={RouterLink}
-              to={{
-                pathname: `./loan/${i._id}`,
-                state: {
-                  name: i.name,
-                  _id: i._id,
-                },
-              }}
-            >
-              <Typography noWrap className={classes.typography}>
-                {i.name}
-              </Typography>
-            </Link>
-          </Paper>
-        ))}
+        {loading && (
+          <div className={classes.circular}>
+            <CircularProgress />
+          </div>
+        )}
+        {!input &&
+          loans.map((i) => (
+            <Paper className={classes.paper} variant="outlined" key={i._id}>
+              <Link
+                component={RouterLink}
+                to={{
+                  pathname: `./loan/${i._id}`,
+                  state: {
+                    name: i.name,
+                    _id: i._id,
+                  },
+                }}
+              >
+                <Typography noWrap className={classes.typography}>
+                  {i.name}
+                </Typography>
+              </Link>
+            </Paper>
+          ))}
+        {input &&
+          loans
+            .filter((x) => x.name.includes(input))
+            .map((i) => (
+              <Paper className={classes.paper} variant="outlined" key={i._id}>
+                <Link
+                  component={RouterLink}
+                  to={{
+                    pathname: `./loan/${i._id}`,
+                    state: {
+                      name: i.name,
+                      _id: i._id,
+                    },
+                  }}
+                >
+                  <Typography noWrap className={classes.typography}>
+                    {i.name}
+                  </Typography>
+                </Link>
+              </Paper>
+            ))}
       </div>
     </div>
   );
