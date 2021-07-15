@@ -37,7 +37,7 @@ export default function AdminProfile() {
         <Typography
           variant="h4"
           component="h2"
-          color="primary"
+          color="textPrimary"
           align="center"
           className={classes.title}
         >

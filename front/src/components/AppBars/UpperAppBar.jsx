@@ -56,7 +56,7 @@ export default function UpperAppBar({
   return (
     <div className={classes.root}>
       <IconButton aria-label="back" onClick={handleBack}>
-        <ArrowBackRounded fontSize="inherit" color="primary" />
+        <ArrowBackRounded fontSize="inherit" />
       </IconButton>
 
       {/^\/cart/.test(pathname) && (

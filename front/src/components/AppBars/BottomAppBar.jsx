@@ -6,7 +6,6 @@ import {
   LocalGroceryStoreRounded,
   AccountCircleRounded,
   LocalAtmRounded,
-  Menu,
   Brightness4Rounded,
   Brightness7Rounded,
 } from "@material-ui/icons/";

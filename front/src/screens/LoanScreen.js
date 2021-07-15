@@ -92,8 +92,10 @@ export default function Loan() {
   const { loans, loading, error } = useSelector((state) => state.loanReducer);
 
   useEffect(() => {
-    dispatch(loanAction());
-  }, [dispatch]);
+    if (!(loans.length > 0)) {
+      dispatch(loanAction());
+    }
+  }, [dispatch, loans]);
 
   const handleBack = () => {
     history.replace("/");

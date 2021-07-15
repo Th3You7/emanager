@@ -3,7 +3,11 @@ import { Alert } from "@material-ui/lab";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { loanProfileDeleteAction, loanReset } from "../actions/loanAction";
+import {
+  loanAction,
+  loanProfileDeleteAction,
+  loanReset,
+} from "../actions/loanAction";
 import { UpperAppBar } from "../components";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,6 +56,7 @@ export default function RemoveLoanProfile() {
   };
   const handleBack = () => {
     if (result) {
+      dispatch(loanAction());
       dispatch(loanReset());
       history.replace("/loan");
     } else {

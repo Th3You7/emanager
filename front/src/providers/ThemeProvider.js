@@ -6,7 +6,6 @@ export const MuiThemeContext = createContext();
 
 const MuiThemeProvider = ({ children }) => {
   const [theme, toggleTheme] = useDarkTheme();
-
   const currTheme = createMuiTheme(theme);
 
   return (

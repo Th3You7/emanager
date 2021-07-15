@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   media: {
-    height: theme.spacing(9),
-    width: theme.spacing(9),
+    height: theme.spacing(10),
+    width: theme.spacing(10),
     //marginBottom: theme.spacing(3),
     top: "-23%",
     left: "3%",
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
   cover: {
     width: "100%",
-    height: theme.spacing(16),
+    height: theme.spacing(18),
     background: "#ebe4e4",
     position: "relative",
     top: 0,
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AdminProfile({ name, givenName, cover, profile }) {
+export default function AdminProfile({ name, cover, profile }) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -86,7 +86,7 @@ export default function AdminProfile({ name, givenName, cover, profile }) {
         <Typography
           variant="h5"
           component="h2"
-          color="primary"
+          color="textPrimary"
           className={classes.title}
         >
           {name && name.replace(/\b\w/g, (l) => l.toUpperCase())}

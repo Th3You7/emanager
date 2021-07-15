@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const initTheme = {
   overrides: {
@@ -27,7 +27,7 @@ const initTheme = {
     },
   },
   palette: {
-    type: "light",
+    type: localStorage.getItem("theme") || "light",
     primary: {
       main: "#333333",
       light: "#5c5c5c",
@@ -40,8 +40,16 @@ const initTheme = {
       contrastText: "#333333",
     },
     text: {
-      primary: "#333333",
-      secondary: "#828282",
+      primary: !localStorage.getItem("theme")
+        ? "#333333"
+        : localStorage.getItem("theme") === "dark"
+        ? "#fff"
+        : "#333333",
+      secondary: !localStorage.getItem("theme")
+        ? "#828282"
+        : localStorage.getItem("theme") === "dark"
+        ? "rgba(255, 255, 255, 0.7)"
+        : "#828282",
     },
   },
   typography: {
@@ -53,18 +61,55 @@ const initTheme = {
 
 const useDarkTheme = () => {
   const [theme, setTheme] = useState(initTheme);
-  const {
-    palette: { type },
-  } = theme;
+  const [type, setType] = useState("");
+  useEffect(() => {
+    const themeType = localStorage.getItem("theme");
+    if (themeType) {
+      themeType === "light" ? setType("light") : setType("dark");
+    } else {
+      setType("light");
+      localStorage.setItem("theme", "light");
+    }
+  }, []);
+  // const {
+  //   palette: { type },
+  // } = theme;
 
   const toggleTheme = () => {
+    if (type === "light") {
+      setType("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      setType("light");
+      localStorage.setItem("theme", "light");
+    }
     const updatedTheme = {
       ...theme,
       palette: {
         ...theme.palette,
-        type: type === "light" ? "dark" : "light",
-        background: {
-          //default: type === "dark" ? "#ebeff1" : "#303030",
+        type: localStorage.getItem("theme") || "light",
+        primary: {
+          main: "#333333",
+          light: "#5c5c5c",
+          dark: "#0c0c0c",
+          contrastText: "#ffffff",
+        },
+        secondary: {
+          main: "#f8d9e0",
+          dark: "#c5a7ae",
+          contrastText: "#333333",
+        },
+        text: {
+          primary: !localStorage.getItem("theme")
+            ? "#333333"
+            : localStorage.getItem("theme") === "dark"
+            ? "#fff"
+            : "#333333",
+          secondary: !localStorage.getItem("theme")
+            ? "#828282"
+            : localStorage.getItem("theme") === "dark"
+            ? "rgba(255, 255, 255, 0.7)"
+            : "#828282",
         },
       },
     };

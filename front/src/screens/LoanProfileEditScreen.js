@@ -196,7 +196,7 @@ export default function LoanProfileEditScreen() {
             <label htmlFor="icon-button-profile">
               Profile Image
               <IconButton
-                color="primary"
+                color="inherit"
                 aria-label="upload picture"
                 component="span"
               >
@@ -224,7 +224,7 @@ export default function LoanProfileEditScreen() {
             <label htmlFor="icon-button-cover">
               Cover Image
               <IconButton
-                color="primary"
+                color="inherit"
                 aria-label="upload picture"
                 component="span"
               >
