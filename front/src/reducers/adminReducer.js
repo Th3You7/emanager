@@ -6,12 +6,73 @@ import {
   DELETE_REQUEST,
   DELETE_SUCCESS,
   EDIT_FAIL,
+  EDIT_PROFILE_FAIL,
+  EDIT_PROFILE_REQUEST,
+  EDIT_PROFILE_SUCCESS,
   EDIT_REQUEST,
   EDIT_SUCCESS,
+  GET_PROFILE_FAIL,
+  GET_PROFILE_REQUEST,
+  GET_PROFILE_SUCCESS,
   RESET,
 } from "../constants/adminConstant";
 
 const initialState = { result: null, error: null, loading: false };
+
+const getProfileReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_PROFILE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        result: action.payload,
+      };
+
+    case GET_PROFILE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+const editProfileReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case EDIT_PROFILE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case EDIT_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        result: action.payload,
+      };
+    }
+
+    case EDIT_PROFILE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
 
 const editReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -101,4 +162,10 @@ const deleteReducer = (state = {}, action) => {
   }
 };
 
-export { editReducer, addReducer, deleteReducer };
+export {
+  editReducer,
+  addReducer,
+  deleteReducer,
+  getProfileReducer,
+  editProfileReducer,
+};

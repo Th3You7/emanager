@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AdminNavigation, AdminProfile, UpperAppBar } from "../components";
 import {
@@ -10,6 +10,8 @@ import {
   MoneyOffOutlined,
 } from "@material-ui/icons";
 import { useHistory } from "react-router";
+import { getProfileAction } from "../actions/adminAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const data = [
   { name: "Wallets", path: "/wallet", icon: <AccountBalanceWalletOutlined /> },
@@ -27,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Admin() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { result } = useSelector((state) => state.getProfileReducer);
+
+  useEffect(() => {
+    dispatch(getProfileAction());
+  }, [dispatch]);
+
   const handleBack = () => {
     history.replace("/store");
   };
@@ -34,7 +43,7 @@ export default function Admin() {
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} />
-      <AdminProfile />
+      <AdminProfile data={result?.data} />
       {data.map((item, index) => {
         return (
           <AdminNavigation

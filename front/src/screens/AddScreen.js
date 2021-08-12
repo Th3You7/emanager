@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router";
 import axios from "axios";
+import { categoriesAction } from "../actions/categoriesAction";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -83,6 +84,10 @@ export default function AddScreen() {
   const [img, setImage] = useState("");
   const [errUpload, setErrUpload] = useState("");
   const [load, setLoad] = useState(false);
+
+  useEffect(() => {
+    dispatch(categoriesAction());
+  }, [dispatch]);
 
   useEffect(() => {
     if (result) {
@@ -153,11 +158,7 @@ export default function AddScreen() {
     <>
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
-        <form
-          autoComplete="off"
-          encType="multipart/form-data"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <TextField
             error={errors.name ? true : false}
             label="Name"
@@ -306,14 +307,11 @@ export default function AddScreen() {
               onChange={handleImageChange}
             />
             <label htmlFor="icon-button-file">
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="span"
-              >
+              <IconButton aria-label="upload picture" component="span">
                 <PhotoCameraOutlined />
               </IconButton>
             </label>
+            <br />
             {img && <p style={{ marginTop: 0 }}>{img.originalname}</p>}
             {errUpload && (
               <p style={{ color: "red", marginTop: 0 }}>{errUpload}</p>

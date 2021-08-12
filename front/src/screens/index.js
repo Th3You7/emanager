@@ -2,6 +2,7 @@ export { default as Store } from "./StoreScreen";
 export { default as Product } from "./ProductScreen";
 export { default as Cart } from "./CartScreen";
 export { default as Admin } from "./AdminScreen";
+export { default as AdminEdit } from "./AdminEditScreen";
 export { default as AllProducts } from "./AllProductsScreen";
 export { default as Categories } from "./CategoriesScreen";
 export { default as Edit } from "./EditScreen";
@@ -27,3 +28,5 @@ export { default as LoanProducts } from "./LoanProductsScreen";
 export { default as LoanPayments } from "./LoanPaymentsScreen";
 export { default as LoanProfileEdit } from "./LoanProfileEditScreen";
 export { default as LoanProfileRemove } from "./LoanProfileRemoveScreen";
+
+export { default as LogIn } from "./LogInScreen";

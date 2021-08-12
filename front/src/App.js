@@ -25,6 +25,8 @@ import {
   LoanProducts,
   LoanProfileEdit,
   LoanProfileRemove,
+  AdminEdit,
+  LogIn,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -41,11 +43,13 @@ function App() {
   return (
     <div className={classes.app}>
       <Switch>
-        <Redirect exact from="/" to="/store" />
+        {/* <Redirect exact from="/" to="/store" /> */}
+        <Route path="/" children={<LogIn />} />
         <Route path="/store/:ctgry?" children={<Store />} />
         <Route path="/product/:id" children={<Product />} />
         <Route path="/cart/:id?" children={<Cart />} />
         <Route exact path="/admin" children={<Admin />} />
+        <Route path="/admin/edit" children={<AdminEdit />} />
         <Route path="/admin/allproducts" children={<AllProducts />} />
         <Route path="/admin/categories" children={<Categories />} />
         <Route path="/admin/edit/:id" children={<Edit />} />

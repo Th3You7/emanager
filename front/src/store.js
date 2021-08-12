@@ -12,6 +12,8 @@ import {
   editReducer,
   addReducer,
   deleteReducer,
+  getProfileReducer,
+  editProfileReducer,
 } from "./reducers/adminReducer";
 
 import {
@@ -81,6 +83,8 @@ const reducer = combineReducers({
   loanPaymentsReducer,
   loanProfileEditReducer,
   loanProfileDeleteReducer,
+  getProfileReducer,
+  editProfileReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
