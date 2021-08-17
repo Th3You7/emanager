@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, Typography, TextField, Button } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { logInAction } from "../actions/adminAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,8 +40,16 @@ export default function LogInScreen() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { result } = useSelector((state) => state.logInReducer);
+  useEffect(() => {
+    const token = result?.token;
+
+    if (token && localStorage.getItem("admin")) history.push("/");
+  }, [result, history]);
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(logInAction(data));
   };
   return (
     <div className={classes.container}>

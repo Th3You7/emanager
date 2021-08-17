@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Store,
   Product,
@@ -30,7 +30,10 @@ import {
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { useHistory, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import decode from "jwt-decode";
+import { logOutAction } from "./actions/adminAction";
 const useStyles = makeStyles(() => ({
   app: {
     position: "relative",
@@ -40,11 +43,37 @@ const useStyles = makeStyles(() => ({
 
 function App() {
   const classes = useStyles();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { result } = useSelector((state) => state.logInReducer);
+
+  //* here use location check routes redirections, and if it change and no valid token was there(expired), it will redirect the app to the login in screen
+  useEffect(() => {
+    const token = result?.token;
+
+    if (location) {
+      if (token) {
+        const decoded = decode(token);
+        if (decoded.exp * 1000 < new Date().getTime()) {
+          history.push("/login");
+          dispatch(logOutAction());
+        }
+      }
+    }
+  }, [location, result, history, dispatch]);
+  //* if no token
+  useEffect(() => {
+    const token = result?.token;
+    if (!token) {
+      history.push("/login");
+    }
+  }, [result, history, dispatch]);
   return (
     <div className={classes.app}>
       <Switch>
-        {/* <Redirect exact from="/" to="/store" /> */}
-        <Route path="/" children={<LogIn />} />
+        <Redirect exact from="/" to="/store" />
+        <Route path="/login" children={<LogIn />} />
         <Route path="/store/:ctgry?" children={<Store />} />
         <Route path="/product/:id" children={<Product />} />
         <Route path="/cart/:id?" children={<Cart />} />

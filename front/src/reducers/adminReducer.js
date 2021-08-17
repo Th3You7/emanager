@@ -14,6 +14,10 @@ import {
   GET_PROFILE_FAIL,
   GET_PROFILE_REQUEST,
   GET_PROFILE_SUCCESS,
+  LOGIN_FAIL,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT,
   RESET,
 } from "../constants/adminConstant";
 
@@ -162,10 +166,39 @@ const deleteReducer = (state = {}, action) => {
   }
 };
 
+const logInReducer = (state = {}, action) => {
+  switch (action.type) {
+    case LOGIN_REQUEST:
+      return {
+        loading: true,
+        result: null,
+      };
+
+    case LOGIN_SUCCESS:
+      return {
+        loading: false,
+        result: action.payload,
+      };
+
+    case LOGIN_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case LOGOUT:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
 export {
   editReducer,
   addReducer,
   deleteReducer,
   getProfileReducer,
   editProfileReducer,
+  logInReducer,
 };

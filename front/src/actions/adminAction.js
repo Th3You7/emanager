@@ -1,3 +1,4 @@
+import { DirectionsCarSharp } from "@material-ui/icons";
 import Axios from "axios";
 import {
   ADD_FAIL,
@@ -19,18 +20,36 @@ import {
   LOGIN_REQUEST,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
+  LOGOUT,
 } from "../constants/adminConstant";
 
-const logInAction = (data) => async (dispatch) => {
+//sending token with all requests
+Axios.interceptors.request.use((req) => {
+  if (localStorage.getItem("admin")) {
+    req.headers.Authorization = `Bearer ${JSON.parse(
+      localStorage.getItem("admin")
+    )}`;
+  }
+
+  return req;
+});
+
+const logInAction = (input) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
 
   try {
-    const result = await Axios.post("/login", data);
-
-    dispatch({ type: LOGIN_SUCCESS, payload: result });
+    const { data } = await Axios.post("/api/auth/login", input);
+    const { token } = data;
+    localStorage.setItem("admin", JSON.stringify(token));
+    dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error });
   }
+};
+
+const logOutAction = () => (dispatch) => {
+  localStorage.removeItem("admin");
+  dispatch({ type: LOGOUT });
 };
 
 const getProfileAction = () => async (dispatch) => {
@@ -97,4 +116,5 @@ export {
   editProfileAction,
   getProfileAction,
   logInAction,
+  logOutAction,
 };

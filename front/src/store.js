@@ -14,6 +14,7 @@ import {
   deleteReducer,
   getProfileReducer,
   editProfileReducer,
+  logInReducer,
 } from "./reducers/adminReducer";
 
 import {
@@ -53,6 +54,14 @@ const initState = {
       ? JSON.parse(localStorage.getItem("products"))
       : [],
   },
+
+  logInReducer: {
+    result: {
+      token: localStorage.getItem("admin")
+        ? JSON.parse(localStorage.getItem("admin"))
+        : undefined,
+    },
+  },
 };
 
 const reducer = combineReducers({
@@ -85,6 +94,7 @@ const reducer = combineReducers({
   loanProfileDeleteReducer,
   getProfileReducer,
   editProfileReducer,
+  logInReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
