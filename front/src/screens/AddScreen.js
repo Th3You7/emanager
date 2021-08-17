@@ -12,7 +12,11 @@ import CreatableSelect from "react-select/creatable";
 import { UpperAppBar } from "../components";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import { PhotoCameraOutlined, SaveOutlined } from "@material-ui/icons";
+import {
+  CloseRounded,
+  PhotoCameraOutlined,
+  SaveOutlined,
+} from "@material-ui/icons";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addAction, reset } from "../actions/adminAction";
@@ -38,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //const FILE_SIZE = 100 * 1024;
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg"];
 
 const schema = yup.object().shape({
   name: yup.string().required(), //required
@@ -84,7 +88,6 @@ export default function AddScreen() {
   const [img, setImage] = useState("");
   const [errUpload, setErrUpload] = useState("");
   const [load, setLoad] = useState(false);
-
   useEffect(() => {
     dispatch(categoriesAction());
   }, [dispatch]);
@@ -111,12 +114,32 @@ export default function AddScreen() {
       });
       setImage(data);
       setLoad(false);
+      setErrUpload("");
+      formData.delete("image");
     } catch (error) {
       setErrUpload(error.message);
       setLoad(false);
     }
   };
 
+  const handleDeleteImg = async () => {
+    setLoad(true);
+    try {
+      const { imageUrl } = img;
+      const id = imageUrl
+        .split("/")
+        .filter((a) => a.match(/\.(gif|jpe?g|png)$/i))[0]
+        .split(".")[0];
+      const data = await axios.delete("/api/admin/upload/deleteimg", {
+        data: { img: id },
+      });
+      setLoad(false);
+      setErrUpload("");
+      setImage("");
+    } catch (error) {
+      setLoad(false);
+    }
+  };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -306,19 +329,30 @@ export default function AddScreen() {
               ref={register}
               onChange={handleImageChange}
             />
-            <label htmlFor="icon-button-file">
-              <IconButton aria-label="upload picture" component="span">
-                <PhotoCameraOutlined />
-              </IconButton>
-            </label>
+            {!load && (
+              <label htmlFor="icon-button-file">
+                <IconButton aria-label="upload picture" component="span">
+                  <PhotoCameraOutlined />
+                </IconButton>
+              </label>
+            )}
             <br />
             {img && <p style={{ marginTop: 0 }}>{img.originalname}</p>}
-            {errUpload && (
-              <p style={{ color: "red", marginTop: 0 }}>{errUpload}</p>
+            {img && !load && (
+              <IconButton onClick={handleDeleteImg}>
+                <CloseRounded style={{ color: "red" }} />
+              </IconButton>
             )}
-            {load && <CircularProgress color="primary" />}
+            <br />
+            {errUpload && (
+              <p style={{ color: "red", marginTop: 0 }}>
+                {"Something went wrong!"}
+              </p>
+            )}
+
+            {load && <CircularProgress color="inherit" />}
           </div>
-          {!result && !loading && (
+          {!result && !loading && !load && (
             <Button
               variant="contained"
               color="primary"
@@ -330,7 +364,7 @@ export default function AddScreen() {
               Save
             </Button>
           )}
-          {loading && <CircularProgress color="primary" />}
+          {loading && <CircularProgress color="inherit" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Saved successfully!

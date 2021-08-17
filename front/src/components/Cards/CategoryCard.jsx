@@ -18,9 +18,10 @@ const CategoryCard = ({ title }) => {
   const handleClick = (category) => {
     history.push(`/store/${category.toLowerCase()}`);
   };
+
   return (
     <Paper className={classes.paper} onClick={() => handleClick(title)}>
-      <Typography>{title}</Typography>
+      <Typography>{title.replace(/\b\w/g, (l) => l.toUpperCase())}</Typography>
     </Paper>
   );
 };

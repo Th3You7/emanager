@@ -13,6 +13,9 @@ const mongoose = require("mongoose");
 const app = express();
 
 const { cloudinaryConfig } = require("./cloudinary");
+const loanRouter = require("./routes/loanRoute");
+const auth = require("./middleware/auth");
+const authRouter = require("./routes/authRouter");
 
 mongoose.connect(process.env.MONGO_URI || "mongodb://localhost/ecommerce", {
   useNewUrlParser: true,
@@ -32,12 +35,14 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-app.use("/api/store", storeRouter);
-app.use("/api/product", productRouter);
-app.use("/api/admin", adminRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/sales", salesRouter);
-app.use("/api/spending", spendingRouter);
+app.use("/api/store", auth, storeRouter);
+app.use("/api/product", auth, productRouter);
+app.use("/api/admin", auth, adminRouter);
+app.use("/api/category", auth, categoryRouter);
+app.use("/api/sales", auth, salesRouter);
+app.use("/api/spending", auth, spendingRouter);
+app.use("/api/loan", auth, loanRouter);
+app.use("/api/auth", authRouter);
 
 const port = process.env.PORT || 5000;
 

@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     width: "100%",
-    height: "100%",
+    height: (props) =>
+      /^\/store/.test(props.pathname) ? theme.spacing(16) : "100%",
     objectFit: "fill",
   },
   price: {
@@ -89,7 +90,7 @@ const ProductCard = (props) => {
           <Skeleton variant="text" width="70%" />
         ) : (
           <Typography component="h4" variant="body2">
-            {title}
+            {title.replace(/\b\w/g, (l) => l.toUpperCase())}
           </Typography>
         )}
         {regEx.test(location.pathname) && (

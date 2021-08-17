@@ -2,6 +2,7 @@ const express = require("express");
 const adminRouter = express.Router();
 const asyncHandler = require("express-async-handler");
 const { uploader } = require("../cloudinary");
+const Admin = require("../models/adminModel");
 const Product = require("../models/productModel");
 const { upload, bufferToUri } = require("../multer");
 
@@ -23,7 +24,7 @@ adminRouter.post(
       name: values.name,
       category: values.category.value,
       price: values.price,
-      imageUrl: values.imageUrl,
+      imageUrl: values.imageUrl ? values.imageUrl : "",
       availableSizes: availableSize.reduce((acc, curr, i) => {
         if (availableSizeValue[i] !== undefined) {
           acc[curr.value] = availableSizeValue[i].value;
@@ -60,6 +61,21 @@ adminRouter.post(
   })
 );
 
+adminRouter.delete(
+  "/upload/deleteimg",
+  upload,
+  asyncHandler(async (req, res) => {
+    const { img } = req.body;
+    if (img) {
+      uploader.destroy(img, (result, error) => {
+        if (error) res.status(400).send(error);
+
+        res.send(result);
+      });
+    }
+  })
+);
+
 adminRouter.put(
   "/edit/:id",
   asyncHandler(async (req, res) => {
@@ -82,6 +98,29 @@ adminRouter.put(
     const updatedProduct = await product.save();
 
     res.json(updatedProduct);
+  })
+);
+
+adminRouter.put(
+  "/editProfile",
+  asyncHandler(async (req, res) => {
+    const { storeName, name, profileImg, coverImg } = req.body;
+    const admin = await Admin.find({});
+    if (admin) {
+      admin[0].name = name;
+      admin[0].storeName = storeName;
+    }
+    const updatedAdmin = await admin.save();
+
+    res.json(updatedAdmin);
+  })
+);
+
+adminRouter.get(
+  "/getProfile",
+  asyncHandler(async (req, res) => {
+    const admin = await Admin.find({});
+    res.json(admin[0]);
   })
 );
 
