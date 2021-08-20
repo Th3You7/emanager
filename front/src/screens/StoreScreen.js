@@ -87,7 +87,7 @@ const Store = () => {
             id={product._id}
             title={product.name}
             price={product.price}
-            img={product.imageUrl}
+            img={product?.img?.url}
             fetching={fetching}
           />
         ))}

@@ -20,6 +20,7 @@ import Select from "react-select";
 import { SaveOutlined, PhotoCameraOutlined } from "@material-ui/icons";
 import { UpperAppBar } from "../components";
 import { Alert } from "@material-ui/lab/";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error["dark"],
     fontSize: theme.spacing(2.5),
     margin: theme.spacing(4, 0),
+  },
+
+  title: {
+    marginBottom: theme.spacing(1.5),
+    fontWeight: 700,
   },
 }));
 
@@ -79,17 +85,46 @@ export default function EditScreen() {
   const history = useHistory();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { name, price, category, availableSizes } = useSelector(
+  const { name, price, category, availableSizes, img } = useSelector(
     (state) => state.currSelProdReducer
   );
   const { loading, result, error } = useSelector((state) => state.editReducer);
   const { categories } = useSelector((state) => state.categoriesReducer);
+
+  const [load, setLoad] = useState("");
+  const [productImg, setProductImg] = useState(img);
+  const [errUpload, setErrUpload] = useState("");
 
   useEffect(() => {
     if (result) {
       setOpen(true);
     }
   }, [setOpen, result]);
+
+  console.log(productImg);
+
+  const handleImageChange = async (e) => {
+    setLoad(true);
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("public_id", productImg.public_id);
+    try {
+      const { data } = await axios.post("/api/admin/upload/addimg", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setProductImg(data);
+      setLoad(false);
+      setErrUpload("");
+      formData.delete("image");
+    } catch (error) {
+      setErrUpload(error.message);
+      setLoad(false);
+      formData.delete("image");
+    }
+  };
+
+  console.log(productImg);
 
   const onSubmit = (data) => {
     dispatch(editAction(id, data));
@@ -110,29 +145,31 @@ export default function EditScreen() {
 
   const categoryDefaultValue = {
     value: category,
-    label: `${category.charAt(0).toUpperCase()}${category.slice(1)}`,
+    label: `${category?.charAt(0).toUpperCase()}${category?.slice(1)}`,
   };
 
-  const availableSizesDefaultValue = Object.keys(availableSizes).map((x) => {
-    return {
-      label: x.toUpperCase(),
-      value: x,
-    };
-  });
+  const availableSizesDefaultValue =
+    availableSizes &&
+    Object.keys(availableSizes).map((x) => {
+      return {
+        label: x.toUpperCase(),
+        value: x,
+      };
+    });
 
-  const availableSizesValuesDefaultValue = Object.keys(availableSizes).map(
-    (x) => {
+  const availableSizesValuesDefaultValue =
+    availableSizes &&
+    Object.keys(availableSizes).map((x) => {
       return {
         label: availableSizes[x],
         value: availableSizes[x],
       };
-    }
-  );
+    });
 
   const allCatgories = categories.map((x) => {
     return {
-      value: x.name.toLowerCase(),
-      label: `${x.name.charAt(0).toUpperCase()}${x.name.slice(1)}`,
+      value: x?.name.toLowerCase(),
+      label: `${x?.name.charAt(0).toUpperCase()}${x.name.slice(1)}`,
     };
   });
 
@@ -154,11 +191,15 @@ export default function EditScreen() {
     return true;
   };
 
+  console.log(productImg);
   return (
     <>
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+          <Typography className={classes.title} component="h2" variant="h5">
+            Edit Product
+          </Typography>
           <TextField
             error={errors.name ? true : false}
             label="Name"
@@ -302,28 +343,44 @@ export default function EditScreen() {
             </p>
           )}
 
-          <div style={{ marginBottom: "16px" }}>
-            <input
-              name="image"
-              accept="image/*"
-              className={classes.input}
-              id="icon-button-file"
-              type="file"
-              style={{ display: "none" }}
-              ref={register}
-            />
-            <label htmlFor="icon-button-file">
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="span"
-              >
-                <PhotoCameraOutlined />
-              </IconButton>
-            </label>
-          </div>
+          {!load && !loading && !result && (
+            <>
+              <div style={{ margin: "16px 0" }}>
+                <input
+                  name="image"
+                  accept="image/*"
+                  className={classes.input}
+                  id="icon-button-file"
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={register}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="icon-button-file">
+                  Product Image
+                  <IconButton
+                    color="inherit"
+                    aria-label="upload picture"
+                    component="span"
+                  >
+                    <PhotoCameraOutlined />
+                  </IconButton>
+                </label>
+              </div>
 
-          {!result && (
+              {productImg.originalname && (
+                <p style={{ marginTop: 0 }}>{productImg.originalname}</p>
+              )}
+              <br />
+              {errUpload && (
+                <p style={{ color: "red", marginTop: 0 }}>
+                  {"Something went wrong!"}
+                </p>
+              )}
+              <br />
+            </>
+          )}
+          {!loading && !load && !result && (
             <Button
               variant="contained"
               color="primary"
@@ -335,13 +392,14 @@ export default function EditScreen() {
               Save
             </Button>
           )}
-          {loading && <CircularProgress color="primary" />}
+          <br />
+          {(load || loading) && <CircularProgress color="primary" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Saved successfully!
             </Alert>
           </Snackbar>
-          {error && (
+          {error && !result && (
             <Typography className={classes.failed}>
               Error has occured
             </Typography>

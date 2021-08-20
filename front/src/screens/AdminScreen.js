@@ -43,7 +43,7 @@ export default function Admin() {
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} />
-      <AdminProfile data={result?.data} />
+      <AdminProfile data={result} />
       {data.map((item, index) => {
         return (
           <AdminNavigation

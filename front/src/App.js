@@ -78,7 +78,7 @@ function App() {
         <Route path="/product/:id" children={<Product />} />
         <Route path="/cart/:id?" children={<Cart />} />
         <Route exact path="/admin" children={<Admin />} />
-        <Route path="/admin/edit" children={<AdminEdit />} />
+        <Route exact path="/admin/edit" children={<AdminEdit />} />
         <Route path="/admin/allproducts" children={<AllProducts />} />
         <Route path="/admin/categories" children={<Categories />} />
         <Route path="/admin/edit/:id" children={<Edit />} />

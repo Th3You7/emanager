@@ -12,11 +12,7 @@ import CreatableSelect from "react-select/creatable";
 import { UpperAppBar } from "../components";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import {
-  CloseRounded,
-  PhotoCameraOutlined,
-  SaveOutlined,
-} from "@material-ui/icons";
+import { PhotoCameraOutlined, SaveOutlined } from "@material-ui/icons";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addAction, reset } from "../actions/adminAction";
@@ -38,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error["dark"],
     fontSize: theme.spacing(2.5),
     margin: theme.spacing(4, 0),
+  },
+
+  title: {
+    marginBottom: theme.spacing(1.5),
+    fontWeight: 700,
   },
 }));
 
@@ -88,6 +89,7 @@ export default function AddScreen() {
   const [img, setImage] = useState("");
   const [errUpload, setErrUpload] = useState("");
   const [load, setLoad] = useState(false);
+  //const [deleted, setDeleted] = useState(false);
   useEffect(() => {
     dispatch(categoriesAction());
   }, [dispatch]);
@@ -99,15 +101,19 @@ export default function AddScreen() {
   }, [setOpen, result]);
 
   const onSubmit = async (data) => {
-    const { imageUrl } = img;
-    dispatch(addAction({ ...data, imageUrl }));
+    if (!img) return;
+    const { imageUrl, public_id } = img;
+    dispatch(addAction({ ...data, img: { url: imageUrl, public_id } }));
   };
 
   const handleImageChange = async (e) => {
     setLoad(true);
-    const img = e.target.files[0];
+    const image = e.target.files[0];
     const formData = new FormData();
-    formData.append("image", img);
+    formData.append("image", image);
+    if (img) {
+      formData.append("public_id", img.public_id);
+    }
     try {
       const { data } = await axios.post("/api/admin/upload/addimg", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -119,27 +125,29 @@ export default function AddScreen() {
     } catch (error) {
       setErrUpload(error.message);
       setLoad(false);
+      formData.delete("image");
     }
   };
 
-  const handleDeleteImg = async () => {
-    setLoad(true);
-    try {
-      const { imageUrl } = img;
-      const id = imageUrl
-        .split("/")
-        .filter((a) => a.match(/\.(gif|jpe?g|png)$/i))[0]
-        .split(".")[0];
-      const data = await axios.delete("/api/admin/upload/deleteimg", {
-        data: { img: id },
-      });
-      setLoad(false);
-      setErrUpload("");
-      setImage("");
-    } catch (error) {
-      setLoad(false);
-    }
-  };
+  // const handleDeleteImg = async () => {
+  //   setLoad(true);
+  //   try {
+  //     const { imageUrl } = img;
+  //     const id = imageUrl
+  //       .split("/")
+  //       .filter((a) => a.match(/\.(gif|jpe?g|png)$/i))[0]
+  //       .split(".")[0];
+  //     const data = await axios.delete("/api/admin/upload/deleteimg", {
+  //       data: { img: id },
+  //     });
+  //     setDeleted(data);
+  //     setLoad(false);
+  //     setErrUpload("");
+  //     setImage("");
+  //   } catch (error) {
+  //     setLoad(false);
+  //   }
+  // };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -182,6 +190,9 @@ export default function AddScreen() {
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+          <Typography className={classes.title} component="h2" variant="h5">
+            Add Product
+          </Typography>
           <TextField
             error={errors.name ? true : false}
             label="Name"
@@ -318,40 +329,36 @@ export default function AddScreen() {
               *Size value is required
             </p>
           )}
-          <div style={{ marginBottom: "16px" }}>
-            <input
-              name="image"
-              accept="image/*"
-              className={classes.input}
-              id="icon-button-file"
-              type="file"
-              style={{ display: "none" }}
-              ref={register}
-              onChange={handleImageChange}
-            />
-            {!load && (
-              <label htmlFor="icon-button-file">
-                <IconButton aria-label="upload picture" component="span">
-                  <PhotoCameraOutlined />
-                </IconButton>
-              </label>
-            )}
-            <br />
-            {img && <p style={{ marginTop: 0 }}>{img.originalname}</p>}
-            {img && !load && (
-              <IconButton onClick={handleDeleteImg}>
-                <CloseRounded style={{ color: "red" }} />
-              </IconButton>
-            )}
-            <br />
-            {errUpload && (
-              <p style={{ color: "red", marginTop: 0 }}>
-                {"Something went wrong!"}
-              </p>
-            )}
-
-            {load && <CircularProgress color="inherit" />}
-          </div>
+          {!result && (
+            <div style={{ margin: "16px 0" }}>
+              <input
+                name="image"
+                accept="image/*"
+                className={classes.input}
+                id="icon-button-file"
+                type="file"
+                style={{ display: "none" }}
+                ref={register}
+                onChange={handleImageChange}
+              />
+              {!load && (
+                <label htmlFor="icon-button-file">
+                  Product Image
+                  <IconButton aria-label="upload picture" component="span">
+                    <PhotoCameraOutlined />
+                  </IconButton>
+                </label>
+              )}
+              <br />
+              {img && <p style={{ marginTop: 0 }}>{img.originalname}</p>}
+              <br />
+              {errUpload && (
+                <p style={{ color: "red", marginTop: 0 }}>
+                  {"Something went wrong!"}
+                </p>
+              )}
+            </div>
+          )}
           {!result && !loading && !load && (
             <Button
               variant="contained"
@@ -364,13 +371,13 @@ export default function AddScreen() {
               Save
             </Button>
           )}
-          {loading && <CircularProgress color="inherit" />}
+          {(loading || load) && <CircularProgress color="inherit" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Saved successfully!
             </Alert>
           </Snackbar>
-          {error && (
+          {error && !result && (
             <Typography className={classes.failed}>
               Error has occured
             </Typography>

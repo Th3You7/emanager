@@ -62,7 +62,7 @@ const editProfileReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        result: action.payload,
+        response: action.payload,
       };
     }
 
@@ -72,6 +72,9 @@ const editProfileReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+
+    case RESET:
+      return initialState;
 
     default:
       return state;

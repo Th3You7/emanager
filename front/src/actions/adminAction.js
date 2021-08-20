@@ -1,4 +1,3 @@
-import { DirectionsCarSharp } from "@material-ui/icons";
 import Axios from "axios";
 import {
   ADD_FAIL,
@@ -26,9 +25,9 @@ import {
 //sending token with all requests
 Axios.interceptors.request.use((req) => {
   if (localStorage.getItem("admin")) {
-    req.headers.Authorization = `Bearer ${JSON.parse(
-      localStorage.getItem("admin")
-    )}`;
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("admin")).token
+    }`;
   }
 
   return req;
@@ -39,8 +38,7 @@ const logInAction = (input) => async (dispatch) => {
 
   try {
     const { data } = await Axios.post("/api/auth/login", input);
-    const { token } = data;
-    localStorage.setItem("admin", JSON.stringify(token));
+    localStorage.setItem("admin", JSON.stringify(data));
     dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error });
@@ -56,8 +54,8 @@ const getProfileAction = () => async (dispatch) => {
   dispatch({ type: GET_PROFILE_REQUEST });
 
   try {
-    const result = await Axios.get(`/api/admin/getProfile`);
-    dispatch({ type: GET_PROFILE_SUCCESS, payload: result });
+    const { data } = await Axios.get(`/api/admin/getProfile`);
+    dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
   } catch (err) {
     dispatch({ type: GET_PROFILE_FAIL, payload: err.message });
   }
@@ -65,6 +63,7 @@ const getProfileAction = () => async (dispatch) => {
 
 const editProfileAction = (values) => async (dispatch) => {
   dispatch({ type: EDIT_PROFILE_REQUEST });
+
   try {
     const result = await Axios.put(`/api/admin/editProfile`, values);
     dispatch({ type: EDIT_PROFILE_SUCCESS, payload: result });

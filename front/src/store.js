@@ -58,7 +58,7 @@ const initState = {
   logInReducer: {
     result: {
       token: localStorage.getItem("admin")
-        ? JSON.parse(localStorage.getItem("admin"))
+        ? JSON.parse(localStorage.getItem("admin")).token
         : undefined,
     },
   },

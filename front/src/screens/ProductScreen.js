@@ -92,7 +92,7 @@ export default function Product() {
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} handleStore={handleStore} />
-      <img className={classes.img} src={product.imageUrl} alt={product.name} />
+      <img className={classes.img} src={product?.img?.url} alt={product.name} />
       <div className={classes.content}>
         <div
           style={{

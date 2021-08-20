@@ -17,7 +17,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { editProfileAction } from "../actions/adminAction";
+import {
+  editProfileAction,
+  getProfileAction,
+  reset,
+} from "../actions/adminAction";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
 
   root: {
     width: "100%",
+  },
+
+  title: {
+    marginBottom: theme.spacing(1.5),
+    fontWeight: 700,
   },
   failed: {
     color: theme.palette.error["dark"],
@@ -74,6 +83,11 @@ export default function AdminEditScreen() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { result } = useSelector((state) => state.getProfileReducer);
+  const { loading, error, response } = useSelector(
+    (state) => state.editProfileReducer
+  );
+
   const [profileImg, setProfileImg] = useState("");
   const [coverImg, setCoverImg] = useState("");
   const [load, setLoad] = useState(false);
@@ -86,8 +100,89 @@ export default function AdminEditScreen() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    dispatch(getProfileAction());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (response) {
+      setOpen(true);
+    }
+  }, [response]);
+
+  const handleProfileImageChange = async (e) => {
+    setLoad(true);
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append("adminProfile", img);
+    if (profileImg) {
+      formData.append("public_id", profileImg.public_id);
+    }
+    try {
+      const { data } = await axios.post(
+        "/api/admin/upload/adminimg",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      setProfileImg(data);
+      setLoad(false);
+      setProfileErr("");
+      formData.delete("adminProfile");
+    } catch (error) {
+      setProfileErr(error.message);
+      setLoad(false);
+      formData.delete("adminProfile");
+    }
+  };
+
+  const handleCoverImageChange = async (e) => {
+    setLoad(true);
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append("adminCover", img);
+    if (coverImg) {
+      formData.append("public_id", coverImg.public_id);
+    }
+    try {
+      const { data } = await axios.post(
+        "/api/admin/upload/admincover",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      setLoad(false);
+      setCoverImg(data);
+      setCoverErr("");
+    } catch (error) {
+      setCoverErr(error.message);
+      setLoad(false);
+    }
+  };
+
+  const handleBack = () => {
+    history.goBack();
+    dispatch(reset());
+  };
+
+  const onSubmit = (data) => {
+    let img = {};
+    if (profileImg) {
+      const { imageUrl, public_id } = profileImg;
+      img.profile = { url: imageUrl, public_id };
+    }
+
+    if (coverImg) {
+      const { imageUrl, public_id } = coverImg;
+
+      img.cover = { url: imageUrl, public_id };
+    }
+
+    dispatch(editProfileAction({ ...data, id: result?._id, img }));
+  };
 
   const handleClose = useCallback((event, reason) => {
     if (reason === "clickaway") {
@@ -96,56 +191,13 @@ export default function AdminEditScreen() {
     setOpen(false);
   }, []);
 
-  // const handleProfileImageChange = async (e) => {
-  //   setLoad(true);
-  //   const img = e.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append("profile", img);
-  //   try {
-  //     const { data } = await axios.post(
-  //       "/api/loan/upload/addprofile",
-  //       formData,
-  //       {
-  //         headers: { "Content-Type": "multipart/form-data" },
-  //       }
-  //     );
-  //     setProfileImg(data);
-  //     setLoad(false);
-  //   } catch (error) {
-  //     setProfileErr(error.message);
-  //     setLoad(false);
-  //   }
-  // };
-
-  // const handleCoverImageChange = async (e) => {
-  //   setLoad(true);
-  //   const img = e.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append("cover", img);
-  //   try {
-  //     const { data } = await axios.post("/api/loan/upload/addcover", formData, {
-  //       headers: { "Content-Type": "multipart/form-data" },
-  //     });
-  //     setCoverImg(data);
-  //     setLoad(false);
-  //   } catch (error) {
-  //     setCoverErr(error.message);
-  //     setLoad(false);
-  //   }
-  // };
-
-  const handleBack = () => {
-    history.goBack();
-  };
-
-  const onSubmit = (data) => {
-    dispatch(editProfileAction(data));
-  };
-
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
+        <Typography className={classes.title} component="h2" variant="h5">
+          Edit Admin Profile
+        </Typography>
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <TextField
             error={errors.name ? true : false}
@@ -159,7 +211,7 @@ export default function AdminEditScreen() {
             }}
             // variant="filled"
             inputRef={register}
-            defaultValue=""
+            defaultValue={result?.storeName}
             helperText={errors.name?.message}
           />{" "}
           <TextField
@@ -174,68 +226,79 @@ export default function AdminEditScreen() {
             }}
             // variant="filled"
             inputRef={register}
-            defaultValue=""
+            defaultValue={result?.name}
             helperText={errors.name?.message}
           />
-          {/* <div>
-            <input
-              name="profile"
-              accept="image/*"
-              className={classes.input}
-              id="icon-button-profile"
-              type="file"
-              style={{ display: "none" }}
-              ref={register}
-              onChange={handleProfileImageChange}
-            />
-            <label htmlFor="icon-button-profile">
-              Profile Image
-              <IconButton
-                color="inherit"
-                aria-label="upload picture"
-                component="span"
-              >
-                <PhotoCameraOutlined />
-              </IconButton>
-            </label>
-            {profileImg && (
-              <p style={{ marginTop: 0 }}>{profileImg.originalname}</p>
-            )}
-            {profileErr && (
-              <p style={{ color: "red", marginTop: 0 }}>{profileErr}</p>
-            )}
-          </div>
-          <div>
-            <input
-              name="cover"
-              accept="image/*"
-              className={classes.input}
-              id="icon-button-cover"
-              type="file"
-              style={{ display: "none" }}
-              ref={register}
-              onChange={handleCoverImageChange}
-            />
-            <label htmlFor="icon-button-cover">
-              Cover Image
-              <IconButton
-                color="inherit"
-                aria-label="upload picture"
-                component="span"
-              >
-                <PhotoCameraOutlined />
-              </IconButton>
-            </label>
-            {coverImg && (
-              <p style={{ marginTop: 0 }}>{coverImg.originalname}</p>
-            )}
-            {coverErr && (
-              <p style={{ color: "red", marginTop: 0 }}>{profileErr}</p>
-            )}
-            <br />
-            {load && <CircularProgress color="primary" />}
-            </div>*/}
-          {!false && (
+          {!load && !response && (
+            <>
+              <div>
+                <input
+                  name="profile"
+                  accept="image/*"
+                  className={classes.input}
+                  id="icon-button-profile"
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={register}
+                  onChange={handleProfileImageChange}
+                />
+                {!response && (
+                  <label htmlFor="icon-button-profile">
+                    Profile Image
+                    <IconButton
+                      color="inherit"
+                      aria-label="upload picture"
+                      component="span"
+                    >
+                      <PhotoCameraOutlined />
+                    </IconButton>
+                  </label>
+                )}
+
+                {profileImg && (
+                  <p style={{ marginTop: 0 }}>{profileImg.originalname}</p>
+                )}
+                {profileErr && (
+                  <p style={{ color: "red", marginTop: 0 }}>
+                    {"Profile: Something went wrong"}
+                  </p>
+                )}
+              </div>
+              <br />
+              <div>
+                <input
+                  name="cover"
+                  accept="image/*"
+                  className={classes.input}
+                  id="icon-button-cover"
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={register}
+                  onChange={handleCoverImageChange}
+                />
+                <label htmlFor="icon-button-cover">
+                  Cover Image
+                  <IconButton
+                    color="inherit"
+                    aria-label="upload picture"
+                    component="span"
+                  >
+                    <PhotoCameraOutlined />
+                  </IconButton>
+                </label>
+                {coverImg && (
+                  <p style={{ marginTop: 0 }}>{coverImg.originalname}</p>
+                )}
+                {coverErr && (
+                  <p style={{ color: "red", marginTop: 0 }}>
+                    {"Cover: Something went wrong!"}
+                  </p>
+                )}
+                <br />
+              </div>{" "}
+            </>
+          )}
+          {!load && !response && (
             <Button
               variant="contained"
               color="primary"
@@ -248,13 +311,13 @@ export default function AdminEditScreen() {
               Save
             </Button>
           )}
-          {false && <CircularProgress color="primary" />}
+          {(load || loading) && <CircularProgress color="inherit" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Saved successfully!
             </Alert>
           </Snackbar>
-          {false && (
+          {error && (
             <Typography className={classes.failed}>
               Error has occured
             </Typography>

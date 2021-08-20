@@ -1,9 +1,16 @@
-import React from "react";
-import { Button, makeStyles, Typography } from "@material-ui/core";
-import { Link, useHistory, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  CircularProgress,
+  makeStyles,
+  Snackbar,
+  Typography,
+} from "@material-ui/core";
+import { useHistory, useParams } from "react-router-dom";
 import { deleteAction } from "../actions/adminAction";
 import { useDispatch, useSelector } from "react-redux";
 import { UpperAppBar } from "../components";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,8 +37,20 @@ export default function RemoveScreen() {
   const dispatch = useDispatch();
   const result = useSelector((state) => state.currSelProdReducer);
 
-  const to = {
-    pathname: "/admin/allproducts",
+  const deleteReducer = useSelector((state) => state.deleteReducer);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (deleteReducer?.result) {
+      setOpen(true);
+    }
+  }, [setOpen, deleteReducer]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   const handleBack = () => {
@@ -51,17 +70,27 @@ export default function RemoveScreen() {
         </Typography>
         <Typography>
           Are You Sure You wanna Delete <br />
-          <b>{result.name}</b> ?
+          <b>{result?.name?.replace(/\b\w/g, (l) => l.toUpperCase())}</b> ?
         </Typography>
-        <Button
-          variant="contained"
-          component={Link}
-          to={to}
-          onClick={handleDelete}
-          className={classes.btn}
-        >
-          Delete
-        </Button>
+        {!deleteReducer?.loading && !deleteReducer?.result && (
+          <Button
+            variant="contained"
+            onClick={handleDelete}
+            className={classes.btn}
+          >
+            Delete
+          </Button>
+        )}
+
+        {deleteReducer.loading && <CircularProgress color="inherit" />}
+        <Snackbar open={open} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+            Saved successfully!
+          </Alert>
+        </Snackbar>
+        {deleteReducer.error && !result && (
+          <Typography className={classes.failed}>Error has occured</Typography>
+        )}
       </div>
     </div>
   );

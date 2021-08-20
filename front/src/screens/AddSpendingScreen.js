@@ -15,7 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router";
-import { addSpendingAction } from "../actions/spendingsAction";
+import { addSpendingAction, resetSpending } from "../actions/spendingsAction";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,9 +48,11 @@ export default function AddSpendingScreen() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const { loading, spending, error } = useSelector(
+  const { fetching, spending, error } = useSelector(
     (state) => state.addSpendingReducer
   );
+
+  console.log(fetching, error, spending);
 
   useEffect(() => {
     if (spending) {
@@ -70,6 +72,7 @@ export default function AddSpendingScreen() {
   };
 
   const handleBack = () => {
+    dispatch(resetSpending());
     history.replace("/admin/spending");
     //dispatch(resetCategory());
   };
@@ -107,7 +110,7 @@ export default function AddSpendingScreen() {
             inputRef={register}
             helperText={errors.comment?.message}
           />
-          {!spending && !loading && (
+          {!spending && !fetching && (
             <Button
               variant="contained"
               color="primary"
@@ -119,7 +122,7 @@ export default function AddSpendingScreen() {
               Save
             </Button>
           )}
-          {loading && <CircularProgress color="primary" />}
+          {fetching && <CircularProgress color="primary" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Saved successfully!

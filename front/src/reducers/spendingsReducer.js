@@ -5,6 +5,7 @@ import {
   REMOVE_SPENDING_FAIL,
   REMOVE_SPENDING_REQUEST,
   REMOVE_SPENDING_SUCCESS,
+  RESET_SPENDING,
   SEL_SPEND,
   SPENDINGS_FAIL,
   SPENDINGS_REQUEST,
@@ -65,6 +66,9 @@ const addSpendingReducer = (state = initState, action) => {
         fetching: false,
         error: action.payload,
       };
+
+    case RESET_SPENDING:
+      return {};
 
     default:
       return state;

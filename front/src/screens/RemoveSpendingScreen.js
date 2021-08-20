@@ -1,10 +1,16 @@
-import React from "react";
-import { Button, makeStyles, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  CircularProgress,
+  makeStyles,
+  Snackbar,
+  Typography,
+} from "@material-ui/core";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { UpperAppBar } from "../components";
-import { Link } from "react-router-dom";
 import { deleteSpendingAction } from "../actions/spendingsAction";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,8 +37,20 @@ export default function RemoveSpendingScreen() {
   const dispatch = useDispatch();
   const result = useSelector((state) => state.currSelSpendingReducer);
 
-  const to = {
-    pathname: "/admin/spending",
+  const deleteReducer = useSelector((state) => state.deleteSpendingReducer);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (deleteReducer?.spending) {
+      setOpen(true);
+    }
+  }, [setOpen, deleteReducer]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   const handleBack = () => {
@@ -54,15 +72,25 @@ export default function RemoveSpendingScreen() {
           Are You Sure You wanna Delete <br />
           <b>{result.comment}</b> ?
         </Typography>
-        <Button
-          variant="contained"
-          component={Link}
-          to={to}
-          onClick={handleDelete}
-          className={classes.btn}
-        >
-          Delete
-        </Button>
+        {!deleteReducer?.fetching && !deleteReducer?.spending && (
+          <Button
+            variant="contained"
+            onClick={handleDelete}
+            className={classes.btn}
+          >
+            Delete
+          </Button>
+        )}
+
+        {deleteReducer.fetching && <CircularProgress color="inherit" />}
+        <Snackbar open={open} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+            Saved successfully!
+          </Alert>
+        </Snackbar>
+        {deleteReducer.error && !result && (
+          <Typography className={classes.failed}>Error has occured</Typography>
+        )}
       </div>
     </div>
   );

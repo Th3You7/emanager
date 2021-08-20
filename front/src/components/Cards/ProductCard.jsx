@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   img: {
     width: "100%",
     height: (props) =>
-      /^\/store/.test(props.pathname) ? theme.spacing(16) : "100%",
+      /^\/store/.test(props.pathname) ? theme.spacing(20) : "100%",
     objectFit: "fill",
   },
   price: {
