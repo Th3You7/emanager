@@ -27,6 +27,7 @@ import {
   LoanProfileRemove,
   AdminEdit,
   LogIn,
+  Invoice,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -109,6 +110,7 @@ function App() {
           path="/loan/:profileid/delete"
           children={<LoanProfileRemove />}
         />
+        <Route path="/invoice" children={<Invoice />} />
       </Switch>
     </div>
   );

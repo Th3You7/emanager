@@ -95,6 +95,9 @@ const deleteSpendingReducer = (state = {}, action) => {
         error: action.type,
       };
 
+    case RESET_SPENDING:
+      return {};
+
     default:
       return state;
   }

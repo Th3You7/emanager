@@ -9,7 +9,10 @@ import {
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { UpperAppBar } from "../components";
-import { deleteSpendingAction } from "../actions/spendingsAction";
+import {
+  deleteSpendingAction,
+  resetSpending,
+} from "../actions/spendingsAction";
 import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +57,7 @@ export default function RemoveSpendingScreen() {
   };
 
   const handleBack = () => {
+    dispatch(resetSpending());
     history.replace("/admin/spending");
   };
 

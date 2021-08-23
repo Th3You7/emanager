@@ -52,8 +52,6 @@ export default function AddSpendingScreen() {
     (state) => state.addSpendingReducer
   );
 
-  console.log(fetching, error, spending);
-
   useEffect(() => {
     if (spending) {
       setOpen(true);

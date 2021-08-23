@@ -30,3 +30,5 @@ export { default as LoanProfileEdit } from "./LoanProfileEditScreen";
 export { default as LoanProfileRemove } from "./LoanProfileRemoveScreen";
 
 export { default as LogIn } from "./LogInScreen";
+
+export { default as Invoice } from "./InvoiceScreen";
