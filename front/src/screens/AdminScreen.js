@@ -8,6 +8,7 @@ import {
   ShopOutlined,
   StyleOutlined,
   MoneyOffOutlined,
+  DescriptionOutlined,
 } from "@material-ui/icons";
 import { useHistory } from "react-router";
 import { getProfileAction } from "../actions/adminAction";
@@ -19,6 +20,7 @@ const data = [
   { name: "Categories", path: "/categories", icon: <StyleOutlined /> },
   { name: "Products", path: "/allproducts", icon: <LocalOfferOutlined /> },
   { name: "Sales", path: "/sales", icon: <ShopOutlined /> },
+  { name: "Invoices", path: "/invoices", icon: <DescriptionOutlined /> },
   { name: "Spending", path: "/spending", icon: <MoneyOffOutlined /> },
 ];
 

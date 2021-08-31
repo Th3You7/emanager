@@ -48,7 +48,7 @@ import {
   loanProfileDeleteReducer,
 } from "./reducers/loanReducer";
 
-import { invoiceReducer } from "./reducers/invoiceReducer";
+import { invoiceReducer, allInvoicesReducer } from "./reducers/invoiceReducer";
 
 const initState = {
   cartReducer: {
@@ -98,6 +98,7 @@ const reducer = combineReducers({
   editProfileReducer,
   logInReducer,
   invoiceReducer,
+  allInvoicesReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

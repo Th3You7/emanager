@@ -26,6 +26,7 @@ const columns = [
   { field: "soldPrice", headerName: "Sold Price", width: 70 },
   { field: "createdAt", headerName: "Date", width: 165 },
   { field: "category", headerName: "Category", width: 100 },
+  { field: "qty", headerName: "Quantity", width: 100 },
 ];
 
 export default function SalesScreen() {

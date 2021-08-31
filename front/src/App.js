@@ -28,6 +28,7 @@ import {
   AdminEdit,
   LogIn,
   Invoice,
+  Invoices,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -111,6 +112,7 @@ function App() {
           children={<LoanProfileRemove />}
         />
         <Route path="/invoice" children={<Invoice />} />
+        <Route path="/admin/invoices" children={<Invoices />} />
       </Switch>
     </div>
   );
