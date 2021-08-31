@@ -48,6 +48,8 @@ import {
   loanProfileDeleteReducer,
 } from "./reducers/loanReducer";
 
+import { invoiceReducer } from "./reducers/invoiceReducer";
+
 const initState = {
   cartReducer: {
     products: localStorage.getItem("products")
@@ -95,6 +97,7 @@ const reducer = combineReducers({
   getProfileReducer,
   editProfileReducer,
   logInReducer,
+  invoiceReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -5,7 +5,15 @@ import {
   CircularProgress,
   makeStyles,
   MobileStepper,
+  Paper,
   Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
   Typography,
   useTheme,
 } from "@material-ui/core";
@@ -20,7 +28,9 @@ import { removeAllAction } from "../actions/cartAction";
 import { Alert } from "@material-ui/lab";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
 import Select from "react-select";
-import { Controller, useForm } from "react-hook-form";
+
+import { loanAction } from "../actions/loanAction";
+import { invoiceAction, resetInvoiceAction } from "../actions/invoiceAction";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,39 +45,57 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(4, 0),
   },
   title: {
+    marginBottom: theme.spacing(3),
+  },
+  input: {
     marginBottom: theme.spacing(2),
+  },
+  table: {
+    minWidth: 650,
   },
 }));
 
 export default function ConfirmScreen() {
-  const [open, setOpen] = useState(false);
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  //*Invoice Data
+  const [payment, setPayment] = useState({
+    value: "cash",
+    label: "Cash",
+  });
+
+  const [clientInfo, setClientInfo] = useState({ adress: "", name: "" });
+  const [advance, setAdvance] = useState(0);
   const { products } = useSelector((state) => state.cartReducer);
-  const { result, fetching, error } = useSelector(
-    (state) => state.addSalesReducer
-  );
+  const addSales = useSelector((state) => state.addSalesReducer);
+  const invoice = useSelector((state) => state.invoiceReducer);
+  const { loans } = useSelector((state) => state.loanReducer);
+
+  console.log(invoice);
 
   //!New
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = 3;
-  const { control } = useForm();
+  useEffect(() => {
+    if (addSales.result && invoice.invoice) {
+      setOpen(true);
+    }
+  }, [setOpen, addSales.result, invoice.invoice]);
 
+  useEffect(() => {
+    if (activeStep === 1 && payment.value === "credit") dispatch(loanAction());
+  }, [dispatch, activeStep, payment.value]);
+
+  const maxSteps = 3;
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleBack0 = () => {
+  const handleStepperBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-  useEffect(() => {
-    if (result) {
-      setOpen(true);
-    }
-  }, [setOpen, result]);
 
   const handleClose = useCallback((event, reason) => {
     if (reason === "clickaway") {
@@ -79,33 +107,60 @@ export default function ConfirmScreen() {
 
   const handleBack = () => {
     dispatch(resetSales());
+    dispatch(resetInvoiceAction());
     history.replace("/cart");
+  };
+
+  const total = products.reduce(
+    (acc, curr) =>
+      acc +
+      Number(curr.soldPrice) *
+        Object.keys(curr.size).reduce((a, c) => a + curr.size[c], 0),
+    0
+  );
+  const earning = () => {
+    const prices = products.reduce(
+      (acc, curr) =>
+        acc +
+        Number(curr.price) *
+          Object.keys(curr.size).reduce((a, c) => a + curr.size[c], 0),
+      0
+    );
+    return total - prices;
+  };
+
+  const invoiceData = {
+    client: clientInfo,
+    products,
+    paymentMethod: payment.value,
+    advance,
+    total,
   };
 
   const handleClick = () => {
     dispatch(addSalesAction(products));
     dispatch(removeAllAction());
     dispatch(confirmSaleAction(products));
+    dispatch(invoiceAction(invoiceData));
   };
 
-  const total = products.reduce((acc, curr) => acc + Number(curr.soldPrice), 0);
-  const earning = () => {
-    const prices = products.reduce((acc, curr) => acc + Number(curr.price), 0);
-    return total - prices;
-  };
-
-  const titles = () => ["Payment Method", "Credits", "Confirm"];
+  const borrowersOptions = loans.map((va) => {
+    return {
+      value: va.name,
+      label: va.name.replace(/\b\w/g, (l) => l.toUpperCase()),
+    };
+  });
 
   const paymentMethod = () => {
     return (
       <>
-        <Typography variant="h5" gutterBottom>
-          {titles()[0]}
+        <Typography variant="h5" className={classes.title}>
+          Payment Method
         </Typography>
-        <Controller
+
+        <Select
           name="paymentMethod"
-          defaultValue={{ value: "cash", label: "Cash" }}
-          control={control}
+          defaultValue={payment}
           className={classes.input}
           options={[
             { value: "cash", label: "Cash" },
@@ -128,59 +183,171 @@ export default function ConfirmScreen() {
           })}
           closeMenuOnSelect={true}
           placeholder="Choose payment method..."
-          as={Select}
+          onChange={(e) => setPayment(e)}
         />
       </>
     );
   };
 
-  const credits = () => {
+  const client = () => {
     return (
-      <>
-        <Typography variant="h5" gutterBottom>
-          {titles()[1]}
+      <div>
+        <Typography className={classes.title} variant="h5">
+          Client's Infos
         </Typography>
-      </>
+        {payment.value === "cash" ? (
+          <>
+            <TextField
+              className={classes.input}
+              id="client-name"
+              label="Client Name"
+              name="clientName"
+              defaultValue={clientInfo.name}
+              fullWidth
+              variant="outlined"
+              onChange={(e) =>
+                setClientInfo({ ...clientInfo, name: e.target.value })
+              }
+            />
+            <TextField
+              className={classes.input}
+              id="client-adress"
+              label="Client Adress"
+              name="clientAdress"
+              defaultValue={clientInfo.adress}
+              fullWidth
+              variant="outlined"
+              onChange={(e) =>
+                setClientInfo({ ...clientInfo, adress: e.target.value })
+              }
+            />
+          </>
+        ) : (
+          <>
+            <Select
+              name="client"
+              defaultValue="S"
+              className={classes.input}
+              options={borrowersOptions}
+              styles={{
+                option: (provided, state) => ({
+                  ...provided,
+                  color:
+                    state.isFocused || state.isSelected ? "white" : "black",
+                }),
+              }}
+              theme={(theme) => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  primary25: "#333333",
+                  primary: "#0c0c0c",
+                },
+              })}
+              closeMenuOnSelect={true}
+              placeholder="Select borrower..."
+              onChange={(e) => setClientInfo({ name: e.value })}
+            />
+            <TextField
+              className={classes.input}
+              id="advance"
+              label="Advance"
+              name="advance"
+              defaultValue={advance}
+              fullWidth
+              variant="outlined"
+              onChange={(e) => setAdvance(e.target.value)}
+            />
+          </>
+        )}
+      </div>
     );
   };
 
   const confirm = () => {
     return (
       <>
-        <Typography variant="h5" gutterBottom>
-          {titles()[2]}
-        </Typography>
-        <div>
-          <p>
-            Products: <strong>{products.length}</strong>
-          </p>
-          <p>
-            Total: <strong>{total}DH</strong>
-          </p>
-          <p>
-            Earning: <strong>{earning()}DH</strong>
-          </p>
-          {!fetching && !result && (
-            <Button
-              className={classes.btn}
-              variant="contained"
-              onClick={handleClick}
-            >
-              Confirm
-            </Button>
-          )}
-          {fetching && <CircularProgress />}
-          {error && (
-            <Typography className={classes.failed}>
-              Error has occured
+        {!invoice.invoice && (
+          <>
+            <Typography variant="h5" gutterBottom>
+              Confirm Invoice
             </Typography>
-          )}
-          <Snackbar open={open} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success">
-              Sales Saved successfully!
-            </Alert>
-          </Snackbar>
-        </div>
+            <div>
+              <p>
+                Client: <strong>{clientInfo.name}</strong>,{" "}
+                <strong>{clientInfo.adress}</strong>
+              </p>
+            </div>
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Qty</TableCell>
+                    <TableCell>Product</TableCell>
+                    <TableCell align="right">Unit Price</TableCell>
+                    <TableCell align="right">Amount</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {products.map((row) => (
+                    <TableRow key={row._id} style={{ fontWeight: 400 }}>
+                      <TableCell style={{ fontWeight: 400 }}>
+                        {Object.keys(row.size).reduce(
+                          (acc, curr) => acc + row.size[curr],
+                          0
+                        )}
+                      </TableCell>
+                      <TableCell style={{ fontWeight: 400 }}>
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right" style={{ fontWeight: 400 }}>
+                        {row.soldPrice}
+                      </TableCell>
+                      <TableCell align="right" style={{ fontWeight: 400 }}>
+                        {Object.keys(row.size).reduce(
+                          (acc, curr) => acc + row.size[curr],
+                          0
+                        ) * row.soldPrice}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow>
+                    <TableCell align="right"></TableCell>
+                    <TableCell align="right"></TableCell>
+                    <TableCell align="right">Total:</TableCell>
+                    <TableCell align="right">{total}DH</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="right"></TableCell>
+                    <TableCell align="right"></TableCell>
+                    <TableCell align="right">Earning:</TableCell>
+                    <TableCell align="right">{earning()}DH</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+        {!invoice.loading && !invoice.invoice && (
+          <Button
+            className={classes.btn}
+            variant="contained"
+            onClick={handleClick}
+          >
+            Confirm
+          </Button>
+        )}
+
+        {invoice.loading && <CircularProgress />}
+        {invoice.error && (
+          <Typography className={classes.failed}>Error has occured</Typography>
+        )}
+        <Snackbar open={open} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+            Sales Saved successfully!
+          </Alert>
+        </Snackbar>
       </>
     );
   };
@@ -191,7 +358,7 @@ export default function ConfirmScreen() {
         return paymentMethod();
 
       case 1:
-        return credits();
+        return client();
 
       case 2:
         return confirm();
@@ -204,8 +371,8 @@ export default function ConfirmScreen() {
   return (
     <>
       <UpperAppBar handleBack={handleBack} />
-      <div className={classes.container}>{content(activeStep)}</div>
-      {((!error && !result) || !result) && (
+
+      {!invoice.error && !invoice.invoice && (
         <MobileStepper
           steps={maxSteps}
           position="static"
@@ -228,7 +395,7 @@ export default function ConfirmScreen() {
           backButton={
             <Button
               size="small"
-              onClick={handleBack0}
+              onClick={handleStepperBack}
               disabled={activeStep === 0}
             >
               {theme.direction === "rtl" ? (
@@ -241,6 +408,7 @@ export default function ConfirmScreen() {
           }
         />
       )}
+      <div className={classes.container}>{content(activeStep)}</div>
     </>
   );
 }

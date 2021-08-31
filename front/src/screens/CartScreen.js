@@ -32,15 +32,21 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const subTotal = products.reduce(
-    (acc, curr) => acc + Number(curr.soldPrice),
+    (acc, curr) =>
+      acc +
+      Number(curr.soldPrice) *
+        Object.keys(curr.size).reduce((a, c) => a + curr.size[c], 0),
     0
   );
   const earning = () => {
-    const subPrice = products.reduce(
-      (acc, curr) => acc + Number(curr.price),
+    const prices = products.reduce(
+      (acc, curr) =>
+        acc +
+        Number(curr.price) *
+          Object.keys(curr.size).reduce((a, c) => a + curr.size[c], 0),
       0
     );
-    return subTotal - subPrice;
+    return subTotal - prices;
   };
 
   const handleBack = () => {
@@ -56,6 +62,9 @@ const Cart = () => {
     history.push("/confirm");
   };
 
+  // const unduplicated = (arr) =>
+  //   arr.filter((v, i, s) => i === s.findIndex((va) => va._id === v._id));
+
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} handleRemove={handleRemove} />
@@ -65,11 +74,10 @@ const Cart = () => {
             <div className={classes.product} key={index}>
               <ProductCard
                 id={product._id}
-                index={index}
                 title={product.name}
                 price={product.price}
                 size={product.size}
-                img={product.imageUrl}
+                img={product?.img?.url}
                 soldPrice={product.soldPrice}
               />
             </div>

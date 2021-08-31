@@ -75,6 +75,7 @@ export default function Product() {
 
   const onSubmit = (data) => {
     const { size, soldPrice } = data;
+
     dispatch(addToCartAction({ ...product, size, soldPrice }));
     history.replace(`/cart/${id}?size=${size}&soldPrice=${soldPrice}`);
   };
@@ -118,7 +119,7 @@ export default function Product() {
           <FormControl error={errors.size ? true : false}>
             <FormLabel component="legend">Size </FormLabel>
             {Object.keys(product.availableSizes).reduce(
-              (acc, curr) => acc + Number(curr),
+              (acc, curr) => acc + Number(product.availableSizes[curr]),
               0
             ) === 0 && <p className={classes.p}>Out of stock</p>}
             <Controller
@@ -132,26 +133,43 @@ export default function Product() {
                   onChange={(e) => props.onChange(e.target.value)}
                   row
                 >
-                  {Object.keys(product.availableSizes).reduce(
+                  {/* {Object.keys(product.availableSizes).reduce(
                     (acc, curr) => acc + Number(product.availableSizes[curr]),
                     0
-                  ) === 0 && <p className={classes.p}>Out of stock</p>}
-                  {Object.keys(product.availableSizes).map((productSize) =>
-                    product.availableSizes[productSize] > 0 &&
-                    Object.keys(product.availableSizes).reduce(
-                      (acc, curr) => acc + Number(product.availableSizes[curr]),
-                      0
-                    ) -
-                      products.filter((x) => x._id === product._id).length >
-                      0 ? (
-                      <FormControlLabel
-                        key={productSize}
-                        value={productSize}
-                        label={productSize.toUpperCase()}
-                        control={<Radio />}
-                      />
-                    ) : null
-                  )}
+                  ) === 0 && <p className={classes.p}>Out of stock</p>} */}
+                  {/* //*spliter */}
+                  {Object.keys(product.availableSizes).map((productSize) => {
+                    if (Number(product.availableSizes[productSize]) > 0) {
+                      const selectedSize =
+                        products.find((x) => x._id === product._id) &&
+                        Number(
+                          products.find((x) => x._id === product._id).size[
+                            productSize
+                          ]
+                        )
+                          ? Number(
+                              products.find((x) => x._id === product._id).size[
+                                productSize
+                              ]
+                            )
+                          : 0;
+
+                      const availableSize = Number(
+                        product.availableSizes[productSize]
+                      );
+
+                      return availableSize - selectedSize > 0 ? (
+                        <FormControlLabel
+                          key={productSize}
+                          value={productSize}
+                          label={productSize.toUpperCase()}
+                          control={<Radio />}
+                        />
+                      ) : null;
+                    }
+
+                    return null;
+                  })}
                 </RadioGroup>
               )}
             />

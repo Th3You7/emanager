@@ -51,7 +51,7 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const ProductCard = (props) => {
-  const { id, title, price, img, fetching, soldPrice, size, index } = props;
+  const { id, title, price, img, fetching, soldPrice, size } = props;
   const location = useLocation();
   const dispatch = useDispatch();
   const classes = useStyles((props = location));
@@ -61,7 +61,7 @@ const ProductCard = (props) => {
   const to = `/product/${id}`;
 
   const handleRemove = () => {
-    dispatch(removeFromCartAction(index));
+    dispatch(removeFromCartAction(id));
   };
 
   const handleClick = () => {
@@ -94,7 +94,10 @@ const ProductCard = (props) => {
           </Typography>
         )}
         {regEx.test(location.pathname) && (
-          <Typography variant="subtitle2">Size: {size}</Typography>
+          <Typography variant="subtitle2">
+            Sizes:{" "}
+            {Object.keys(size).map((s) => `${s.toUpperCase()}: ${size[s]} `)}
+          </Typography>
         )}
         <div style={{ display: "flex" }}>
           {fetching ? (
