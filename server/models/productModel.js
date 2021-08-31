@@ -5,7 +5,10 @@ const productSchema = new mongoose.Schema(
     name: { type: String, required: true, unique: true },
     category: { type: String, required: true, set: (v) => v.toLowerCase() },
     price: { type: Number, required: true },
-    imageUrl: { type: String, required: true },
+    img: {
+      url: { type: String, require: true },
+      public_id: { type: String, required: true },
+    },
     availableSizes: { type: Object, required: true },
   },
   { timestamps: true }

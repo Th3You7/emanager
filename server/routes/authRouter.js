@@ -27,7 +27,15 @@ authRouter.post(
         expiresIn: "7d",
       });
 
-      res.status(200).send({ admin, token });
+      res
+        .status(200)
+        .send({
+          _id: admin._id,
+          name: admin.name,
+          storeName: admin.storeName,
+          img: admin.img,
+          token,
+        });
     } catch (error) {
       res.status(400).send(error);
     }

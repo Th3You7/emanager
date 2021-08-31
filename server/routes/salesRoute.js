@@ -19,7 +19,17 @@ salesRouter.post(
   "/add",
   asyncHandler(async (req, res) => {
     const data = req.body;
-    const sales = await Sales.insertMany(data);
+    const insert = data.map((x) => {
+      return {
+        name: x.name,
+        category: x.category,
+        price: x.price,
+        soldPrice: x.soldPrice,
+        size: x.size,
+        qty: Object.keys(x.size).length,
+      };
+    });
+    const sales = await Sales.insertMany(insert);
 
     res.json(sales);
   })
@@ -42,56 +52,24 @@ salesRouter.put(
   asyncHandler(async (req, res) => {
     const data = req.body;
 
-    //remove duplicate
-    const remDup = data.reduce((acc, curr) => {
-      if (acc.filter((x) => x._id === curr._id).length === 0) acc.push(curr);
-      return acc;
-    }, []);
-
-    //collect all sizes in one object
-    const size = remDup.map((x) => {
-      let obj = { _id: x._id };
-      data.forEach((v) => {
-        if (v._id === x._id) {
-          if (obj.hasOwnProperty(v.size)) {
-            obj[v.size] = obj[v.size] + 1;
-          } else {
-            obj[v.size] = 1;
-          }
-        }
-      });
-      return obj;
-    });
-
-    //map over all products, and substract the sizes of sales
-    const arr = remDup.map(async (x) => {
+    //*map over all products, and substract the sizes of sales
+    const arr = data.map(async (x) => {
       const product = await Product.findById(x._id);
-
-      const nn = size.reduce((acc, curr) => {
-        if (`${product._id}` === curr._id) {
-          Object.keys(product.availableSizes).forEach((key) => {
-            if (curr.hasOwnProperty(key))
-              acc[key] = product.availableSizes[key] - curr[key];
-          });
-        }
-        return acc;
-      });
       product.availableSizes = {
         ...product.availableSizes,
-        ...size.reduce((acc, curr) => {
-          if (`${product._id}` === curr._id) {
-            Object.keys(product.availableSizes).forEach((key) => {
-              if (curr.hasOwnProperty(key))
-                acc[key] = product.availableSizes[key] - curr[key];
-            });
+        ...Object.keys(product.availableSizes).reduce((acc, curr) => {
+          if (x.size.hasOwnProperty(curr)) {
+            acc[curr] = product.availableSizes[curr] - x.size[curr];
           }
+
           return acc;
         }, {}),
       };
+
       const confirm = await product.save();
+
       return confirm;
     });
-
     Promise.all(arr)
       .then((result) => res.json(result))
       .catch((err) => res.status(404).send(err));

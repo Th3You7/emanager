@@ -6,7 +6,8 @@ const salesSchema = new mongoose.Schema(
     category: { type: String, required: true },
     price: { type: Number, required: true },
     soldPrice: { type: Number, required: true },
-    size: { type: String, required: true },
+    size: { type: Object, required: true },
+    qty: { type: Number, required: true },
   },
   {
     timestamps: true,

@@ -16,6 +16,7 @@ const { cloudinaryConfig } = require("./cloudinary");
 const loanRouter = require("./routes/loanRoute");
 const auth = require("./middleware/auth");
 const authRouter = require("./routes/authRouter");
+const invoiceRouter = require("./routes/invoiceRouter");
 
 mongoose.connect(process.env.MONGO_URI || "mongodb://localhost/ecommerce", {
   useNewUrlParser: true,
@@ -43,6 +44,7 @@ app.use("/api/sales", auth, salesRouter);
 app.use("/api/spending", auth, spendingRouter);
 app.use("/api/loan", auth, loanRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/invoice", invoiceRouter);
 
 const port = process.env.PORT || 5000;
 
