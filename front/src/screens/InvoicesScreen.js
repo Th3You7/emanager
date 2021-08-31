@@ -1,9 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
-import {
-  CloudDownloadOutlined,
-  CloudDownloadRounded,
-} from "@material-ui/icons";
+import { CloudDownloadRounded } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
