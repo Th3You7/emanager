@@ -27,9 +27,9 @@ import {
   LoanProfileRemove,
   AdminEdit,
   LogIn,
-  Invoice,
   Invoices,
 } from "./screens";
+import { Invoice } from "./components";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation } from "react-router-dom";

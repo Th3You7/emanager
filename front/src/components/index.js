@@ -12,4 +12,4 @@ export { default as AdminNavigation } from "./AdminNavigation";
 export { default as HighChartStock } from "./Charts/HighChartStock";
 export { default as HighChart } from "./Charts/HighChart";
 
-export { default as CreatableSelect } from "./CreatableSelect";
+export { default as Invoice } from "./Invoice";

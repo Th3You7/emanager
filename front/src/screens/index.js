@@ -31,5 +31,4 @@ export { default as LoanProfileRemove } from "./LoanProfileRemoveScreen";
 
 export { default as LogIn } from "./LogInScreen";
 
-export { default as Invoice } from "./InvoiceScreen";
 export { default as Invoices } from "./InvoicesScreen";

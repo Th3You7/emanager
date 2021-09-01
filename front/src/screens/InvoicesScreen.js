@@ -1,11 +1,13 @@
 import { makeStyles } from "@material-ui/core";
-import { DataGrid } from "@material-ui/data-grid";
-import { CloudDownloadRounded } from "@material-ui/icons";
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
+import { CloudDownloadOutlined } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { allInvoicesAction } from "../actions/invoiceAction";
 import { UpperAppBar } from "../components";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Invoice } from "../components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,13 +25,30 @@ const useStyles = makeStyles((theme) => ({
 const columns = [
   { field: "invoiceId", headerName: "ID", width: 100 },
   { field: "date", headerName: "Date", width: 165 },
-  { field: "client", headerName: "Client", width: 100 },
+  { field: "client", headerName: "Client", width: 120 },
   {
     field: "download",
     headerName: "Download",
     width: 100,
     renderCell: (params) => (
-      <CloudDownloadRounded onClick={() => console.log(params.row)} />
+      <div
+        style={{
+          width: "100%",
+          lineHeight: "1",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "black",
+        }}
+      >
+        <PDFDownloadLink
+          document={<Invoice data={params.row} />}
+          fileName={`${params.row.invoiceId}.pdf`}
+          style={{ color: "black" }}
+        >
+          <CloudDownloadOutlined />
+        </PDFDownloadLink>
+      </div>
     ),
   },
 ];
@@ -55,6 +74,9 @@ export default function InvoicesScreen() {
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
         <DataGrid
+          components={{
+            Toolbar: GridToolbar,
+          }}
           page={page}
           onPageChange={(params) => {
             setPage(params.page);
