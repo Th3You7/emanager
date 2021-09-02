@@ -6,6 +6,8 @@ import { HighChartStock, UpperAppBar } from "../components";
 import Highcharts from "highcharts/highstock";
 import { useDispatch, useSelector } from "react-redux";
 import { salesAction } from "../actions/salesAction";
+import { spendingsAction } from "../actions/spendingsAction";
+import { useTheme } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: theme.spacing(2),
   },
 
   salesSubtitle: {
@@ -48,8 +49,15 @@ const useStyles = makeStyles((theme) => ({
   },
 
   salesTitle: {
+    // color: theme.palette.success["dark"],
+    fontWeight: 700,
+    fontSize: 22,
+  },
+
+  earningTitle: {
     color: theme.palette.success["dark"],
     fontWeight: 700,
+    fontSize: 22,
   },
 
   spendingsSubtitle: {
@@ -60,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
   spendingsTitle: {
     color: theme.palette.error["dark"],
     fontWeight: 700,
+    fontSize: 22,
   },
 }));
 
@@ -67,10 +76,13 @@ export default function WalletScreen() {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { sales, loading, error } = useSelector((state) => state.salesReducer);
+  const { sales, error } = useSelector((state) => state.salesReducer);
+  const { spendings } = useSelector((state) => state.spendingsReducer);
+  const theme = useTheme();
 
   useEffect(() => {
     dispatch(salesAction());
+    dispatch(spendingsAction());
   }, [dispatch]);
 
   const handleBack = () => {
@@ -85,6 +97,9 @@ export default function WalletScreen() {
   ];
 
   const options = {
+    credits: {
+      enabled: false,
+    },
     rangeSelector: {
       selected: 1,
     },
@@ -133,7 +148,219 @@ export default function WalletScreen() {
     ],
   };
 
+  const darkOptions = {
+    ...options,
+    colors: [
+      "#2b908f",
+      "#90ee7e",
+      "#f45b5b",
+      "#7798BF",
+      "#aaeeee",
+      "#ff0066",
+      "#eeaaee",
+      "#55BF3B",
+      "#DF5353",
+      "#7798BF",
+      "#aaeeee",
+    ],
+    chart: {
+      backgroundColor: {
+        linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+        stops: [
+          [0, "#2a2a2b"],
+          [1, "#3e3e40"],
+        ],
+      },
+      style: {
+        fontFamily: "'Unica One', sans-serif",
+      },
+      plotBorderColor: "#606063",
+    },
+    title: {
+      ...options.title,
+      style: {
+        color: "#E0E0E3",
+        textTransform: "uppercase",
+        fontSize: "20px",
+      },
+    },
+    subtitle: {
+      style: {
+        color: "#E0E0E3",
+        textTransform: "uppercase",
+      },
+    },
+    xAxis: {
+      gridLineColor: "#707073",
+      labels: {
+        style: {
+          color: "#E0E0E3",
+        },
+      },
+      lineColor: "#707073",
+      minorGridLineColor: "#505053",
+      tickColor: "#707073",
+      title: {
+        style: {
+          color: "#A0A0A3",
+        },
+      },
+    },
+    yAxis: {
+      gridLineColor: "#707073",
+      labels: {
+        style: {
+          color: "#E0E0E3",
+        },
+      },
+      lineColor: "#707073",
+      minorGridLineColor: "#505053",
+      tickColor: "#707073",
+      tickWidth: 1,
+      title: {
+        style: {
+          color: "#A0A0A3",
+        },
+      },
+    },
+    tooltip: {
+      backgroundColor: "rgba(0, 0, 0, 0.85)",
+      style: {
+        color: "#F0F0F0",
+      },
+    },
+    plotOptions: {
+      series: {
+        dataLabels: {
+          color: "#F0F0F3",
+          style: {
+            fontSize: "13px",
+          },
+        },
+        marker: {
+          lineColor: "#333",
+        },
+      },
+      boxplot: {
+        fillColor: "#505053",
+      },
+      candlestick: {
+        lineColor: "white",
+      },
+      errorbar: {
+        color: "white",
+      },
+    },
+    legend: {
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      itemStyle: {
+        color: "#E0E0E3",
+      },
+      itemHoverStyle: {
+        color: "#FFF",
+      },
+      itemHiddenStyle: {
+        color: "#606063",
+      },
+      title: {
+        style: {
+          color: "#C0C0C0",
+        },
+      },
+    },
+
+    labels: {
+      style: {
+        color: "#707073",
+      },
+    },
+    drilldown: {
+      activeAxisLabelStyle: {
+        color: "#F0F0F3",
+      },
+      activeDataLabelStyle: {
+        color: "#F0F0F3",
+      },
+    },
+    navigation: {
+      buttonOptions: {
+        symbolStroke: "#DDDDDD",
+        theme: {
+          fill: "#505053",
+        },
+      },
+    },
+    // scroll charts
+    rangeSelector: {
+      ...options.rangeSelector,
+      buttonTheme: {
+        fill: "#505053",
+        stroke: "#000000",
+        style: {
+          color: "#CCC",
+        },
+        states: {
+          hover: {
+            fill: "#707073",
+            stroke: "#000000",
+            style: {
+              color: "white",
+            },
+          },
+          select: {
+            fill: "#000003",
+            stroke: "#000000",
+            style: {
+              color: "white",
+            },
+          },
+        },
+      },
+      inputBoxBorderColor: "#505053",
+      inputStyle: {
+        backgroundColor: "#333",
+        color: "silver",
+      },
+      labelStyle: {
+        color: "silver",
+      },
+    },
+    navigator: {
+      handles: {
+        backgroundColor: "#666",
+        borderColor: "#AAA",
+      },
+      outlineColor: "#CCC",
+      maskFill: "rgba(255,255,255,0.1)",
+      series: {
+        color: "#7798BF",
+        lineColor: "#A6C7ED",
+      },
+      xAxis: {
+        gridLineColor: "#505053",
+      },
+    },
+    scrollbar: {
+      barBackgroundColor: "#808083",
+      barBorderColor: "#808083",
+      buttonArrowColor: "#CCC",
+      buttonBackgroundColor: "#606063",
+      buttonBorderColor: "#606063",
+      rifleColor: "#FFF",
+      trackBackgroundColor: "#404043",
+      trackBorderColor: "#404043",
+    },
+  };
+
   if (error) return <div>{error}</div>;
+
+  const allSales = sales?.reduce((acc, curr) => acc + curr.soldPrice, 0);
+  const allSpendings = spendings?.reduce((acc, curr) => acc + curr, 0);
+  const earning = sales?.reduce(
+    (acc, curr) => acc + (curr.soldPrice - curr.price),
+    0
+  );
+  const balance = allSales - allSpendings;
 
   return (
     <>
@@ -150,34 +377,63 @@ export default function WalletScreen() {
           </Typography>
           <Typography variant="h5" component="h3" align="center">
             <NumberFormat
-              value={2456981}
+              value={balance}
               displayType={"text"}
               thousandSeparator={true}
-              prefix={"MAD"}
+              suffix={"DH"}
               className={classes.title}
             />
           </Typography>
+        </Paper>
+        <Paper className={classes.paper}>
           <div className={classes.flex}>
+            <Typography variant="h6" className={classes.title}>
+              Sales
+            </Typography>
             <Typography className={classes.salesTitle} variant="subtitle2">
               <NumberFormat
-                value={sales.reduce(
-                  (acc, curr) => acc + (curr.soldPrice - curr.price),
-                  0
-                )}
+                value={allSales}
                 displayType={"text"}
                 thousandSeparator={true}
-                prefix={"MAD"}
-                className={classes.title}
+                suffix={"DH"}
+
+                //className={classes.title}
               />
             </Typography>
-
-            <Typography className={classes.spendingsTitle} variant="subtitle2">
+          </div>
+        </Paper>
+        <Paper className={classes.paper}>
+          <div className={classes.flex}>
+            <Typography className={classes.title} variant="h6">
+              Spendings
+            </Typography>
+            {spendings && (
+              <Typography
+                className={classes.spendingsTitle}
+                variant="subtitle2"
+              >
+                <NumberFormat
+                  value={allSpendings}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  suffix={"DH"}
+                  //className={classes.title}
+                />
+              </Typography>
+            )}
+          </div>
+        </Paper>
+        <Paper className={classes.paper}>
+          <div className={classes.flex}>
+            <Typography className={classes.title} variant="h6">
+              Earnings
+            </Typography>
+            <Typography className={classes.earningTitle} variant="subtitle2">
               <NumberFormat
-                value={2456}
+                value={earning}
                 displayType={"text"}
                 thousandSeparator={true}
-                prefix={"MAD"}
-                className={classes.title}
+                suffix={"DH"}
               />
             </Typography>
           </div>
@@ -186,7 +442,9 @@ export default function WalletScreen() {
           <Doughnut />
         </Paper> */}
 
-        <HighChartStock options={options} />
+        <HighChartStock
+          options={theme.palette.type === "light" ? options : darkOptions}
+        />
       </div>
     </>
   );

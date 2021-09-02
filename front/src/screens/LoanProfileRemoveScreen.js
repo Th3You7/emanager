@@ -2,7 +2,7 @@ import { Button, makeStyles, Snackbar, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   loanAction,
   loanProfileDeleteAction,

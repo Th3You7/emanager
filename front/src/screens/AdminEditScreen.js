@@ -47,9 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FILE_SIZE = 100 * 1024;
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
-
 const schema = yup.object().shape({
   name: yup.string().required(), //required
   storeName: yup.string().required(), //required

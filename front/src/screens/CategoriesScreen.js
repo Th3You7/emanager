@@ -66,11 +66,6 @@ export default function CategoriesScreen() {
 
       <div className={classes.container}>
         <DataGrid
-          filterModel={{
-            items: [
-              { columnField: "name", operatorValue: "contains", value: "Geek" },
-            ],
-          }}
           page={page}
           onPageChange={(params) => {
             setPage(params.page);

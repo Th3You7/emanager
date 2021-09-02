@@ -9,7 +9,6 @@ import {
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { UpperAppBar } from "../components";
-import { Link } from "react-router-dom";
 import { deleteCategoryAction } from "../actions/categoriesAction";
 import { Alert } from "@material-ui/lab";
 
