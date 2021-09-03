@@ -46,6 +46,7 @@ import {
   loanProductsReducer,
   loanProfileEditReducer,
   loanProfileDeleteReducer,
+  loanProfileAddReducer,
 } from "./reducers/loanReducer";
 
 import { invoiceReducer, allInvoicesReducer } from "./reducers/invoiceReducer";
@@ -94,6 +95,7 @@ const reducer = combineReducers({
   loanPaymentsReducer,
   loanProfileEditReducer,
   loanProfileDeleteReducer,
+  loanProfileAddReducer,
   getProfileReducer,
   editProfileReducer,
   logInReducer,

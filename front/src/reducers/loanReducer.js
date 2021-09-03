@@ -18,6 +18,9 @@ import {
   LOAN_PROFILE_DELETE_REQUEST,
   LOAN_PROFILE_DELETE_SUCCESS,
   LOAN_PROFILE_DELETE_FAIL,
+  LOAN_PROFILE_ADD_REQUEST,
+  LOAN_PROFILE_ADD_SUCCESS,
+  LOAN_PROFILE_ADD_FAIL,
 } from "../constants/loanConstants";
 
 const defaultState = {
@@ -206,6 +209,43 @@ const loanProfileDeleteReducer = (
   }
 };
 
+const loanProfileAddReducer = (
+  state = { loading: false, result: null, error: null },
+  action
+) => {
+  switch (action.type) {
+    case LOAN_PROFILE_ADD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case LOAN_PROFILE_ADD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        result: action.payload,
+      };
+
+    case LOAN_PROFILE_ADD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case LOAN_RESET:
+      return {
+        loading: false,
+        result: null,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   loanReducer,
   loanProfileReducer,
@@ -213,4 +253,5 @@ export {
   loanProductsReducer,
   loanProfileEditReducer,
   loanProfileDeleteReducer,
+  loanProfileAddReducer,
 };

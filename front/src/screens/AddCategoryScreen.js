@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.spacing(2.5),
     margin: theme.spacing(4, 0),
   },
+  title: {
+    marginBottom: theme.spacing(1.5),
+    fontWeight: 700,
+  },
 }));
 
 const schema = yup.object().shape({
@@ -77,6 +81,9 @@ export default function AddCategoryScreen() {
     <>
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
+        <Typography className={classes.title} component="h2" variant="h5">
+          Add Category
+        </Typography>
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <TextField
             error={errors.name ? true : false}

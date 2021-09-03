@@ -28,6 +28,7 @@ export { default as LoanProducts } from "./LoanProductsScreen";
 export { default as LoanPayments } from "./LoanPaymentsScreen";
 export { default as LoanProfileEdit } from "./LoanProfileEditScreen";
 export { default as LoanProfileRemove } from "./LoanProfileRemoveScreen";
+export { default as LoanProfileAdd } from "./LoanProfileAddScreen";
 
 export { default as LogIn } from "./LogInScreen";
 

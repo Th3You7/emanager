@@ -19,6 +19,9 @@ import {
   LOAN_PROFILE_DELETE_REQUEST,
   LOAN_PROFILE_DELETE_FAIL,
   LOAN_PROFILE_DELETE_SUCCESS,
+  LOAN_PROFILE_ADD_REQUEST,
+  LOAN_PROFILE_ADD_SUCCESS,
+  LOAN_PROFILE_ADD_FAIL,
 } from "../constants/loanConstants";
 
 const loanAction = () => async (dispatch) => {
@@ -88,6 +91,17 @@ const loanProfileDeleteAction = (profileid) => async (dispatch) => {
   }
 };
 
+const loanProfileAddAction = (data) => async (dispatch) => {
+  dispatch({ type: LOAN_PROFILE_ADD_REQUEST });
+
+  try {
+    const res = await axios.post("/api/loan/add", data);
+    dispatch({ type: LOAN_PROFILE_ADD_SUCCESS, payload: res.data });
+  } catch (error) {
+    dispatch({ type: LOAN_PROFILE_ADD_FAIL, payload: error });
+  }
+};
+
 const loanReset = () => (dispatch) => {
   dispatch({ type: LOAN_RESET });
 };
@@ -99,5 +113,6 @@ export {
   loanPaymentsAction,
   loanProfileEditAction,
   loanProfileDeleteAction,
+  loanProfileAddAction,
   loanReset,
 };

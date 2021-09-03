@@ -38,21 +38,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UpperAppBar({
-  handleRemove,
-  handleAdd,
-  handleBack,
-  handleStore,
-  to,
-  id,
-  categoryId,
-  saleId,
-  spendingId,
-}) {
+export default function UpperAppBar(props) {
+  const {
+    handleRemove,
+    handleAdd,
+    handleBack,
+    handleStore,
+    to,
+    id,
+    categoryId,
+    saleId,
+    spendingId,
+  } = props;
   const classes = useStyles(useLocation());
   const location = useLocation();
   const { pathname } = location;
-
   return (
     <div className={classes.root}>
       <IconButton aria-label="back" onClick={handleBack}>
@@ -74,7 +74,8 @@ export default function UpperAppBar({
       {(pathname === "/admin/allproducts" ||
         pathname === "/admin/categories" ||
         pathname === "/admin/sales" ||
-        pathname === "/admin/spending") && (
+        pathname === "/admin/spending" ||
+        pathname === "/loan") && (
         <div className={classes.flex}>
           {pathname !== "/admin/sales" && (
             <Fab

@@ -98,8 +98,6 @@ export default function EditScreen() {
     }
   }, [setOpen, result]);
 
-  console.log(productImg);
-
   const handleImageChange = async (e) => {
     setLoad(true);
     const image = e.target.files[0];
@@ -120,8 +118,6 @@ export default function EditScreen() {
       formData.delete("image");
     }
   };
-
-  console.log(productImg);
 
   const onSubmit = (data) => {
     dispatch(editAction(id, data));
@@ -188,7 +184,6 @@ export default function EditScreen() {
     return true;
   };
 
-  console.log(productImg);
   return (
     <>
       <UpperAppBar handleBack={handleBack} />

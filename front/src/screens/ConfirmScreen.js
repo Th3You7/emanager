@@ -73,8 +73,6 @@ export default function ConfirmScreen() {
   const invoice = useSelector((state) => state.invoiceReducer);
   const { loans } = useSelector((state) => state.loanReducer);
 
-  console.log(invoice);
-
   //!New
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);

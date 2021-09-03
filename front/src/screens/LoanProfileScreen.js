@@ -54,13 +54,30 @@ export default function LoanProfileScreen() {
     { name: "Payments", path: "/payments", icon: <PaymentOutlined /> },
   ];
 
+  const allProductsPrice = d?.data?.products
+    .map((product) => {
+      const qty = Object.keys(product.sizes).reduce(
+        (acc, cur) => acc + product[cur],
+        0
+      );
+
+      return Number(qty * product.unitPrice);
+    })
+    .map((acc, cur) => acc + cur, 0);
+
+  const allPayments = d?.data?.payments.reduce(
+    (acc, curr) => acc + curr["payment"],
+    0
+  );
+
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} />
       <LoanProfileHeader
-        name={d.data?.name}
-        cover={d.data?.cover}
-        profile={d.data?.profile}
+        name={d?.data?.name}
+        img={d?.data?.img}
+        productsSum={allProductsPrice}
+        paymentsSum={allPayments}
       />
       {data.map((item, index) => {
         return (

@@ -16,8 +16,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { loanProfileEditAction, loanReset } from "../actions/loanAction";
+import { useHistory } from "react-router-dom";
+import { loanProfileAddAction, loanReset } from "../actions/loanAction";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,12 +70,15 @@ const schema = yup.object().shape({
   // )
 });
 
-export default function LoanProfileEditScreen() {
+export default function LoanProfileAddScreen() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const { profileid } = useParams();
+  const [profile, setProfile] = useState("");
+  const [cover, setCover] = useState("");
+  const [load, setLoad] = useState(false);
+  const [coverErr, setCoverErr] = useState("");
+  const [profileErr, setProfileErr] = useState("");
   const {
     register,
     handleSubmit,
@@ -83,17 +86,10 @@ export default function LoanProfileEditScreen() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const {
-    data: { name },
-  } = useSelector((state) => state.loanProfileReducer);
+
   const { loading, result, error } = useSelector(
-    (state) => state.loanProfileEditReducer
+    (state) => state.loanProfileAddReducer
   );
-  const [profileImg, setProfileImg] = useState("");
-  const [coverImg, setCoverImg] = useState("");
-  const [load, setLoad] = useState(false);
-  const [coverErr, setCoverErr] = useState("");
-  const [profileErr, setProfileErr] = useState("");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -104,24 +100,21 @@ export default function LoanProfileEditScreen() {
 
   const onSubmit = (data) => {
     let img = {};
-    if (profileImg) {
-      const { imageUrl, public_id } = profileImg;
+    if (profile) {
+      const { imageUrl, public_id } = profile;
       img.profile = { url: imageUrl, public_id };
     }
 
-    if (coverImg) {
-      const { imageUrl, public_id } = coverImg;
+    if (cover) {
+      const { imageUrl, public_id } = cover;
 
       img.cover = { url: imageUrl, public_id };
     }
     dispatch(
-      loanProfileEditAction(
-        {
-          ...data,
-          img,
-        },
-        profileid
-      )
+      loanProfileAddAction({
+        ...data,
+        img,
+      })
     );
   };
   const handleClose = useCallback((event, reason) => {
@@ -135,9 +128,9 @@ export default function LoanProfileEditScreen() {
     setLoad(true);
     const img = e.target.files[0];
     const formData = new FormData();
-    formData.append("profile", img);
-    if (profileImg) {
-      formData.append("public_id", profileImg.public_id);
+    formData.append("loanProfile", img);
+    if (profile) {
+      formData.append("public_id", profile.public_id);
     }
     try {
       const { data } = await axios.post(
@@ -147,7 +140,7 @@ export default function LoanProfileEditScreen() {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      setProfileImg(data);
+      setProfile(data);
       setLoad(false);
       setProfileErr("");
     } catch (error) {
@@ -160,12 +153,15 @@ export default function LoanProfileEditScreen() {
     setLoad(true);
     const img = e.target.files[0];
     const formData = new FormData();
-    formData.append("cover", img);
+    formData.append("loanCover", img);
+    if (cover) {
+      formData.append("public_id", cover.public_id);
+    }
     try {
       const { data } = await axios.post("/api/loan/upload/addcover", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setCoverImg(data);
+      setCover(data);
       setLoad(false);
       setCoverErr("");
     } catch (error) {
@@ -184,7 +180,7 @@ export default function LoanProfileEditScreen() {
       <UpperAppBar handleBack={handleBack} />
       <div className={classes.container}>
         <Typography className={classes.title} component="h2" variant="h5">
-          Edit Loan Profile
+          Add Loan Profile
         </Typography>
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <TextField
@@ -199,10 +195,10 @@ export default function LoanProfileEditScreen() {
             }}
             // variant="filled"
             inputRef={register}
-            defaultValue={name}
             helperText={errors.name?.message}
           />
-          {!result && !load && (
+
+          {!load && !result && (
             <>
               <div>
                 <input
@@ -225,8 +221,8 @@ export default function LoanProfileEditScreen() {
                     <PhotoCameraOutlined />
                   </IconButton>
                 </label>
-                {profileImg && (
-                  <p style={{ marginTop: 0 }}>{profileImg.originalname}</p>
+                {profile && (
+                  <p style={{ marginTop: 0 }}>{profile.originalname}</p>
                 )}
                 {profileErr && (
                   <p style={{ color: "red", marginTop: 0 }}>{profileErr}</p>
@@ -253,9 +249,7 @@ export default function LoanProfileEditScreen() {
                     <PhotoCameraOutlined />
                   </IconButton>
                 </label>
-                {coverImg && (
-                  <p style={{ marginTop: 0 }}>{coverImg.originalname}</p>
-                )}
+                {cover && <p style={{ marginTop: 0 }}>{cover.originalname}</p>}
                 {coverErr && (
                   <p style={{ color: "red", marginTop: 0 }}>{profileErr}</p>
                 )}

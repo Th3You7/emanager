@@ -7,8 +7,10 @@ const loanSchema = new mongoose.Schema({
     unique: true,
     set: (v) => v.toLowerCase(),
   },
-  profile: { type: String },
-  cover: { type: String },
+  img: {
+    profile: { url: { type: String }, public_id: { type: String } },
+    cover: { url: { type: String }, public_id: { type: String } },
+  },
   payments: [
     {
       payment: { type: Number },
@@ -17,7 +19,9 @@ const loanSchema = new mongoose.Schema({
   ],
   products: [
     {
-      product: { type: Number },
+      product: { type: String, required: true },
+      unitPrice: { type: Number, required: true },
+      sizes: { type: Object, required: true },
       time: { type: Date, default: Date.now },
     },
   ],

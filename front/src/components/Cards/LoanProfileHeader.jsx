@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Typography, Paper, IconButton } from "@material-ui/core";
-import { EditRounded } from "@material-ui/icons";
+import { EditRounded, Phone } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   info: {
     padding: theme.spacing(0, 2),
     marginTop: theme.spacing(-4),
+    display: "flex",
   },
 
   menu: {
@@ -56,9 +57,13 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
   },
+
+  subtitle: {
+    fontWeight: 700,
+  },
 }));
 
-export default function AdminProfile({ name, cover, profile }) {
+export default function AdminProfile({ name, img, productsSum, paymentsSum }) {
   const classes = useStyles();
   const history = useHistory();
   const { profileid } = useParams();
@@ -75,27 +80,51 @@ export default function AdminProfile({ name, cover, profile }) {
             <EditRounded />
           </IconButton>
         </div>
-        {cover && <img className={classes.img} src={cover} alt="cover" />}
+        {img?.cover && (
+          <img className={classes.img} src={img?.cover?.url} alt="cover" />
+        )}
       </div>
 
-      <Avatar alt="admin logo" className={classes.media} src={profile} />
+      <Avatar
+        alt="admin logo"
+        className={classes.media}
+        src={img?.profile?.url}
+      />
       <div className={classes.info}>
-        <Typography
-          variant="h5"
-          component="h2"
-          color="textPrimary"
-          className={classes.title}
-        >
-          {name && name.replace(/\b\w/g, (l) => l.toUpperCase())}
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          component="h6"
-          color="textSecondary"
-          className={classes.subtitle}
-        >
-          560 DH
-        </Typography>
+        <div style={{ flex: "0 1 50%" }}>
+          <Typography
+            variant="h5"
+            component="h2"
+            color="textPrimary"
+            className={classes.title}
+          >
+            {name && name.replace(/\b\w/g, (l) => l.toUpperCase())}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            component="h6"
+            color="textSecondary"
+            className={classes.subtitle}
+          >
+            {Number(productsSum - paymentsSum)} DH
+          </Typography>
+        </div>
+        <div style={{ flex: "0 1 50%" }}>
+          <Typography
+            variant="subtitle1"
+            component="h6"
+            color="textSecondary"
+            className={classes.subtitle}
+            style={{ display: "flex" }}
+          >
+            <Phone
+              style={{
+                marginRight: "4px",
+              }}
+            />
+            <span>06 72541070</span>
+          </Typography>
+        </div>
       </div>
     </Paper>
   );

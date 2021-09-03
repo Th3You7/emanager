@@ -99,11 +99,15 @@ export default function Loan() {
     history.replace("/");
   };
 
+  const handleAdd = () => {
+    history.push("/loan/add");
+  };
+
   const handleChange = (e) => setInput(e.target.value);
 
   return (
     <div className={classes.root}>
-      <UpperAppBar handleBack={handleBack} />
+      <UpperAppBar handleBack={handleBack} handleAdd={handleAdd} />
       <div className={classes.container}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
