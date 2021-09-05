@@ -63,7 +63,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AdminProfile({ name, img, productsSum, paymentsSum }) {
+export default function AdminProfile({
+  name,
+  img,
+  productsSum,
+  paymentsSum,
+  phone,
+}) {
   const classes = useStyles();
   const history = useHistory();
   const { profileid } = useParams();
@@ -122,7 +128,7 @@ export default function AdminProfile({ name, img, productsSum, paymentsSum }) {
                 marginRight: "4px",
               }}
             />
-            <span>06 72541070</span>
+            <span>{phone}</span>
           </Typography>
         </div>
       </div>

@@ -43,10 +43,13 @@ import {
   loanReducer,
   loanProfileReducer,
   loanPaymentsReducer,
+  loanPaymentsAddReducer,
+  loanPaymentsRemoveReducer,
   loanProductsReducer,
   loanProfileEditReducer,
   loanProfileDeleteReducer,
   loanProfileAddReducer,
+  currSelPaymentReducer,
 } from "./reducers/loanReducer";
 
 import { invoiceReducer, allInvoicesReducer } from "./reducers/invoiceReducer";
@@ -93,6 +96,8 @@ const reducer = combineReducers({
   loanProfileReducer,
   loanProductsReducer,
   loanPaymentsReducer,
+  loanPaymentsAddReducer,
+  loanPaymentsRemoveReducer,
   loanProfileEditReducer,
   loanProfileDeleteReducer,
   loanProfileAddReducer,
@@ -101,6 +106,7 @@ const reducer = combineReducers({
   logInReducer,
   invoiceReducer,
   allInvoicesReducer,
+  currSelPaymentReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

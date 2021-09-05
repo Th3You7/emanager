@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const schema = yup.object().shape({
   name: yup.string().required(), //required
+  phone: yup.number().required(),
   // profile: yup
   // .mixed()
   //   .test(
@@ -196,6 +197,21 @@ export default function LoanProfileAddScreen() {
             // variant="filled"
             inputRef={register}
             helperText={errors.name?.message}
+          />
+
+          <TextField
+            error={errors.phone ? true : false}
+            label="Phone Number"
+            name="phone"
+            fullWidth
+            className={classes.input}
+            margin="dense"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            // variant="filled"
+            inputRef={register}
+            helperText={errors.phone?.message.slice(0, 30)}
           />
 
           {!load && !result && (

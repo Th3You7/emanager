@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Fab, IconButton } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -49,10 +49,15 @@ export default function UpperAppBar(props) {
     categoryId,
     saleId,
     spendingId,
+    paymentId,
   } = props;
   const classes = useStyles(useLocation());
   const location = useLocation();
   const { pathname } = location;
+  const { profileid } = useParams();
+
+  console.log();
+
   return (
     <div className={classes.root}>
       <IconButton aria-label="back" onClick={handleBack}>
@@ -75,7 +80,8 @@ export default function UpperAppBar(props) {
         pathname === "/admin/categories" ||
         pathname === "/admin/sales" ||
         pathname === "/admin/spending" ||
-        pathname === "/loan") && (
+        pathname === "/loan" ||
+        pathname === `/loan/${profileid}/payments`) && (
         <div className={classes.flex}>
           {pathname !== "/admin/sales" && (
             <Fab
@@ -89,7 +95,7 @@ export default function UpperAppBar(props) {
             </Fab>
           )}
 
-          {(id || categoryId || saleId || spendingId) && (
+          {(id || categoryId || saleId || spendingId || paymentId) && (
             <Fab
               color="secondary"
               size="small"

@@ -89,15 +89,56 @@ loanRouter.get(
   })
 );
 
-//*adding loan profile
+//*adding a loan payment
+loanRouter.post(
+  "/:profileid/payments/add",
+  asyncHandler(async (req, res) => {
+    const { profileid } = req.params;
 
+    const { payment } = req.body;
+
+    try {
+      const profile = await Loans.findById(profileid);
+      profile.payments = [{ payment }, ...profile.payments];
+
+      const updatedProfile = await profile.save();
+
+      res.json(updatedProfile);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+//*removing a loan payment
+loanRouter.delete(
+  "/:profileid/payments/remove",
+  asyncHandler(async (req, res) => {
+    const { profileid } = req.params;
+    const { paymentId } = req.body;
+    try {
+      const profile = await Loans.findById(profileid);
+      const filtredArr = profile.payments.filter((x) => x._id != paymentId);
+
+      profile.payments = filtredArr;
+
+      const updatedProfile = await profile.save();
+
+      res.json(updatedProfile);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+//*adding loan profile
 loanRouter.post(
   "/add",
   asyncHandler(async (req, res) => {
-    const { img, name } = req.body;
+    const { img, name, phone } = req.body;
     console.log(img, name);
     try {
-      const profile = new Loans({ img, name });
+      const profile = new Loans({ img, name, phone });
       const createdProfile = await profile.save();
 
       res.json(createdProfile);

@@ -22,6 +22,7 @@ import {
   Loan,
   LoanProfile,
   LoanPayments,
+  LoanPaymentsAdd,
   LoanProducts,
   LoanProfileEdit,
   LoanProfileRemove,
@@ -29,6 +30,7 @@ import {
   AdminEdit,
   LogIn,
   Invoices,
+  LoanPaymentsRemove,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -105,9 +107,21 @@ function App() {
         <Route exact path="/loan" children={<Loan />} />
         <Route exact path="/loan/add" children={<LoanProfileAdd />} />
         <Route exact path="/loan/:profileid" children={<LoanProfile />} />
-
         <Route path="/loan/:profileid/products" children={<LoanProducts />} />
-        <Route path="/loan/:profileid/payments" children={<LoanPayments />} />
+        <Route
+          exact
+          path="/loan/:profileid/payments"
+          children={<LoanPayments />}
+        />
+        <Route
+          path="/loan/:profileid/payments/add"
+          children={<LoanPaymentsAdd />}
+        />
+
+        <Route
+          path="/loan/:profileid/payments/remove"
+          children={<LoanPaymentsRemove />}
+        />
         <Route path="/loan/:profileid/edit" children={<LoanProfileEdit />} />
         <Route
           path="/loan/:profileid/delete"

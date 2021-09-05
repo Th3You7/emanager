@@ -7,6 +7,10 @@ const loanSchema = new mongoose.Schema({
     unique: true,
     set: (v) => v.toLowerCase(),
   },
+  phone: {
+    type: Number,
+    unique: true,
+  },
   img: {
     profile: { url: { type: String }, public_id: { type: String } },
     cover: { url: { type: String }, public_id: { type: String } },

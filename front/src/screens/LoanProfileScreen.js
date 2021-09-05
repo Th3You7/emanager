@@ -75,6 +75,7 @@ export default function LoanProfileScreen() {
       <UpperAppBar handleBack={handleBack} />
       <LoanProfileHeader
         name={d?.data?.name}
+        phone={d?.data?.phone}
         img={d?.data?.img}
         productsSum={allProductsPrice}
         paymentsSum={allPayments}

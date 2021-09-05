@@ -22,6 +22,12 @@ import {
   LOAN_PROFILE_ADD_REQUEST,
   LOAN_PROFILE_ADD_SUCCESS,
   LOAN_PROFILE_ADD_FAIL,
+  LOAN_PAYMENTS_ADD_REQUEST,
+  LOAN_PAYMENTS_ADD_SUCCESS,
+  LOAN_PAYMENTS_ADD_FAIL,
+  LOAN_PAYMENTS_REMOVE_REQUEST,
+  LOAN_PAYMENTS_REMOVE_SUCCESS,
+  LOAN_PAYMENTS_REMOVE_FAIL,
 } from "../constants/loanConstants";
 
 const loanAction = () => async (dispatch) => {
@@ -58,6 +64,35 @@ const loanPaymentsAction = (profileid) => async (dispatch) => {
   }
 };
 
+const loanPaymentsAddAction =
+  ({ profileid, payment }) =>
+  async (dispatch) => {
+    dispatch({ type: LOAN_PAYMENTS_ADD_REQUEST });
+    try {
+      const result = await axios.post(`/api/loan/${profileid}/payments/add`, {
+        payment,
+      });
+
+      dispatch({ type: LOAN_PAYMENTS_ADD_SUCCESS, payload: result });
+    } catch (error) {
+      dispatch({ type: LOAN_PAYMENTS_ADD_FAIL, payload: error });
+    }
+  };
+
+const loanPaymentsRemoveAction =
+  ({ profileId, paymentId }) =>
+  async (dispatch) => {
+    dispatch({ type: LOAN_PAYMENTS_REMOVE_REQUEST });
+    try {
+      const res = await axios.delete(`/api/loan/${profileId}/payments/remove`, {
+        data: { paymentId },
+      });
+      dispatch({ type: LOAN_PAYMENTS_REMOVE_SUCCESS, payload: res });
+    } catch (error) {
+      dispatch({ type: LOAN_PAYMENTS_REMOVE_FAIL, payload: error });
+    }
+  };
+
 const loanProductsAction = (profileid) => async (dispatch) => {
   dispatch({ type: LOAN_PRODUCTS_REQUEST });
 
@@ -91,6 +126,10 @@ const loanProfileDeleteAction = (profileid) => async (dispatch) => {
   }
 };
 
+const currSelPaymentAction = (paymentid) => async (dispatch) => {
+  dispatch({ type: "SEL_PAY", payload: paymentid });
+};
+
 const loanProfileAddAction = (data) => async (dispatch) => {
   dispatch({ type: LOAN_PROFILE_ADD_REQUEST });
 
@@ -111,8 +150,11 @@ export {
   loanProfileAction,
   loanProductsAction,
   loanPaymentsAction,
+  loanPaymentsAddAction,
+  loanPaymentsRemoveAction,
   loanProfileEditAction,
   loanProfileDeleteAction,
   loanProfileAddAction,
+  currSelPaymentAction,
   loanReset,
 };

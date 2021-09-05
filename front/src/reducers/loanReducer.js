@@ -21,6 +21,12 @@ import {
   LOAN_PROFILE_ADD_REQUEST,
   LOAN_PROFILE_ADD_SUCCESS,
   LOAN_PROFILE_ADD_FAIL,
+  LOAN_PAYMENTS_ADD_REQUEST,
+  LOAN_PAYMENTS_REMOVE_REQUEST,
+  LOAN_PAYMENTS_REMOVE_SUCCESS,
+  LOAN_PAYMENTS_REMOVE_FAIL,
+  LOAN_PAYMENTS_ADD_SUCCESS,
+  LOAN_PAYMENTS_ADD_FAIL,
 } from "../constants/loanConstants";
 
 const defaultState = {
@@ -137,6 +143,72 @@ const loanPaymentsReducer = (state = { loading: false, data: [] }, action) => {
   }
 };
 
+const loanPaymentsAddReducer = (
+  state = { loading: false, payload: null, error: null },
+  action
+) => {
+  switch (action.type) {
+    case LOAN_PAYMENTS_ADD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case LOAN_PAYMENTS_ADD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        payload: action.payload,
+      };
+
+    case LOAN_PAYMENTS_ADD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case LOAN_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+const loanPaymentsRemoveReducer = (
+  state = { loading: false, payload: null, error: null },
+  action
+) => {
+  switch (action.type) {
+    case LOAN_PAYMENTS_REMOVE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case LOAN_PAYMENTS_REMOVE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        payload: action.payload,
+      };
+
+    case LOAN_PAYMENTS_REMOVE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case LOAN_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
 const loanProfileEditReducer = (
   state = { loading: false, result: null },
   action
@@ -246,6 +318,18 @@ const loanProfileAddReducer = (
   }
 };
 
+const currSelPaymentReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SEL_PAY":
+      return {
+        ...action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export {
   loanReducer,
   loanProfileReducer,
@@ -254,4 +338,7 @@ export {
   loanProfileEditReducer,
   loanProfileDeleteReducer,
   loanProfileAddReducer,
+  loanPaymentsAddReducer,
+  loanPaymentsRemoveReducer,
+  currSelPaymentReducer,
 };
