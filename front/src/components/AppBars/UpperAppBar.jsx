@@ -50,13 +50,12 @@ export default function UpperAppBar(props) {
     saleId,
     spendingId,
     paymentId,
+    productsId,
   } = props;
   const classes = useStyles(useLocation());
   const location = useLocation();
   const { pathname } = location;
   const { profileid } = useParams();
-
-  console.log();
 
   return (
     <div className={classes.root}>
@@ -81,21 +80,28 @@ export default function UpperAppBar(props) {
         pathname === "/admin/sales" ||
         pathname === "/admin/spending" ||
         pathname === "/loan" ||
-        pathname === `/loan/${profileid}/payments`) && (
+        pathname === `/loan/${profileid}/payments` ||
+        pathname === `/loan/${profileid}/products`) && (
         <div className={classes.flex}>
-          {pathname !== "/admin/sales" && (
-            <Fab
-              color="primary"
-              size="small"
-              aria-label="add"
-              className={classes.btn}
-              onClick={handleAdd}
-            >
-              <AddRounded />
-            </Fab>
-          )}
+          {pathname !== "/admin/sales" &&
+            pathname !== `/loan/${profileid}/products` && (
+              <Fab
+                color="primary"
+                size="small"
+                aria-label="add"
+                className={classes.btn}
+                onClick={handleAdd}
+              >
+                <AddRounded />
+              </Fab>
+            )}
 
-          {(id || categoryId || saleId || spendingId || paymentId) && (
+          {(id ||
+            categoryId ||
+            saleId ||
+            spendingId ||
+            paymentId ||
+            productsId) && (
             <Fab
               color="secondary"
               size="small"

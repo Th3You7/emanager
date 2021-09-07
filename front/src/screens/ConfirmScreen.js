@@ -29,7 +29,11 @@ import { Alert } from "@material-ui/lab";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
 import Select from "react-select";
 
-import { loanAction } from "../actions/loanAction";
+import {
+  loanAction,
+  loanPaymentsAddAction,
+  loanProductsAddAction,
+} from "../actions/loanAction";
 import { invoiceAction, resetInvoiceAction } from "../actions/invoiceAction";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +70,11 @@ export default function ConfirmScreen() {
     label: "Cash",
   });
 
-  const [clientInfo, setClientInfo] = useState({ adress: "", name: "" });
+  const [clientInfo, setClientInfo] = useState({
+    adress: "",
+    name: "",
+    id: "",
+  });
   const [advance, setAdvance] = useState(0);
   const { products } = useSelector((state) => state.cartReducer);
   const addSales = useSelector((state) => state.addSalesReducer);
@@ -136,15 +144,21 @@ export default function ConfirmScreen() {
   };
 
   const handleClick = () => {
-    dispatch(addSalesAction(products));
-    dispatch(removeAllAction());
-    dispatch(confirmSaleAction(products));
-    dispatch(invoiceAction(invoiceData));
+    // dispatch(addSalesAction(products));
+    // dispatch(confirmSaleAction(products));
+    // advance &&
+    // dispatch(
+    //   loanPaymentsAddAction({ profileid: clientInfo.id, payment: advance })
+    // );
+    dispatch(loanProductsAddAction({ products, profileid: clientInfo.id }));
+    // dispatch(invoiceAction(invoiceData));
+    // dispatch(removeAllAction());
   };
 
   const borrowersOptions = loans.map((va) => {
     return {
       value: va.name,
+      id: va._id,
       label: va.name.replace(/\b\w/g, (l) => l.toUpperCase()),
     };
   });
@@ -204,7 +218,10 @@ export default function ConfirmScreen() {
               fullWidth
               variant="outlined"
               onChange={(e) =>
-                setClientInfo({ ...clientInfo, name: e.target.value })
+                setClientInfo({
+                  ...clientInfo,
+                  name: e.target.value,
+                })
               }
             />
             <TextField
@@ -224,7 +241,7 @@ export default function ConfirmScreen() {
           <>
             <Select
               name="client"
-              defaultValue="S"
+              defaultValue=""
               className={classes.input}
               options={borrowersOptions}
               styles={{
@@ -245,7 +262,7 @@ export default function ConfirmScreen() {
               })}
               closeMenuOnSelect={true}
               placeholder="Select borrower..."
-              onChange={(e) => setClientInfo({ name: e.value })}
+              onChange={(e) => setClientInfo({ name: e.value, id: e.id })}
             />
             <TextField
               className={classes.input}

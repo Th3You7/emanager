@@ -28,6 +28,12 @@ import {
   LOAN_PAYMENTS_REMOVE_REQUEST,
   LOAN_PAYMENTS_REMOVE_SUCCESS,
   LOAN_PAYMENTS_REMOVE_FAIL,
+  LOAN_PRODUCTS_ADD_REQUEST,
+  LOAN_PRODUCTS_ADD_FAIL,
+  LOAN_PRODUCTS_ADD_SUCCESS,
+  LOAN_PRODUCTS_REMOVE_REQUEST,
+  LOAN_PRODUCTS_REMOVE_FAIL,
+  LOAN_PRODUCTS_REMOVE_SUCCESS,
 } from "../constants/loanConstants";
 
 const loanAction = () => async (dispatch) => {
@@ -105,6 +111,34 @@ const loanProductsAction = (profileid) => async (dispatch) => {
   }
 };
 
+const loanProductsAddAction =
+  ({ products, profileid }) =>
+  async (dispatch) => {
+    dispatch({ type: LOAN_PRODUCTS_ADD_REQUEST });
+    try {
+      const res = await axios.post(`/api/loan/${profileid}/addproducts`, {
+        products,
+      });
+      dispatch({ type: LOAN_PRODUCTS_ADD_SUCCESS, payload: res });
+    } catch (error) {
+      dispatch({ type: LOAN_PRODUCTS_ADD_FAIL, payload: error });
+    }
+  };
+
+const loanProductsRemoveACtion =
+  ({ products, profileId }) =>
+  async (dispatch) => {
+    dispatch({ type: LOAN_PRODUCTS_REMOVE_REQUEST });
+    try {
+      const res = await axios.delete(`/api/loan/${profileId}/removeProducts`, {
+        data: { products },
+      });
+      dispatch({ type: LOAN_PRODUCTS_REMOVE_SUCCESS, payload: res });
+    } catch (error) {
+      dispatch({ type: LOAN_PRODUCTS_REMOVE_FAIL, payload: error });
+    }
+  };
+
 const loanProfileEditAction = (values, profileid) => async (dispatch) => {
   dispatch({ type: LOAN_PROFILE_EDIT_REQUEST });
 
@@ -130,6 +164,10 @@ const currSelPaymentAction = (paymentid) => async (dispatch) => {
   dispatch({ type: "SEL_PAY", payload: paymentid });
 };
 
+const currSelProductsAction = (paymentid) => async (dispatch) => {
+  dispatch({ type: "SEL_PROD", payload: paymentid });
+};
+
 const loanProfileAddAction = (data) => async (dispatch) => {
   dispatch({ type: LOAN_PROFILE_ADD_REQUEST });
 
@@ -149,6 +187,8 @@ export {
   loanAction,
   loanProfileAction,
   loanProductsAction,
+  loanProductsAddAction,
+  loanProductsRemoveACtion,
   loanPaymentsAction,
   loanPaymentsAddAction,
   loanPaymentsRemoveAction,
@@ -156,5 +196,6 @@ export {
   loanProfileDeleteAction,
   loanProfileAddAction,
   currSelPaymentAction,
+  currSelProductsAction,
   loanReset,
 };

@@ -71,15 +71,7 @@ loanRouter.get(
   })
 );
 
-loanRouter.get(
-  "/:profileid/products",
-  asyncHandler(async (req, res) => {
-    const { profileid } = req.params;
-    const data = await Loans.findById(profileid);
-    res.json(data);
-  })
-);
-
+//* getting loan payments
 loanRouter.get(
   "/:profileid/payments",
   asyncHandler(async (req, res) => {
@@ -131,6 +123,72 @@ loanRouter.delete(
   })
 );
 
+//* geeting products of a loan profile
+loanRouter.get(
+  "/:profileid/products",
+  asyncHandler(async (req, res) => {
+    const { profileid } = req.params;
+    const data = await Loans.findById(profileid);
+    res.json(data);
+  })
+);
+
+//* adding loan profile products
+loanRouter.post(
+  "/:profileid/addproducts",
+  asyncHandler(async (req, res) => {
+    const { profileid } = req.params;
+    const { products } = req.body;
+
+    try {
+      const profile = await Loans.findById(profileid);
+
+      profile.products = [
+        ...products.map((x) => {
+          return {
+            product: x.name,
+            productId: x._id,
+            unitPrice: x.soldPrice,
+            sizes: x.size,
+          };
+        }),
+        ...profile.products,
+      ];
+
+      const updatedProfile = await profile.save();
+
+      res.json(updatedProfile);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+//* removing loan profile products
+loanRouter.delete(
+  "/:profileid/removeProducts",
+  asyncHandler(async (req, res) => {
+    const { profileid } = req.params;
+    const { products } = req.body;
+
+    try {
+      const profile = await Loans.findById(profileid);
+
+      const updatedProfileProduct = profile.products.filter(
+        (x) => x._id != products._id
+      );
+
+      profile.products = updatedProfileProduct;
+
+      const updatedProfile = await profile.save();
+
+      res.json(updatedProfile);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
 //*adding loan profile
 loanRouter.post(
   "/add",
@@ -148,7 +206,7 @@ loanRouter.post(
   })
 );
 
-//*edting loan profile
+//*editing loan profile
 loanRouter.post(
   "/:profileid/edit",
   asyncHandler(async (req, res) => {

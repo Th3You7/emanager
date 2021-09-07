@@ -57,13 +57,13 @@ export default function LoanProfileScreen() {
   const allProductsPrice = d?.data?.products
     .map((product) => {
       const qty = Object.keys(product.sizes).reduce(
-        (acc, cur) => acc + product[cur],
+        (acc, cur) => acc + product.sizes[cur],
         0
       );
 
       return Number(qty * product.unitPrice);
     })
-    .map((acc, cur) => acc + cur, 0);
+    .reduce((acc, cur) => acc + cur, 0);
 
   const allPayments = d?.data?.payments.reduce(
     (acc, curr) => acc + curr["payment"],

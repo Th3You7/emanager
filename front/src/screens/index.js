@@ -25,6 +25,7 @@ export { default as Confirm } from "./ConfirmScreen";
 export { default as Loan } from "./LoanScreen";
 export { default as LoanProfile } from "./LoanProfileScreen";
 export { default as LoanProducts } from "./LoanProductsScreen";
+export { default as LoanProductsRemove } from "./LoanProductsRemoveScreen";
 export { default as LoanPayments } from "./LoanPaymentsScreen";
 export { default as LoanPaymentsAdd } from "./LoanPaymentsAddScreen";
 export { default as LoanPaymentsRemove } from "./LoanPaymentsRemoveScreen";

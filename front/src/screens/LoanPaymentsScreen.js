@@ -54,10 +54,6 @@ export default function LoanProductsScreen() {
     history.push(`${pathname}/add`);
   };
 
-  const handleRemove = () => {
-    history.push(`${pathname}/remove/${paymentId}`);
-  };
-
   const to = {
     pathname: `${pathname}/remove/${paymentId}`,
   };
@@ -69,7 +65,6 @@ export default function LoanProductsScreen() {
       <UpperAppBar
         handleBack={handleBack}
         handleAdd={handleAdd}
-        handleRemove={handleRemove}
         paymentId={paymentId}
         to={to}
       />

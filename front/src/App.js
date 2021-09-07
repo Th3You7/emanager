@@ -31,6 +31,7 @@ import {
   LogIn,
   Invoices,
   LoanPaymentsRemove,
+  LoanProductsRemove,
 } from "./screens";
 import { Redirect, Route, Switch } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -107,7 +108,15 @@ function App() {
         <Route exact path="/loan" children={<Loan />} />
         <Route exact path="/loan/add" children={<LoanProfileAdd />} />
         <Route exact path="/loan/:profileid" children={<LoanProfile />} />
-        <Route path="/loan/:profileid/products" children={<LoanProducts />} />
+        <Route
+          exact
+          path="/loan/:profileid/products"
+          children={<LoanProducts />}
+        />
+        <Route
+          path="/loan/:profileid/products/remove/:productsid"
+          children={<LoanProductsRemove />}
+        />
         <Route
           exact
           path="/loan/:profileid/payments"
@@ -119,7 +128,7 @@ function App() {
         />
 
         <Route
-          path="/loan/:profileid/payments/remove"
+          path="/loan/:profileid/payments/remove/:paymentid"
           children={<LoanPaymentsRemove />}
         />
         <Route path="/loan/:profileid/edit" children={<LoanProfileEdit />} />
