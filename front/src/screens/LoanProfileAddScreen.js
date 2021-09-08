@@ -16,7 +16,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { loanProfileAddAction, loanReset } from "../actions/loanAction";
 
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +74,7 @@ const schema = yup.object().shape({
 export default function LoanProfileAddScreen() {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [profile, setProfile] = useState("");
   const [cover, setCover] = useState("");
@@ -98,6 +99,19 @@ export default function LoanProfileAddScreen() {
       setOpen(true);
     }
   }, [setOpen, result]);
+
+  console.log(location);
+
+  useEffect(() => {
+    if (result && location?.state?.fromConfirm) {
+      const timeout = setTimeout(() => {
+        dispatch(loanReset());
+        history.goBack();
+      }, 2000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [dispatch, location, result, history]);
 
   const onSubmit = (data) => {
     let img = {};

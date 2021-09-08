@@ -35,6 +35,7 @@ import {
   loanProductsAddAction,
 } from "../actions/loanAction";
 import { invoiceAction, resetInvoiceAction } from "../actions/invoiceAction";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -274,6 +275,18 @@ export default function ConfirmScreen() {
               variant="outlined"
               onChange={(e) => setAdvance(e.target.value)}
             />
+
+            <Typography
+              component={Link}
+              to={{
+                pathname: "/loan/add",
+                state: {
+                  fromConfirm: true,
+                },
+              }}
+            >
+              create a loan account ?
+            </Typography>
           </>
         )}
       </div>
