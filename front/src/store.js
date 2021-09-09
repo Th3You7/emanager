@@ -55,7 +55,11 @@ import {
   currSelProductsReducer,
 } from "./reducers/loanReducer";
 
-import { invoiceReducer, allInvoicesReducer } from "./reducers/invoiceReducer";
+import {
+  invoiceReducer,
+  allInvoicesReducer,
+  invoiceDeleteReducer,
+} from "./reducers/invoiceReducer";
 
 const initState = {
   cartReducer: {
@@ -110,6 +114,7 @@ const reducer = combineReducers({
   editProfileReducer,
   logInReducer,
   invoiceReducer,
+  invoiceDeleteReducer,
   allInvoicesReducer,
   currSelPaymentReducer,
   currSelProductsReducer,

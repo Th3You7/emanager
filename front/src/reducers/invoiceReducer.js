@@ -2,6 +2,9 @@ import {
   ALL_INVOICES_FAIL,
   ALL_INVOICES_REQUEST,
   ALL_INVOICES_SUCCESS,
+  INVOICE_DELETE_FAIL,
+  INVOICE_DELETE_REQUEST,
+  INVOICE_DELETE_SUCCESS,
   INVOICE_FAIL,
   INVOICE_REQUEST,
   INVOICE_SUCCESS,
@@ -66,4 +69,36 @@ const invoiceReducer = (state = { loading: false, invoice: null }, action) => {
   }
 };
 
-export { invoiceReducer, allInvoicesReducer };
+const invoiceDeleteReducer = (
+  state = { loading: false, result: null, error: null },
+  action
+) => {
+  switch (action.type) {
+    case INVOICE_DELETE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case INVOICE_DELETE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        result: action.payload,
+      };
+
+    case INVOICE_DELETE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case RESET_INVOICE:
+      return {};
+
+    default:
+      return state;
+  }
+};
+export { invoiceReducer, allInvoicesReducer, invoiceDeleteReducer };

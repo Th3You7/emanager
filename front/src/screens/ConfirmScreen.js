@@ -145,15 +145,16 @@ export default function ConfirmScreen() {
   };
 
   const handleClick = () => {
-    // dispatch(addSalesAction(products));
-    // dispatch(confirmSaleAction(products));
-    // advance &&
-    // dispatch(
-    //   loanPaymentsAddAction({ profileid: clientInfo.id, payment: advance })
-    // );
-    dispatch(loanProductsAddAction({ products, profileid: clientInfo.id }));
-    // dispatch(invoiceAction(invoiceData));
-    // dispatch(removeAllAction());
+    dispatch(addSalesAction(products));
+    dispatch(confirmSaleAction(products));
+    advance &&
+      dispatch(
+        loanPaymentsAddAction({ profileid: clientInfo.id, payment: advance })
+      );
+    advance &&
+      dispatch(loanProductsAddAction({ products, profileid: clientInfo.id }));
+    dispatch(invoiceAction(invoiceData));
+    dispatch(removeAllAction());
   };
 
   const borrowersOptions = loans.map((va) => {

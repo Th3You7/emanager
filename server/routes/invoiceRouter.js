@@ -1,7 +1,9 @@
 const express = require("express");
 const invoiceRouter = express.Router();
 const asyncHandler = require("express-async-handler");
+const Product = require("../models/productModel");
 const Invoice = require("../models/invoiceModel");
+const { sumObjectsByKey } = require("../utils");
 
 invoiceRouter.get(
   "/allInvoices",
@@ -23,7 +25,12 @@ invoiceRouter.post(
       client,
       products: [
         ...products.map((x) => {
-          return { product: x.name, unitPrice: x.soldPrice, sizes: x.size };
+          return {
+            product: x.name,
+            productId: x._id,
+            unitPrice: x.soldPrice,
+            sizes: x.size,
+          };
         }),
       ],
       total,
@@ -35,6 +42,39 @@ invoiceRouter.post(
       res.send(result);
     } catch (error) {
       res.status(400).send({ error });
+    }
+  })
+);
+
+invoiceRouter.delete(
+  "/:invoiceid/remove",
+  asyncHandler(async (req, res) => {
+    const { invoiceid } = req.params;
+    try {
+      const invoice = await Invoice.findById(invoiceid);
+
+      const { products } = invoice;
+
+      //! restore sizes to the product stocks
+      products.map(async (x) => {
+        const { productId, sizes } = x;
+
+        const product = await Product.findById(productId);
+
+        product.availableSizes = {
+          ...product.availableSizes,
+          ...sumObjectsByKey(product.availableSizes, sizes),
+        };
+
+        await product.save();
+      });
+
+      //!remove the invoice;
+      const deletedInvoice = invoice.delete();
+
+      res.json(deletedInvoice);
+    } catch (error) {
+      res.status(400).send(error);
     }
   })
 );

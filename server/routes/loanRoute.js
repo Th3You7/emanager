@@ -4,6 +4,8 @@ const loanRouter = express.Router();
 const asyncHandler = require("express-async-handler");
 const { uploader } = require("../cloudinary");
 const { bufferToUri, profileUpload, coverUpload } = require("../multer");
+const Product = require("../models/productModel");
+const { sumObjectsByKey } = require("../utils");
 
 //*getting all loan profiles
 loanRouter.get(
@@ -174,6 +176,20 @@ loanRouter.delete(
     try {
       const profile = await Loans.findById(profileid);
 
+      //!restore sizes to the products stock
+
+      const { productId, sizes } = products;
+
+      const product = await Product.findById(productId);
+
+      product.availableSizes = {
+        ...product.availableSizes,
+        ...sumObjectsByKey(product.availableSizes, sizes),
+      };
+
+      await product.save();
+
+      // //! deleting product
       const updatedProfileProduct = profile.products.filter(
         (x) => x._id != products._id
       );

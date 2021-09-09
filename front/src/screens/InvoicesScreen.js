@@ -1,9 +1,9 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
-import { CloudDownloadOutlined } from "@material-ui/icons";
+import { CloudDownloadOutlined, Delete } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { allInvoicesAction } from "../actions/invoiceAction";
 import { UpperAppBar } from "../components";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -51,6 +51,35 @@ const columns = [
       </div>
     ),
   },
+
+  {
+    field: "delete",
+    headerName: "Delete",
+    width: 100,
+    renderCell: (params) => (
+      <div
+        style={{
+          width: "100%",
+          lineHeight: "1",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "black",
+        }}
+      >
+        <Typography
+          component={Link}
+          to={{
+            pathname: `/admin/invoices/${params.row.id}/delete`,
+            state: { data: params.row },
+          }}
+          style={{ color: "black" }}
+        >
+          <Delete />
+        </Typography>
+      </div>
+    ),
+  },
 ];
 
 export default function InvoicesScreen() {
@@ -77,6 +106,7 @@ export default function InvoicesScreen() {
           components={{
             Toolbar: GridToolbar,
           }}
+          disableSelectionOnClick={true}
           page={page}
           onPageChange={(params) => {
             setPage(params.page);

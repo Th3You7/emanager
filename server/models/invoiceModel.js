@@ -11,6 +11,7 @@ const invoiceSchema = new mongoose.Schema({
   products: [
     {
       product: { type: String, required: true },
+      productId: { type: String, required: true },
       unitPrice: { type: Number, required: true },
       sizes: { type: Object, required: true },
     },
