@@ -9,7 +9,7 @@ import {
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { UpperAppBar } from "../components";
-import { deleteSaleAction } from "../actions/salesAction";
+import { deleteSaleAction, resetSales } from "../actions/salesAction";
 import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,11 +37,11 @@ export default function RemoveScreen() {
   const dispatch = useDispatch();
   const result = useSelector((state) => state.currSelSaleReducer);
 
-  const deleteReducer = useSelector((state) => state.deleteSalesReducer);
+  const deleteReducer = useSelector((state) => state.deleteSaleReducer);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (deleteReducer?.sales) {
+    if (deleteReducer?.payload) {
       setOpen(true);
     }
   }, [setOpen, deleteReducer]);
@@ -54,6 +54,7 @@ export default function RemoveScreen() {
   };
 
   const handleBack = () => {
+    dispatch(resetSales());
     history.replace("/admin/sales");
   };
 
@@ -72,7 +73,7 @@ export default function RemoveScreen() {
           Are You Sure You wanna Delete <br />
           <b>{result.name}</b> ?
         </Typography>
-        {!deleteReducer?.loading && !deleteReducer?.sales && (
+        {!deleteReducer?.loading && !deleteReducer?.payload && (
           <Button
             variant="contained"
             onClick={handleDelete}

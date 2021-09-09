@@ -63,30 +63,32 @@ export default function SpendingsScreen() {
         spendingId={spendingId}
         to={to}
       />
-
-      <div className={classes.container}>
-        <DataGrid
-          page={page}
-          onPageChange={(params) => {
-            setPage(params.page);
-          }}
-          disableColumnMenu={true}
-          pageSize={10}
-          columns={columns}
-          onRowSelected={(row) => {
-            setSpendingId(row.data.id);
-            dispatch(currSelSpendingAction(row.data));
-          }}
-          //onSelectionModelChange={(row) => setId(null)}
-          rows={spendings}
-          loading={fetching}
-          getRowId={(row) => row._id}
-          disableColumnSelector={true}
-          //   components={{
-          //     Toolbar: customToolBar,
-          //   }}
-        />
-      </div>
+      {error && error}
+      {spendings && (
+        <div className={classes.container}>
+          <DataGrid
+            page={page}
+            onPageChange={(params) => {
+              setPage(params.page);
+            }}
+            disableColumnMenu={true}
+            pageSize={10}
+            columns={columns}
+            onRowSelected={(row) => {
+              setSpendingId(row.data.id);
+              dispatch(currSelSpendingAction(row.data));
+            }}
+            //onSelectionModelChange={(row) => setId(null)}
+            rows={spendings}
+            loading={fetching}
+            getRowId={(row) => row._id}
+            disableColumnSelector={true}
+            //   components={{
+            //     Toolbar: customToolBar,
+            //   }}
+          />
+        </div>
+      )}
     </div>
   );
 }

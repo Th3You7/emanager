@@ -78,7 +78,10 @@ const addSalesReducer = (state = defaultlState, action) => {
   }
 };
 
-const deleteSaleReducer = (state = initialState, action) => {
+const deleteSaleReducer = (
+  state = { loading: false, payload: null, error: null },
+  action
+) => {
   switch (action.type) {
     case REMOVE_SALE_REQUEST:
       return {
@@ -101,7 +104,7 @@ const deleteSaleReducer = (state = initialState, action) => {
       };
 
     case RESET_SALES:
-      return initialState;
+      return {};
 
     default:
       return state;

@@ -58,8 +58,6 @@ export default function LoanProductsScreen() {
     pathname: `${pathname}/remove/${paymentId}`,
   };
 
-  if (error) return error;
-
   return (
     <div className={classes.root}>
       <UpperAppBar
@@ -68,30 +66,32 @@ export default function LoanProductsScreen() {
         paymentId={paymentId}
         to={to}
       />
-
-      <div className={classes.container}>
-        <DataGrid
-          page={page}
-          onPageChange={(params) => {
-            setPage(params.page);
-          }}
-          disableColumnMenu={true}
-          pageSize={10}
-          columns={columns}
-          onRowSelected={(row) => {
-            setPaymentId(row.data._id);
-            dispatch(currSelPaymentAction(row.data));
-          }}
-          // onSelectionModelChange={(row) => setPaymentId(null)}
-          rows={data}
-          loading={loading}
-          getRowId={(row) => row._id}
-          disableColumnSelector={true}
-          //   components={{
-          //     Toolbar: customToolBar,
-          //   }}
-        />
-      </div>
+      {error && error}
+      {data && (
+        <div className={classes.container}>
+          <DataGrid
+            page={page}
+            onPageChange={(params) => {
+              setPage(params.page);
+            }}
+            disableColumnMenu={true}
+            pageSize={10}
+            columns={columns}
+            onRowSelected={(row) => {
+              setPaymentId(row.data._id);
+              dispatch(currSelPaymentAction(row.data));
+            }}
+            // onSelectionModelChange={(row) => setPaymentId(null)}
+            rows={data}
+            loading={loading}
+            getRowId={(row) => row._id}
+            disableColumnSelector={true}
+            //   components={{
+            //     Toolbar: customToolBar,
+            //   }}
+          />
+        </div>
+      )}
     </div>
   );
 }

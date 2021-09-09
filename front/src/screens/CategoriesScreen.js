@@ -53,8 +53,6 @@ export default function CategoriesScreen() {
     pathname: `/admin/removecategory/${categoryId}`,
   };
 
-  if (error) return error;
-
   return (
     <div className={classes.root}>
       <UpperAppBar
@@ -63,30 +61,32 @@ export default function CategoriesScreen() {
         categoryId={categoryId}
         to={to}
       />
-
-      <div className={classes.container}>
-        <DataGrid
-          page={page}
-          onPageChange={(params) => {
-            setPage(params.page);
-          }}
-          disableColumnMenu={true}
-          pageSize={10}
-          columns={columns}
-          onRowSelected={(row) => {
-            setCategoryId(row.data.id);
-            dispatch(currSelCategoryAction(row.data));
-          }}
-          //onSelectionModelChange={(row) => setId(null)}
-          rows={categories}
-          loading={fetching}
-          getRowId={(row) => row._id}
-          disableColumnSelector={true}
-          //   components={{
-          //     Toolbar: customToolBar,
-          //   }}
-        />
-      </div>
+      {error && error}
+      {categories && (
+        <div className={classes.container}>
+          <DataGrid
+            page={page}
+            onPageChange={(params) => {
+              setPage(params.page);
+            }}
+            disableColumnMenu={true}
+            pageSize={10}
+            columns={columns}
+            onRowSelected={(row) => {
+              setCategoryId(row.data.id);
+              dispatch(currSelCategoryAction(row.data));
+            }}
+            //onSelectionModelChange={(row) => setId(null)}
+            rows={categories}
+            loading={fetching}
+            getRowId={(row) => row._id}
+            disableColumnSelector={true}
+            //   components={{
+            //     Toolbar: customToolBar,
+            //   }}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -93,114 +93,125 @@ export default function Product() {
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} handleStore={handleStore} />
-      <img className={classes.img} src={product?.img?.url} alt={product.name} />
-      <div className={classes.content}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography component="h2" variant="h6" gutterBottom>
-            {product.name}
-          </Typography>
-          <Typography
-            component="h2"
-            variant="h6"
-            gutterBottom
-            className={classes.price}
-          >
-            {product.price}DH
-          </Typography>
-        </div>
+      {error && error}
+      {product && (
+        <>
+          <img
+            className={classes.img}
+            src={product?.img?.url}
+            alt={product.name}
+          />
+          <div className={classes.content}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography component="h2" variant="h6" gutterBottom>
+                {product.name}
+              </Typography>
+              <Typography
+                component="h2"
+                variant="h6"
+                gutterBottom
+                className={classes.price}
+              >
+                {product.price}DH
+              </Typography>
+            </div>
 
-        <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-          <FormControl error={errors.size ? true : false}>
-            <FormLabel component="legend">Size </FormLabel>
-            {Object.keys(product.availableSizes).reduce(
-              (acc, curr) => acc + Number(product.availableSizes[curr]),
-              0
-            ) === 0 && <p className={classes.p}>Out of stock</p>}
-            <Controller
-              name="size"
-              control={control}
-              defaultValue={null}
-              rules={{ required: true }}
-              render={(props) => (
-                <RadioGroup
-                  value={props.value}
-                  onChange={(e) => props.onChange(e.target.value)}
-                  row
-                >
-                  {/* {Object.keys(product.availableSizes).reduce(
+            <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+              <FormControl error={errors.size ? true : false}>
+                <FormLabel component="legend">Size </FormLabel>
+                {Object.keys(product.availableSizes).reduce(
+                  (acc, curr) => acc + Number(product.availableSizes[curr]),
+                  0
+                ) === 0 && <p className={classes.p}>Out of stock</p>}
+                <Controller
+                  name="size"
+                  control={control}
+                  defaultValue={null}
+                  rules={{ required: true }}
+                  render={(props) => (
+                    <RadioGroup
+                      value={props.value}
+                      onChange={(e) => props.onChange(e.target.value)}
+                      row
+                    >
+                      {/* {Object.keys(product.availableSizes).reduce(
                     (acc, curr) => acc + Number(product.availableSizes[curr]),
                     0
                   ) === 0 && <p className={classes.p}>Out of stock</p>} */}
-                  {/* //*spliter */}
-                  {Object.keys(product.availableSizes).map((productSize) => {
-                    if (Number(product.availableSizes[productSize]) > 0) {
-                      const selectedSize =
-                        products.find((x) => x._id === product._id) &&
-                        Number(
-                          products.find((x) => x._id === product._id).size[
-                            productSize
-                          ]
-                        )
-                          ? Number(
-                              products.find((x) => x._id === product._id).size[
-                                productSize
-                              ]
-                            )
-                          : 0;
+                      {/* //*spliter */}
+                      {Object.keys(product.availableSizes).map(
+                        (productSize) => {
+                          if (Number(product.availableSizes[productSize]) > 0) {
+                            const selectedSize =
+                              products.find((x) => x._id === product._id) &&
+                              Number(
+                                products.find((x) => x._id === product._id)
+                                  .size[productSize]
+                              )
+                                ? Number(
+                                    products.find((x) => x._id === product._id)
+                                      .size[productSize]
+                                  )
+                                : 0;
 
-                      const availableSize = Number(
-                        product.availableSizes[productSize]
-                      );
+                            const availableSize = Number(
+                              product.availableSizes[productSize]
+                            );
 
-                      return availableSize - selectedSize > 0 ? (
-                        <FormControlLabel
-                          key={productSize}
-                          value={productSize}
-                          label={productSize.toUpperCase()}
-                          control={<Radio />}
-                        />
-                      ) : null;
-                    }
+                            return availableSize - selectedSize > 0 ? (
+                              <FormControlLabel
+                                key={productSize}
+                                value={productSize}
+                                label={productSize.toUpperCase()}
+                                control={<Radio />}
+                              />
+                            ) : null;
+                          }
 
-                    return null;
-                  })}
-                </RadioGroup>
-              )}
-            />
+                          return null;
+                        }
+                      )}
+                    </RadioGroup>
+                  )}
+                />
 
-            {errors.size ? <FormHelperText>Select Size</FormHelperText> : null}
-          </FormControl>
-          <TextField
-            className={classes.textField}
-            id="outlined-number"
-            label="Sold Price"
-            name="soldPrice"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            // value={soldPrice}
-            variant="outlined"
-            // onChange={handlePrice}
-            inputRef={register}
-            error={errors.soldPrice ? true : false}
-            helperText={errors.soldPrice?.message.slice(0, 29)}
-          />
-          <Fab
-            color="primary"
-            variant="extended"
-            className={classes.fab}
-            type="submit"
-          >
-            Add To Cart
-          </Fab>
-        </form>
-      </div>
+                {errors.size ? (
+                  <FormHelperText>Select Size</FormHelperText>
+                ) : null}
+              </FormControl>
+              <TextField
+                className={classes.textField}
+                id="outlined-number"
+                label="Sold Price"
+                name="soldPrice"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                // value={soldPrice}
+                variant="outlined"
+                // onChange={handlePrice}
+                inputRef={register}
+                error={errors.soldPrice ? true : false}
+                helperText={errors.soldPrice?.message.slice(0, 29)}
+              />
+              <Fab
+                color="primary"
+                variant="extended"
+                className={classes.fab}
+                type="submit"
+              >
+                Add To Cart
+              </Fab>
+            </form>
+          </div>
+        </>
+      )}
     </div>
   );
 }

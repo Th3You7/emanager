@@ -49,35 +49,35 @@ export default function SalesScreen() {
     pathname: `/admin/removesale/${id}`,
   };
 
-  if (error) return error;
-
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} saleId={id} to={to} />
-
-      <div className={classes.container}>
-        <DataGrid
-          page={page}
-          onPageChange={(params) => {
-            setPage(params.page);
-          }}
-          disableColumnMenu={true}
-          pageSize={10}
-          columns={columns}
-          onRowSelected={(row) => {
-            setId(row.data.id);
-            dispatch(currSelSaleAction(row.data));
-          }}
-          //onSelectionModelChange={(row) => setId(null)}
-          rows={sales}
-          loading={fetching}
-          getRowId={(row) => row._id}
-          disableColumnSelector={true}
-          //   components={{
-          //     Toolbar: customToolBar,
-          //   }}
-        />
-      </div>
+      {error && error}
+      {sales && (
+        <div className={classes.container}>
+          <DataGrid
+            page={page}
+            onPageChange={(params) => {
+              setPage(params.page);
+            }}
+            disableColumnMenu={true}
+            pageSize={10}
+            columns={columns}
+            onRowSelected={(row) => {
+              setId(row.data.id);
+              dispatch(currSelSaleAction(row.data));
+            }}
+            //onSelectionModelChange={(row) => setId(null)}
+            rows={sales}
+            loading={fetching}
+            getRowId={(row) => row._id}
+            disableColumnSelector={true}
+            //   components={{
+            //     Toolbar: customToolBar,
+            //   }}
+          />
+        </div>
+      )}
     </div>
   );
 }

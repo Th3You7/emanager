@@ -39,11 +39,14 @@ salesRouter.delete(
   "/delete/:id",
   asyncHandler(async (req, res) => {
     const { id } = req.params;
+    try {
+      const sale = await Sales.findById(id);
+      const deletedSale = await sale.remove();
 
-    const sale = await Sales.findById(id);
-    const deletedSale = sale.remove();
-
-    res.json(deletedSale);
+      res.json(deletedSale);
+    } catch (error) {
+      res.status(400).send(error);
+    }
   })
 );
 

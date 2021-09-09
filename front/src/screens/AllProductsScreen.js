@@ -56,8 +56,6 @@ export default function AllProductsScreen() {
     pathname: `/admin/remove/${id}`,
   };
 
-  if (error) return error;
-
   return (
     <div className={classes.root}>
       <UpperAppBar
@@ -66,30 +64,33 @@ export default function AllProductsScreen() {
         id={id}
         to={to}
       />
+      {error && error}
 
-      <div className={classes.container}>
-        <DataGrid
-          page={page}
-          onPageChange={(params) => {
-            setPage(params.page);
-          }}
-          disableColumnMenu={true}
-          pageSize={10}
-          columns={columns}
-          onRowSelected={(row) => {
-            setId(row.data.id);
-            dispatch(currSelProdAction(row.data));
-          }}
-          //onSelectionModelChange={(row) => setId(null)}
-          rows={products}
-          loading={fetching}
-          getRowId={(row) => row._id}
-          disableColumnSelector={true}
-          //   components={{
-          //     Toolbar: customToolBar,
-          //   }}
-        />
-      </div>
+      {products && (
+        <div className={classes.container}>
+          <DataGrid
+            page={page}
+            onPageChange={(params) => {
+              setPage(params.page);
+            }}
+            disableColumnMenu={true}
+            pageSize={10}
+            columns={columns}
+            onRowSelected={(row) => {
+              setId(row.data.id);
+              dispatch(currSelProdAction(row.data));
+            }}
+            //onSelectionModelChange={(row) => setId(null)}
+            rows={products}
+            loading={fetching}
+            getRowId={(row) => row._id}
+            disableColumnSelector={true}
+            //   components={{
+            //     Toolbar: customToolBar,
+            //   }}
+          />
+        </div>
+      )}
     </div>
   );
 }
