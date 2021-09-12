@@ -22,6 +22,7 @@ mongoose.connect(process.env.MONGO_URI || "mongodb://localhost/ecommerce", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 });
 
 app.use(express.json());
