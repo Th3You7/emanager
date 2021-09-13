@@ -37,6 +37,10 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
+app.get("/", (req, res) => {
+  res.send("hello word");
+});
+
 app.use("/api/store", auth, storeRouter);
 app.use("/api/product", auth, productRouter);
 app.use("/api/admin", auth, adminRouter);
