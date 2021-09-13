@@ -4,7 +4,7 @@
   "description": "an app for ecommerce management",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch server --exec node server/server.js"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
