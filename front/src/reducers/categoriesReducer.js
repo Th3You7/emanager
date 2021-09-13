@@ -37,7 +37,7 @@ const categoriesReducer = (state = initialState, action) => {
       };
 
     case RESET_CATEGORY:
-      return state;
+      return {};
 
     default:
       return state;
@@ -67,7 +67,7 @@ const addCategoryReducer = (state = initialState, action) => {
       };
 
     case RESET_CATEGORY:
-      return initialState;
+      return {};
 
     default:
       return state;
@@ -97,7 +97,7 @@ const deleteCategoryReducer = (state = initialState, action) => {
       };
 
     case RESET_CATEGORY:
-      return initialState;
+      return {};
 
     default:
       return state;

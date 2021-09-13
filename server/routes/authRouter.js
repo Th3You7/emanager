@@ -27,18 +27,33 @@ authRouter.post(
         expiresIn: "7d",
       });
 
-      res
-        .status(200)
-        .send({
-          _id: admin._id,
-          name: admin.name,
-          storeName: admin.storeName,
-          img: admin.img,
-          token,
-        });
+      res.status(200).send({
+        _id: admin._id,
+        name: admin.name,
+        storeName: admin.storeName,
+        img: admin.img,
+        token,
+      });
     } catch (error) {
       res.status(400).send(error);
     }
+  })
+);
+
+authRouter.post(
+  "/create",
+  expressAsyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    console.log(email, password);
+
+    const hashed = await bcrypt.hash(password, 12);
+
+    const newUser = new Admin({ email, password: hashed });
+
+    const saved = await newUser.save();
+
+    res.json(saved);
   })
 );
 

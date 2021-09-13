@@ -295,7 +295,7 @@ export default function AdminEditScreen() {
               </div>{" "}
             </>
           )}
-          {!load && !response && (
+          {!load && !response && !loading && (
             <Button
               variant="contained"
               color="primary"

@@ -84,7 +84,7 @@ export default function AdminProfile() {
             align="center"
             className={classes.title}
           >
-            {result.storeName.replace(/\b\w/g, (l) => l.toUpperCase())}
+            {result?.storeName?.replace(/\b\w/g, (l) => l.toUpperCase())}
           </Typography>
           <Typography
             variant="subtitle1"
@@ -93,7 +93,7 @@ export default function AdminProfile() {
             align="center"
             className={classes.subtitle}
           >
-            {result.name.replace(/\b\w/g, (l) => l.toUpperCase())}
+            {result?.name?.replace(/\b\w/g, (l) => l.toUpperCase())}
           </Typography>
         </div>
       ) : (

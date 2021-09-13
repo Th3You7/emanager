@@ -9,7 +9,10 @@ import {
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { UpperAppBar } from "../components";
-import { deleteCategoryAction } from "../actions/categoriesAction";
+import {
+  deleteCategoryAction,
+  resetCategory,
+} from "../actions/categoriesAction";
 import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +58,7 @@ export default function RemoveScreen() {
   };
 
   const handleBack = () => {
+    dispatch(resetCategory());
     history.replace("/admin/categories");
   };
 

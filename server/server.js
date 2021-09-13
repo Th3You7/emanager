@@ -45,7 +45,7 @@ app.use("/api/sales", auth, salesRouter);
 app.use("/api/spending", auth, spendingRouter);
 app.use("/api/loan", auth, loanRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/invoice", invoiceRouter);
+app.use("/api/invoice", auth, invoiceRouter);
 
 const port = process.env.PORT || 5000;
 
