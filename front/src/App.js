@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import {
   Store,
   Product,
@@ -40,6 +40,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import decode from "jwt-decode";
 import { logOutAction } from "./actions/adminAction";
+import { CircularProgress } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
   app: {
     position: "relative",
@@ -77,74 +78,90 @@ function App() {
   }, [result, history, dispatch]);
   return (
     <div className={classes.app}>
-      <Switch>
-        <Redirect exact from="/" to="/store" />
-        <Route path="/login" children={<LogIn />} />
-        <Route path="/store/:ctgry?" children={<Store />} />
-        <Route path="/product/:id" children={<Product />} />
-        <Route path="/cart/:id?" children={<Cart />} />
-        <Route exact path="/admin" children={<Admin />} />
-        <Route exact path="/admin/edit" children={<AdminEdit />} />
-        <Route path="/admin/allproducts" children={<AllProducts />} />
-        <Route path="/admin/categories" children={<Categories />} />
-        <Route path="/admin/edit/:id" children={<Edit />} />
-        <Route path="/admin/add" children={<Add />} />
-        <Route path="/admin/remove/:id" children={<Remove />} />
-        <Route path="/admin/wallet" children={<Wallet />} />
-        <Route path="/admin/dashboard" children={<Dashboard />} />
-        <Route path="/admin/addcategory" children={<AddCategory />} />
-        <Route
-          path="/admin/removecategory/:categoryId"
-          children={<RemoveCategory />}
-        />
-        <Route path="/admin/sales" children={<Sales />} />
-        <Route path="/admin/removesale/:saleId" children={<RemoveSale />} />
-        <Route path="/confirm" children={<Confirm />} />
-        <Route path="/admin/spending" children={<Spending />} />
-        <Route path="/admin/addspending" children={<AddSpending />} />
-        <Route
-          path="/admin/removespending/:spendingId"
-          children={<RemoveSpending />}
-        />
-        <Route exact path="/loan" children={<Loan />} />
-        <Route exact path="/loan/add" children={<LoanProfileAdd />} />
-        <Route exact path="/loan/:profileid" children={<LoanProfile />} />
-        <Route
-          exact
-          path="/loan/:profileid/products"
-          children={<LoanProducts />}
-        />
-        <Route
-          path="/loan/:profileid/products/remove/:productsid"
-          children={<LoanProductsRemove />}
-        />
-        <Route
-          exact
-          path="/loan/:profileid/payments"
-          children={<LoanPayments />}
-        />
-        <Route
-          path="/loan/:profileid/payments/add"
-          children={<LoanPaymentsAdd />}
-        />
+      <Suspense
+        fallback={
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+              width: "100%",
+            }}
+          >
+            <CircularProgress color="inherit" />
+          </div>
+        }
+      >
+        <Switch>
+          <Redirect exact from="/" to="/store" />
+          <Route path="/login" children={<LogIn />} />
+          <Route path="/store/:ctgry?" children={<Store />} />
+          <Route path="/product/:id" children={<Product />} />
+          <Route path="/cart/:id?" children={<Cart />} />
+          <Route exact path="/admin" children={<Admin />} />
+          <Route exact path="/admin/edit" children={<AdminEdit />} />
+          <Route path="/admin/allproducts" children={<AllProducts />} />
+          <Route path="/admin/categories" children={<Categories />} />
+          <Route path="/admin/edit/:id" children={<Edit />} />
+          <Route path="/admin/add" children={<Add />} />
+          <Route path="/admin/remove/:id" children={<Remove />} />
+          <Route path="/admin/wallet" children={<Wallet />} />
+          <Route path="/admin/dashboard" children={<Dashboard />} />
+          <Route path="/admin/addcategory" children={<AddCategory />} />
+          <Route
+            path="/admin/removecategory/:categoryId"
+            children={<RemoveCategory />}
+          />
+          <Route path="/admin/sales" children={<Sales />} />
+          <Route path="/admin/removesale/:saleId" children={<RemoveSale />} />
+          <Route path="/confirm" children={<Confirm />} />
+          <Route path="/admin/spending" children={<Spending />} />
+          <Route path="/admin/addspending" children={<AddSpending />} />
+          <Route
+            path="/admin/removespending/:spendingId"
+            children={<RemoveSpending />}
+          />
+          <Route exact path="/loan" children={<Loan />} />
+          <Route exact path="/loan/add" children={<LoanProfileAdd />} />
+          <Route exact path="/loan/:profileid" children={<LoanProfile />} />
+          <Route
+            exact
+            path="/loan/:profileid/products"
+            children={<LoanProducts />}
+          />
+          <Route
+            path="/loan/:profileid/products/remove/:productsid"
+            children={<LoanProductsRemove />}
+          />
+          <Route
+            exact
+            path="/loan/:profileid/payments"
+            children={<LoanPayments />}
+          />
+          <Route
+            path="/loan/:profileid/payments/add"
+            children={<LoanPaymentsAdd />}
+          />
 
-        <Route
-          path="/loan/:profileid/payments/remove/:paymentid"
-          children={<LoanPaymentsRemove />}
-        />
-        <Route path="/loan/:profileid/edit" children={<LoanProfileEdit />} />
-        <Route
-          path="/loan/:profileid/delete"
-          children={<LoanProfileRemove />}
-        />
+          <Route
+            path="/loan/:profileid/payments/remove/:paymentid"
+            children={<LoanPaymentsRemove />}
+          />
+          <Route path="/loan/:profileid/edit" children={<LoanProfileEdit />} />
+          <Route
+            path="/loan/:profileid/delete"
+            children={<LoanProfileRemove />}
+          />
 
-        <Route exact path="/admin/invoices" children={<Invoices />} />
-        <Route
-          exact
-          path="/admin/invoices/:invoiceid/delete"
-          children={<InvoicesRemove />}
-        />
-      </Switch>
+          <Route exact path="/admin/invoices" children={<Invoices />} />
+          <Route
+            exact
+            path="/admin/invoices/:invoiceid/delete"
+            children={<InvoicesRemove />}
+          />
+        </Switch>
+      </Suspense>
     </div>
   );
 }

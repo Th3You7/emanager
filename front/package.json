@@ -1,7 +1,7 @@
 {
   "name": "front",
   "proxy": "http://localhost:5000",
-  "homepage": "https://th3you7.github.io/ecommerce",
+  "homepage": "https://th3you7.github.io/ecommerce/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

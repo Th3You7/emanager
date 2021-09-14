@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { makeStyles, Typography, TextField, Button } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -42,7 +48,7 @@ export default function LogInScreen() {
   });
   const history = useHistory();
   const dispatch = useDispatch();
-  const { result } = useSelector((state) => state.logInReducer);
+  const { result, loading } = useSelector((state) => state.logInReducer);
   useEffect(() => {
     const token = result?.token;
 
@@ -88,15 +94,18 @@ export default function LogInScreen() {
           helperText={errors.password?.message}
         />
 
-        <Button
-          className={classes.btn}
-          variant="contained"
-          color="primary"
-          size="large"
-          type="submit"
-        >
-          Log In
-        </Button>
+        {!loading && (
+          <Button
+            className={classes.btn}
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+          >
+            Log In
+          </Button>
+        )}
+        {loading && <CircularProgress color="inherit" />}
       </form>
     </div>
   );

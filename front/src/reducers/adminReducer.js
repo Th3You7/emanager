@@ -169,7 +169,10 @@ const deleteReducer = (state = {}, action) => {
   }
 };
 
-const logInReducer = (state = {}, action) => {
+const logInReducer = (
+  state = { loading: false, result: null, error: null },
+  action
+) => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return {
