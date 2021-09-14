@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/ecommerce/static/css/main.f99e26d1.chunk.css",
+    "main.js": "/ecommerce/static/js/main.31e06c81.chunk.js",
+    "main.js.map": "/ecommerce/static/js/main.31e06c81.chunk.js.map",
+    "runtime-main.js": "/ecommerce/static/js/runtime-main.58f35b19.js",
+    "runtime-main.js.map": "/ecommerce/static/js/runtime-main.58f35b19.js.map",
+    "static/js/2.41517923.chunk.js": "/ecommerce/static/js/2.41517923.chunk.js",
+    "static/js/2.41517923.chunk.js.map": "/ecommerce/static/js/2.41517923.chunk.js.map",
+    "static/js/3.1949c613.chunk.js": "/ecommerce/static/js/3.1949c613.chunk.js",
+    "static/js/3.1949c613.chunk.js.map": "/ecommerce/static/js/3.1949c613.chunk.js.map",
+    "index.html": "/ecommerce/index.html",
+    "service-worker.js": "/ecommerce/service-worker.js",
+    "service-worker.js.map": "/ecommerce/service-worker.js.map",
+    "static/css/main.f99e26d1.chunk.css.map": "/ecommerce/static/css/main.f99e26d1.chunk.css.map",
+    "static/js/2.41517923.chunk.js.LICENSE.txt": "/ecommerce/static/js/2.41517923.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/ecommerce/static/media/Mulish-VariableFont_wght.894f3c22.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.58f35b19.js",
+    "static/js/2.41517923.chunk.js",
+    "static/css/main.f99e26d1.chunk.css",
+    "static/js/main.31e06c81.chunk.js"
+  ]
+}
