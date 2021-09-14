@@ -6,7 +6,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import ScrollToTop from "./hooks/useScrollToTop";
 
 import store from "./store";
