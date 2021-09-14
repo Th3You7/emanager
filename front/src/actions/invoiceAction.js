@@ -16,7 +16,9 @@ const allInvoicesAction = () => async (dispatch) => {
   dispatch({ type: ALL_INVOICES_REQUEST });
 
   try {
-    const { data } = await axios.get("/api/invoice/allInvoices");
+    const { data } = await axios.get(
+      "https://manage-commerce.herokuapp.com/api/invoice/allInvoices"
+    );
 
     dispatch({ type: ALL_INVOICES_SUCCESS, payload: data });
   } catch (error) {
@@ -28,7 +30,10 @@ const invoiceAction = (data) => async (dispatch) => {
   dispatch({ type: INVOICE_REQUEST });
 
   try {
-    const res = await axios.post("./api/invoice", data);
+    const res = await axios.post(
+      "https://manage-commerce.herokuapp.com/api/invoice",
+      data
+    );
 
     dispatch({ type: INVOICE_SUCCESS, payload: res });
   } catch (error) {
@@ -39,7 +44,9 @@ const invoiceAction = (data) => async (dispatch) => {
 const invoiceDeleteAction = (invoiceid) => async (dispatch) => {
   dispatch({ type: INVOICE_DELETE_REQUEST });
   try {
-    const res = await axios.delete(`/api/invoice/${invoiceid}/remove`);
+    const res = await axios.delete(
+      `https://manage-commerce.herokuapp.com/api/invoice/${invoiceid}/remove`
+    );
 
     dispatch({ type: INVOICE_DELETE_SUCCESS, payload: res });
   } catch (error) {
