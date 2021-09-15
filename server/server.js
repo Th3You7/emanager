@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const storeRouter = require("./routes/storeRoute");
 const productRouter = require("./routes/productRoute");
 const adminRouter = require("./routes/adminRoute");
@@ -31,6 +32,7 @@ app.use(
     extended: true,
   })
 );
+app.use(cors());
 app.use("*", cloudinaryConfig);
 
 app.use((err, req, res, next) => {
