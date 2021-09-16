@@ -18,9 +18,7 @@ import {
 const salesAction = () => async (dispatch) => {
   dispatch({ type: SALES_REQUEST });
   try {
-    const { data } = await Axios.get(
-      "https://manage-commerce.herokuapp.com/api/sales/all"
-    );
+    const { data } = await Axios.get("/api/sales/all");
     dispatch({ type: SALES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: SALES_FAIL, payload: error.message });
@@ -42,10 +40,7 @@ const addSalesAction = (data) => async (dispatch) => {
         }, {})
     );
 
-    const result = await Axios.post(
-      "https://manage-commerce.herokuapp.com/api/sales/add",
-      newData
-    );
+    const result = await Axios.post("/api/sales/add", newData);
     dispatch({ type: ADD_SALES_SUCCESS, payload: result });
   } catch (error) {
     dispatch({ type: ADD_SALES_FAIL, payload: error });
@@ -55,9 +50,7 @@ const addSalesAction = (data) => async (dispatch) => {
 const deleteSaleAction = (id) => async (dispatch) => {
   dispatch({ type: REMOVE_SALE_REQUEST });
   try {
-    const response = await Axios.delete(
-      `https://manage-commerce.herokuapp.com/api/sales/delete/${id}`
-    );
+    const response = await Axios.delete(`/api/sales/delete/${id}`);
     dispatch({ type: REMOVE_SALE_SUCCESS, payload: response });
   } catch (error) {
     dispatch({ type: REMOVE_SALE_FAIL, payload: error.message });
@@ -68,10 +61,7 @@ const confirmSaleAction = (data) => async (dispatch) => {
   dispatch({ type: CONFIRM_SALES_REQUEST });
 
   try {
-    const result = await Axios.put(
-      "https://manage-commerce.herokuapp.com/api/sales/confirm",
-      data
-    );
+    const result = await Axios.put("/api/sales/confirm", data);
     dispatch({ type: CONFIRM_SALES_SUCCESS, payload: result });
   } catch (error) {
     dispatch({ type: CONFIRM_SALES_FAIL, payload: error.message });

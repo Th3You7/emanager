@@ -23,6 +23,9 @@ import {
 } from "../constants/adminConstant";
 
 //sending token with all requests
+
+const url = `https://manage-commerce.herokuapp.com`;
+
 Axios.interceptors.request.use((req) => {
   if (localStorage.getItem("admin")) {
     req.headers.Authorization = `Bearer ${
@@ -37,10 +40,7 @@ const logInAction = (input) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
 
   try {
-    const { data } = await Axios.post(
-      "https://manage-commerce.herokuapp.com/api/auth/login",
-      input
-    );
+    const { data } = await Axios.post(`${url}/api/auth/login`, input);
     localStorage.setItem("admin", JSON.stringify(data));
     dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
@@ -57,9 +57,7 @@ const getProfileAction = () => async (dispatch) => {
   dispatch({ type: GET_PROFILE_REQUEST });
 
   try {
-    const { data } = await Axios.get(
-      `https://manage-commerce.herokuapp.com/api/admin/getProfile`
-    );
+    const { data } = await Axios.get(`${url}/api/admin/getProfile`);
     dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
   } catch (err) {
     dispatch({ type: GET_PROFILE_FAIL, payload: err.message });
@@ -70,10 +68,7 @@ const editProfileAction = (values) => async (dispatch) => {
   dispatch({ type: EDIT_PROFILE_REQUEST });
 
   try {
-    const result = await Axios.put(
-      `https://manage-commerce.herokuapp.com/api/admin/editProfile`,
-      values
-    );
+    const result = await Axios.put(`${url}/api/admin/editProfile`, values);
     dispatch({ type: EDIT_PROFILE_SUCCESS, payload: result });
   } catch (err) {
     dispatch({ type: EDIT_PROFILE_FAIL, payload: err.message });
@@ -84,10 +79,7 @@ const editAction = (id, values) => async (dispatch) => {
   dispatch({ type: EDIT_REQUEST });
 
   try {
-    const result = await Axios.put(
-      `https://manage-commerce.herokuapp.com/api/admin/edit/${id}`,
-      values
-    );
+    const result = await Axios.put(`${url}/api/admin/edit/${id}`, values);
     dispatch({ type: EDIT_SUCCESS, payload: result });
   } catch (err) {
     dispatch({ type: EDIT_FAIL, payload: err.message });
@@ -97,10 +89,7 @@ const editAction = (id, values) => async (dispatch) => {
 const addAction = (values) => async (dispatch) => {
   dispatch({ type: ADD_REQUEST });
   try {
-    const result = await Axios.post(
-      `https://manage-commerce.herokuapp.com/api/admin/addproduct`,
-      values
-    );
+    const result = await Axios.post(`${url}/api/admin/addproduct`, values);
     dispatch({ type: ADD_SUCCESS, payload: result });
   } catch (err) {
     dispatch({ type: ADD_FAIL, payload: err.message });
@@ -110,9 +99,7 @@ const addAction = (values) => async (dispatch) => {
 const deleteAction = (id) => async (dispatch) => {
   dispatch({ type: DELETE_REQUEST });
   try {
-    const result = await Axios.delete(
-      `https://manage-commerce.herokuapp.com/api/admin/delete/${id}`
-    );
+    const result = await Axios.delete(`${url}/api/admin/delete/${id}`);
     dispatch({ type: DELETE_SUCCESS, payload: result });
   } catch (err) {
     dispatch({ type: DELETE_FAIL, payload: err.message });
