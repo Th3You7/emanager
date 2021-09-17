@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   media: {
-    height: theme.spacing(20),
-    width: theme.spacing(20),
+    height: "90%",
+    width: "90%",
     marginBottom: theme.spacing(3),
   },
 

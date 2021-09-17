@@ -90,7 +90,7 @@ export default function RemoveScreen() {
         {deleteReducer.loading && <CircularProgress color="inherit" />}
         <Snackbar open={open} onClose={handleClose}>
           <Alert onClose={handleClose} severity="success">
-            Saved successfully!
+            Removed successfully!
           </Alert>
         </Snackbar>
         {deleteReducer.error && !result && (

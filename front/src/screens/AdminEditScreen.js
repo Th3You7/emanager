@@ -107,6 +107,7 @@ export default function AdminEditScreen() {
       setOpen(true);
     }
   }, [response]);
+  const url = `https://manage-commerce.herokuapp.com`;
 
   const handleProfileImageChange = async (e) => {
     setLoad(true);
@@ -118,7 +119,7 @@ export default function AdminEditScreen() {
     }
     try {
       const { data } = await axios.post(
-        "/api/admin/upload/adminimg",
+        `${url}/api/admin/upload/adminimg`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -145,7 +146,7 @@ export default function AdminEditScreen() {
     }
     try {
       const { data } = await axios.post(
-        "/api/admin/upload/admincover",
+        `${url}/api/admin/upload/admincover`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

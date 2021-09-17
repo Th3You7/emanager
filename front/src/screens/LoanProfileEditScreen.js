@@ -131,6 +131,8 @@ export default function LoanProfileEditScreen() {
     setOpen(false);
   }, []);
 
+  const url = `https://manage-commerce.herokuapp.com`;
+
   const handleProfileImageChange = async (e) => {
     setLoad(true);
     const img = e.target.files[0];
@@ -141,7 +143,7 @@ export default function LoanProfileEditScreen() {
     }
     try {
       const { data } = await axios.post(
-        "/api/loan/upload/addprofile",
+        `${url}/api/loan/upload/addprofile`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -162,9 +164,13 @@ export default function LoanProfileEditScreen() {
     const formData = new FormData();
     formData.append("cover", img);
     try {
-      const { data } = await axios.post("/api/loan/upload/addcover", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const { data } = await axios.post(
+        `${url}/api/loan/upload/addcover`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setCoverImg(data);
       setLoad(false);
       setCoverErr("");
@@ -279,7 +285,7 @@ export default function LoanProfileEditScreen() {
           {(loading || load) && <CircularProgress color="primary" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
-              Saved successfully!
+              Edited successfully!
             </Alert>
           </Snackbar>
           {error && (

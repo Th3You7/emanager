@@ -36,11 +36,13 @@ import {
   LOAN_PRODUCTS_REMOVE_SUCCESS,
 } from "../constants/loanConstants";
 
+const url = `https://manage-commerce.herokuapp.com`;
+
 const loanAction = () => async (dispatch) => {
   dispatch({ type: LOAN_REQUEST });
 
   try {
-    const { data } = await axios.get("/api/loan/all");
+    const { data } = await axios.get(`${url}/api/loan/all`);
     dispatch({ type: LOAN_SUCCESS, payload: data });
   } catch (e) {
     dispatch({ type: LOAN_FAIL, payload: e.message });
@@ -51,7 +53,7 @@ const loanProfileAction = (profileid) => async (dispatch) => {
   dispatch({ type: LOAN_PROFILE_REQUEST });
 
   try {
-    const { data } = await axios.get(`/api/loan/${profileid}`);
+    const { data } = await axios.get(`${url}/api/loan/${profileid}`);
     dispatch({ type: LOAN_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAN_PROFILE_FAIL, payload: error });
@@ -62,7 +64,7 @@ const loanPaymentsAction = (profileid) => async (dispatch) => {
   dispatch({ type: LOAN_PAYMENTS_REQUEST });
 
   try {
-    const { data } = await axios.get(`/api/loan/${profileid}/payments`);
+    const { data } = await axios.get(`${url}/api/loan/${profileid}/payments`);
     const { payments } = data;
     dispatch({ type: LOAN_PAYMENTS_SUCCESS, payload: payments });
   } catch (error) {
@@ -75,9 +77,12 @@ const loanPaymentsAddAction =
   async (dispatch) => {
     dispatch({ type: LOAN_PAYMENTS_ADD_REQUEST });
     try {
-      const result = await axios.post(`/api/loan/${profileid}/payments/add`, {
-        payment,
-      });
+      const result = await axios.post(
+        `${url}/api/loan/${profileid}/payments/add`,
+        {
+          payment,
+        }
+      );
 
       dispatch({ type: LOAN_PAYMENTS_ADD_SUCCESS, payload: result });
     } catch (error) {
@@ -90,9 +95,12 @@ const loanPaymentsRemoveAction =
   async (dispatch) => {
     dispatch({ type: LOAN_PAYMENTS_REMOVE_REQUEST });
     try {
-      const res = await axios.delete(`/api/loan/${profileId}/payments/remove`, {
-        data: { paymentId },
-      });
+      const res = await axios.delete(
+        `${url}/api/loan/${profileId}/payments/remove`,
+        {
+          data: { paymentId },
+        }
+      );
       dispatch({ type: LOAN_PAYMENTS_REMOVE_SUCCESS, payload: res });
     } catch (error) {
       dispatch({ type: LOAN_PAYMENTS_REMOVE_FAIL, payload: error });
@@ -103,7 +111,7 @@ const loanProductsAction = (profileid) => async (dispatch) => {
   dispatch({ type: LOAN_PRODUCTS_REQUEST });
 
   try {
-    const { data } = await axios.get(`/api/loan/${profileid}/products`);
+    const { data } = await axios.get(`${url}/api/loan/${profileid}/products`);
     const { products } = data;
     dispatch({ type: LOAN_PRODUCTS_SUCCESS, payload: products });
   } catch (error) {
@@ -116,7 +124,7 @@ const loanProductsAddAction =
   async (dispatch) => {
     dispatch({ type: LOAN_PRODUCTS_ADD_REQUEST });
     try {
-      const res = await axios.post(`/api/loan/${profileid}/addproducts`, {
+      const res = await axios.post(`${url}/api/loan/${profileid}/addproducts`, {
         products,
       });
       dispatch({ type: LOAN_PRODUCTS_ADD_SUCCESS, payload: res });
@@ -130,9 +138,12 @@ const loanProductsRemoveACtion =
   async (dispatch) => {
     dispatch({ type: LOAN_PRODUCTS_REMOVE_REQUEST });
     try {
-      const res = await axios.delete(`/api/loan/${profileId}/removeProducts`, {
-        data: { products },
-      });
+      const res = await axios.delete(
+        `${url}/api/loan/${profileId}/removeProducts`,
+        {
+          data: { products },
+        }
+      );
       dispatch({ type: LOAN_PRODUCTS_REMOVE_SUCCESS, payload: res });
     } catch (error) {
       dispatch({ type: LOAN_PRODUCTS_REMOVE_FAIL, payload: error });
@@ -143,7 +154,10 @@ const loanProfileEditAction = (values, profileid) => async (dispatch) => {
   dispatch({ type: LOAN_PROFILE_EDIT_REQUEST });
 
   try {
-    const { data } = await axios.post(`/api/loan/${profileid}/edit`, values);
+    const { data } = await axios.post(
+      `${url}/api/loan/${profileid}/edit`,
+      values
+    );
     dispatch({ type: LOAN_PROFILE_EDIT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAN_PROFILE_EDIT_FAIL, payload: error });
@@ -153,7 +167,7 @@ const loanProfileEditAction = (values, profileid) => async (dispatch) => {
 const loanProfileDeleteAction = (profileid) => async (dispatch) => {
   dispatch({ type: LOAN_PROFILE_DELETE_REQUEST });
   try {
-    const { data } = await axios.delete(`/api/loan/${profileid}/delete`);
+    const { data } = await axios.delete(`${url}/api/loan/${profileid}/delete`);
     dispatch({ type: LOAN_PROFILE_DELETE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAN_PROFILE_DELETE_FAIL, payload: error });
@@ -172,7 +186,7 @@ const loanProfileAddAction = (data) => async (dispatch) => {
   dispatch({ type: LOAN_PROFILE_ADD_REQUEST });
 
   try {
-    const res = await axios.post("/api/loan/add", data);
+    const res = await axios.post(`${url}/api/loan/add`, data);
     dispatch({ type: LOAN_PROFILE_ADD_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({ type: LOAN_PROFILE_ADD_FAIL, payload: error });

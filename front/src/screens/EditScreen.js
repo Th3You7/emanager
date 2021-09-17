@@ -98,6 +98,8 @@ export default function EditScreen() {
     }
   }, [setOpen, result]);
 
+  const url = `https://manage-commerce.herokuapp.com`;
+
   const handleImageChange = async (e) => {
     setLoad(true);
     const image = e.target.files[0];
@@ -105,9 +107,13 @@ export default function EditScreen() {
     formData.append("image", image);
     formData.append("public_id", productImg.public_id);
     try {
-      const { data } = await axios.post("/api/admin/upload/addimg", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const { data } = await axios.post(
+        `${url}/api/admin/upload/addimg`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setProductImg(data);
       setLoad(false);
       setErrUpload("");
@@ -388,7 +394,7 @@ export default function EditScreen() {
           {(load || loading) && <CircularProgress color="primary" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
-              Saved successfully!
+              Edited successfully!
             </Alert>
           </Snackbar>
           {error && !result && (

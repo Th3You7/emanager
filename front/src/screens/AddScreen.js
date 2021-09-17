@@ -106,6 +106,8 @@ export default function AddScreen() {
     dispatch(addAction({ ...data, img: { url: imageUrl, public_id } }));
   };
 
+  const url = `https://manage-commerce.herokuapp.com`;
+
   const handleImageChange = async (e) => {
     setLoad(true);
     const image = e.target.files[0];
@@ -115,9 +117,13 @@ export default function AddScreen() {
       formData.append("public_id", img.public_id);
     }
     try {
-      const { data } = await axios.post("/api/admin/upload/addimg", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const { data } = await axios.post(
+        `${url}/api/admin/upload/addimg`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setImage(data);
       setLoad(false);
       setErrUpload("");

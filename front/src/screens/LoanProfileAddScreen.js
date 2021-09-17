@@ -139,6 +139,8 @@ export default function LoanProfileAddScreen() {
     setOpen(false);
   }, []);
 
+  const url = `https://manage-commerce.herokuapp.com`;
+
   const handleProfileImageChange = async (e) => {
     setLoad(true);
     const img = e.target.files[0];
@@ -149,7 +151,7 @@ export default function LoanProfileAddScreen() {
     }
     try {
       const { data } = await axios.post(
-        "/api/loan/upload/addprofile",
+        `${url}/api/loan/upload/addprofile`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -173,9 +175,13 @@ export default function LoanProfileAddScreen() {
       formData.append("public_id", cover.public_id);
     }
     try {
-      const { data } = await axios.post("/api/loan/upload/addcover", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const { data } = await axios.post(
+        `${url}/api/loan/upload/addcover`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setCover(data);
       setLoad(false);
       setCoverErr("");

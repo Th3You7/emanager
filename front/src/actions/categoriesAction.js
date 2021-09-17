@@ -28,7 +28,7 @@ const addCategoryAction = (values) => async (dispatch) => {
   dispatch({ type: ADD_CATEGORY_REQUEST });
 
   try {
-    const { data } = await axios.post("/api/category/add", values);
+    const { data } = await axios.post(`${url}/api/category/add`, values);
 
     dispatch({ type: ADD_CATEGORY_SUCCESS, payload: data });
   } catch (error) {
@@ -40,7 +40,7 @@ const deleteCategoryAction = (id) => async (dispatch) => {
   dispatch({ type: REMOVE_CATEGORY_REQUEST });
 
   try {
-    const response = await axios.delete(`/api/category/delete/${id}`);
+    const response = await axios.delete(`${url}/api/category/delete/${id}`);
     dispatch({ type: REMOVE_CATEGORY_SUCCESS, payload: response });
   } catch (error) {
     dispatch({ type: REMOVE_CATEGORY_FAIL, payload: error.message });

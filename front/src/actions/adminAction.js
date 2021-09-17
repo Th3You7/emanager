@@ -22,10 +22,9 @@ import {
   LOGOUT,
 } from "../constants/adminConstant";
 
-//sending token with all requests
-
 const url = `https://manage-commerce.herokuapp.com`;
 
+//sending token with all requests
 Axios.interceptors.request.use((req) => {
   if (localStorage.getItem("admin")) {
     req.headers.Authorization = `Bearer ${
