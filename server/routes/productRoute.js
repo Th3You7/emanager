@@ -7,14 +7,18 @@ productRouter.get(
   "/:id?",
   asyncHandler(async (req, res) => {
     const { id } = req.params;
-    if (id) {
-      const product = await Product.findById(id);
+    try {
+      if (id) {
+        const product = await Product.findById(id);
 
-      res.json(product);
-    } else {
-      const products = await Product.find({});
+        res.json(product);
+      } else {
+        const products = await Product.find({});
 
-      res.json(products);
+        res.json(products);
+      }
+    } catch (error) {
+      res.status(400).send(error);
     }
   })
 );
