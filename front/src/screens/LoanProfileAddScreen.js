@@ -291,7 +291,7 @@ export default function LoanProfileAddScreen() {
                 )}
                 <br />
               </div>
-              {!result && !load && (
+              {!result && !load && !loading && (
                 <Button
                   variant="contained"
                   color="primary"

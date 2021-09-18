@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     background: theme.palette.background.paper,
     borderRadius: "2px",
-    height: "35vh",
+    height: "41vh",
     margin: theme.spacing(0, "auto", 1.5),
     position: "relative",
   },

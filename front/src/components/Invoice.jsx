@@ -248,7 +248,7 @@ export default function Invoice({ data }) {
             >
               Notes
             </Text>
-            <Text
+            {/* <Text
               style={{ flex: "0 1 100%", marginLeft: "16px", color: "#292b2c" }}
             >
               Payment Method: {paymentMethod}
@@ -257,7 +257,7 @@ export default function Invoice({ data }) {
               style={{ flex: "0 1 100%", marginLeft: "16px", color: "#292b2c" }}
             >
               Advance: {advance}
-            </Text>
+            </Text> */}
           </View>
         </Page>
       </Document>
