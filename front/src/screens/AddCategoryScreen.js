@@ -112,7 +112,7 @@ export default function AddCategoryScreen() {
             </Button>
           )}
 
-          {loading && <CircularProgress color="primary" />}
+          {loading && <CircularProgress color="inherit" />}
 
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">

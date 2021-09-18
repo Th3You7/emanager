@@ -14,15 +14,15 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, "auto", 1.5),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
   },
 
   media: {
-    height: "90%",
-    width: "90%",
-    marginBottom: theme.spacing(3),
+    position: "absolute",
+    bottom: -10,
+    left: "50%",
+    transform: "translate(-50%, 0%)",
+    height: theme.spacing(16),
+    width: theme.spacing(16),
   },
 
   title: {
@@ -33,26 +33,32 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     right: 0,
     top: 0,
+    background: "rgba(0,0,0,0.5)",
   },
 
   cover: {
     width: "100%",
     height: "63%",
-    position: "absolute",
-    top: 0,
-    left: 0,
+    position: "relative",
+    backgroundImage: (props) =>
+      props?.result?.img?.cover?.url
+        ? `url("${props.result?.img?.cover?.url}")`
+        : "",
+    backgroundColor: "white",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
   },
 
-  img: {
-    height: "100%",
-    width: "100%",
+  info: {
+    marginTop: "20px",
   },
 }));
 
 export default function AdminProfile() {
-  const classes = useStyles();
-  const history = useHistory();
   const { result } = useSelector((state) => state.getProfileReducer);
+  const classes = useStyles({ result });
+  const history = useHistory();
   const handleClick = () => {
     history.push(`/admin/edit`);
   };
@@ -60,20 +66,20 @@ export default function AdminProfile() {
   return (
     <Paper variant="outlined" className={classes.root}>
       <div className={classes.cover}>
-        <img
+        {/* <img
           className={classes.img}
           src={result?.img?.cover?.url}
           alt="cover img"
+        /> */}
+        <IconButton onClick={handleClick} className={classes.edit}>
+          <EditRounded />
+        </IconButton>
+        <Avatar
+          alt="admin logo"
+          src={result?.img?.profile?.url}
+          className={classes.media}
         />
       </div>
-      <IconButton onClick={handleClick} className={classes.edit}>
-        <EditRounded />
-      </IconButton>
-      <Avatar
-        alt="admin logo"
-        src={result?.img?.profile?.url}
-        className={classes.media}
-      />
 
       {result ? (
         <div className={classes.info}>

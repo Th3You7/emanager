@@ -59,7 +59,15 @@ export default function UpperAppBar(props) {
 
   return (
     <div className={classes.root}>
-      <IconButton aria-label="back" onClick={handleBack}>
+      <IconButton
+        aria-label="back"
+        onClick={handleBack}
+        style={{
+          background: /^\/product/.test(pathname)
+            ? "rgba(0,0,0,.3)"
+            : "inherit",
+        }}
+      >
         <ArrowBackRounded fontSize="inherit" />
       </IconButton>
 
@@ -70,7 +78,12 @@ export default function UpperAppBar(props) {
       )}
 
       {/^\/product/.test(pathname) && (
-        <IconButton color="inherit" aria-label="store" onClick={handleStore}>
+        <IconButton
+          color="inherit"
+          aria-label="store"
+          onClick={handleStore}
+          style={{ background: "rgba(0,0,0,.3)" }}
+        >
           <LocalGroceryStoreOutlined />
         </IconButton>
       )}

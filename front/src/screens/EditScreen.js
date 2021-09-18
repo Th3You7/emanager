@@ -391,7 +391,7 @@ export default function EditScreen() {
             </Button>
           )}
           <br />
-          {(load || loading) && <CircularProgress color="primary" />}
+          {(load || loading) && <CircularProgress color="inherit" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Edited successfully!

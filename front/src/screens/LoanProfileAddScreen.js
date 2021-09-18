@@ -306,7 +306,7 @@ export default function LoanProfileAddScreen() {
               )}
             </>
           )}
-          {(loading || load) && <CircularProgress color="primary" />}
+          {(loading || load) && <CircularProgress color="inherit" />}
           <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Saved successfully!

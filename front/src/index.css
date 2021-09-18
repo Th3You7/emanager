@@ -14,6 +14,15 @@ body {
   font-weight: 400;
 }
 
+body::-webkit-scrollbar {
+  display: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+}
+
 * {
   font-weight: 400;
+  scrollbar-width: none;
 }

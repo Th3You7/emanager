@@ -14,6 +14,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  CircularProgress,
 } from "@material-ui/core";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -88,11 +89,22 @@ export default function Product() {
     history.replace("/cart");
   };
 
-  if (fetching) return "loading";
-  if (error) return "error";
   return (
     <div className={classes.root}>
       <UpperAppBar handleBack={handleBack} handleStore={handleStore} />
+      {fetching && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "80vh",
+          }}
+        >
+          <CircularProgress color="inherit" />
+        </div>
+      )}
       {error && error}
       {product && (
         <>
