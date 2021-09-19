@@ -32,10 +32,10 @@ I will post a video asap to tut how to use this app
 
 ### Credits goes to
 
-1. [Basir] (https://github.com/basir/node-react-ecommerce)
+1. [Basir](https://github.com/basir/node-react-ecommerce)
 
 ---
 
 ### Notes
 
-I wanna send a big hug to [Basir] (https://github.com/basir/node-react-ecommerce). this app is hugely insipred by his tutorial. I encourage anyone who is intersting in learning web development to enroll in this tutorial. it has alot of knowledge. thanks sir. big regards
+I wanna send a big hug to [Basir](https://github.com/basir/node-react-ecommerce). this app is hugely insipred by his tutorial. I encourage anyone who is intersting in learning web development to enroll in this tutorial. it has alot of knowledge. thanks sir. big regards
