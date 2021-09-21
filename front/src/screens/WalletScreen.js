@@ -352,19 +352,23 @@ export default function WalletScreen() {
     },
   };
 
-  if (error) return <div>{error}</div>;
-
   const allSales = sales?.reduce((acc, curr) => acc + curr.soldPrice, 0);
-  const allSpendings = spendings?.reduce((acc, curr) => acc + curr, 0);
+  const allSpendings = spendings.reduce((acc, curr) => acc + curr.spending, 0);
   const earning = sales?.reduce(
     (acc, curr) => acc + (curr.soldPrice - curr.price),
     0
   );
-  const balance = allSales - allSpendings;
+
+  console.log(spendings, "spendings");
+
+  console.log(allSales, "sale");
+  console.log(allSpendings, "spend");
+  const balance = Number(allSales - allSpendings);
 
   return (
     <>
       <UpperAppBar handleBack={handleBack} />
+      {error && <div>{error}</div>}
       <div className={classes.container}>
         <Paper className={classes.paper}>
           <Typography

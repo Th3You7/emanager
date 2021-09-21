@@ -49,6 +49,10 @@ const invoiceDeleteAction = (invoiceid) => async (dispatch) => {
   }
 };
 
+const currSelInvoiceAction = (product) => (dispatch) => {
+  dispatch({ type: "SELECT_INVOICE", payload: product });
+};
+
 const resetInvoiceAction = () => (dispatch) => {
   dispatch({ type: RESET_INVOICE });
 };
@@ -58,4 +62,5 @@ export {
   invoiceAction,
   resetInvoiceAction,
   invoiceDeleteAction,
+  currSelInvoiceAction,
 };

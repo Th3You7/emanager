@@ -101,4 +101,22 @@ const invoiceDeleteReducer = (
       return state;
   }
 };
-export { invoiceReducer, allInvoicesReducer, invoiceDeleteReducer };
+
+const currSelInvoiceReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SELECT_INVOICE":
+      return {
+        ...action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export {
+  invoiceReducer,
+  allInvoicesReducer,
+  invoiceDeleteReducer,
+  currSelInvoiceReducer,
+};

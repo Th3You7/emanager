@@ -59,6 +59,7 @@ import {
   invoiceReducer,
   allInvoicesReducer,
   invoiceDeleteReducer,
+  currSelInvoiceReducer,
 } from "./reducers/invoiceReducer";
 
 const initState = {
@@ -118,6 +119,7 @@ const reducer = combineReducers({
   allInvoicesReducer,
   currSelPaymentReducer,
   currSelProductsReducer,
+  currSelInvoiceReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

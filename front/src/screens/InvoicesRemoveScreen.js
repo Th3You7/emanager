@@ -6,7 +6,7 @@ import {
   Snackbar,
   Typography,
 } from "@material-ui/core";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   invoiceDeleteAction,
   resetInvoiceAction,
@@ -38,10 +38,7 @@ export default function RemoveScreen() {
   const { invoiceid } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const {
-    state: { data },
-  } = useLocation();
-
+  const result = useSelector((state) => state.currSelInvoiceReducer);
   const deleteReducer = useSelector((state) => state.invoiceDeleteReducer);
   const [open, setOpen] = useState(false);
 
@@ -76,7 +73,7 @@ export default function RemoveScreen() {
         </Typography>
         <Typography>
           Are You Sure You wanna Delete Invoice <br />
-          <b>{data?.invoiceId}</b>
+          <b>{result?.invoiceId}</b>
         </Typography>
         {!deleteReducer?.loading && !deleteReducer?.result && (
           <Button

@@ -51,6 +51,7 @@ export default function UpperAppBar(props) {
     spendingId,
     paymentId,
     productsId,
+    invoiceId,
   } = props;
   const classes = useStyles(useLocation());
   const location = useLocation();
@@ -92,6 +93,7 @@ export default function UpperAppBar(props) {
         pathname === "/admin/categories" ||
         pathname === "/admin/sales" ||
         pathname === "/admin/spending" ||
+        pathname === "/admin/invoices" ||
         pathname === "/loan" ||
         pathname === `/loan/${profileid}/payments` ||
         pathname === `/loan/${profileid}/products`) && (
@@ -114,7 +116,8 @@ export default function UpperAppBar(props) {
             saleId ||
             spendingId ||
             paymentId ||
-            productsId) && (
+            productsId ||
+            invoiceId) && (
             <Fab
               color="secondary"
               size="small"

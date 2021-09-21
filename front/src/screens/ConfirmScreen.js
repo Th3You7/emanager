@@ -58,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
+  loanLink: {
+    color: theme.palette.text.primary,
+    textDecoration: "none",
+  },
 }));
 
 export default function ConfirmScreen() {
@@ -145,6 +149,7 @@ export default function ConfirmScreen() {
   };
 
   const handleClick = () => {
+    if (!clientInfo.name) return;
     dispatch(addSalesAction(products));
     dispatch(confirmSaleAction(products));
     advance &&
@@ -285,6 +290,7 @@ export default function ConfirmScreen() {
                   fromConfirm: true,
                 },
               }}
+              className={classes.loanLink}
             >
               create a loan account ?
             </Typography>
