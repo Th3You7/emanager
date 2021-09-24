@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/Th3You7/eCommerce/issues"
   },
-  "homepage": "https://th3you7.github.io/ecommerce/",
+  "homepage": "https://th3you7.github.io/emanager/",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.25.1",
