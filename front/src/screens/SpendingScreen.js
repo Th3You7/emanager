@@ -53,8 +53,6 @@ export default function SpendingsScreen() {
     pathname: `/admin/removespending/${spendingId}`,
   };
 
-  if (error) return error;
-
   return (
     <div className={classes.root}>
       <UpperAppBar

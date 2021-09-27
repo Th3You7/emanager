@@ -359,10 +359,6 @@ export default function WalletScreen() {
     0
   );
 
-  console.log(spendings, "spendings");
-
-  console.log(allSales, "sale");
-  console.log(allSpendings, "spend");
   const balance = Number(allSales - allSpendings);
 
   return (

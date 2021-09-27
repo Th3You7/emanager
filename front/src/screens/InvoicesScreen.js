@@ -1,6 +1,5 @@
 import { makeStyles } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
-import { CloudDownloadOutlined } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -9,8 +8,6 @@ import {
   currSelInvoiceAction,
 } from "../actions/invoiceAction";
 import { UpperAppBar } from "../components";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { Invoice } from "../components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,26 +30,26 @@ const columns = [
     field: "download",
     headerName: "Download",
     width: 100,
-    renderCell: (params) => (
-      <div
-        style={{
-          width: "100%",
-          lineHeight: "1",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "black",
-        }}
-      >
-        <PDFDownloadLink
-          document={<Invoice data={params.row} />}
-          fileName={`${params.row.invoiceId}.pdf`}
-          style={{ color: "black" }}
-        >
-          <CloudDownloadOutlined />
-        </PDFDownloadLink>
-      </div>
-    ),
+    // renderCell: (params) => (
+    //   <div
+    //     style={{
+    //       width: "100%",
+    //       lineHeight: "1",
+    //       display: "flex",
+    //       alignItems: "center",
+    //       justifyContent: "center",
+    //       color: "black",
+    //     }}
+    //   >
+    //     <PDFDownloadLink
+    //       document={<Invoice data={params.row} />}
+    //       fileName={`${params.row.invoiceId}.pdf`}
+    //       style={{ color: "black" }}
+    //     >
+    //       <CloudDownloadOutlined />
+    //     </PDFDownloadLink>
+    //   </div>
+    // ),
   },
 
   // {
@@ -125,7 +122,6 @@ export default function InvoicesScreen() {
             pageSize={10}
             columns={columns}
             onRowSelected={(row) => {
-              console.log(row.data);
               setInvoiceId(row.data.id);
               dispatch(currSelInvoiceAction(row.data));
             }}

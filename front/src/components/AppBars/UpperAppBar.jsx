@@ -8,7 +8,11 @@ import {
   AddRounded,
   EditRounded,
   LocalGroceryStoreOutlined,
+  CloudDownloadOutlined,
 } from "@material-ui/icons/";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Invoice } from "..";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     margin: theme.spacing(0, 1.2, 0, 0),
   },
+
+  link: {
+    color: theme.palette.text.primary,
+  },
 }));
 
 export default function UpperAppBar(props) {
@@ -57,6 +65,7 @@ export default function UpperAppBar(props) {
   const location = useLocation();
   const { pathname } = location;
   const { profileid } = useParams();
+  const data = useSelector((state) => state.currSelInvoiceReducer);
 
   return (
     <div className={classes.root}>
@@ -99,7 +108,8 @@ export default function UpperAppBar(props) {
         pathname === `/loan/${profileid}/products`) && (
         <div className={classes.flex}>
           {pathname !== "/admin/sales" &&
-            pathname !== `/loan/${profileid}/products` && (
+            pathname !== `/loan/${profileid}/products` &&
+            pathname !== `/admin/invoices` && (
               <Fab
                 color="primary"
                 size="small"
@@ -110,6 +120,18 @@ export default function UpperAppBar(props) {
                 <AddRounded />
               </Fab>
             )}
+
+          {invoiceId && (
+            <IconButton>
+              <PDFDownloadLink
+                className={classes.link}
+                document={<Invoice data={data} />}
+                fileName={`${data?.invoiceId}.pdf`}
+              >
+                <CloudDownloadOutlined />
+              </PDFDownloadLink>
+            </IconButton>
+          )}
 
           {(id ||
             categoryId ||

@@ -100,8 +100,6 @@ export default function LoanProfileAddScreen() {
     }
   }, [setOpen, result]);
 
-  console.log(location);
-
   useEffect(() => {
     if (result && location?.state?.fromConfirm) {
       const timeout = setTimeout(() => {
