@@ -8,7 +8,6 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 import InvoiceProductSection from "./InvoiceProductSection";
-import { useSelector } from "react-redux";
 
 const styles = StyleSheet.create({
   page: {
@@ -50,8 +49,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Invoice({ data }) {
-  const { client, invoiceId, products, date, total, paymentMethod, advance } =
-    data;
+  const { client, invoiceId, products, date, total } = data;
 
   return (
     <>
