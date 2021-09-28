@@ -8,7 +8,7 @@ const loanSchema = new mongoose.Schema({
     set: (v) => v.toLowerCase(),
   },
   phone: {
-    type: Number,
+    type: String,
     unique: true,
   },
   img: {

@@ -174,7 +174,9 @@ export default function Invoice({ data }) {
               <Text style={{ color: "white", fontWeight: "bold" }}>Amount</Text>
             </View>
           </View>
-          <View style={{ display: "flex", flexDirection: "row" }}>
+          <View
+            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+          >
             {products.map((product) => (
               <InvoiceProductSection
                 key={product._id}

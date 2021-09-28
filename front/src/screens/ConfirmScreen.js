@@ -41,9 +41,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
   },
-  btn: {
-    marginTop: theme.spacing(3),
-  },
+
   failed: {
     color: theme.palette.error["dark"],
     fontSize: theme.spacing(2.5),
@@ -56,7 +54,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   table: {
-    minWidth: 650,
+    // minWidth: 650,
+    marginBottom: theme.spacing(3),
   },
   loanLink: {
     color: theme.palette.text.primary,
@@ -156,7 +155,7 @@ export default function ConfirmScreen() {
       dispatch(
         loanPaymentsAddAction({ profileid: clientInfo.id, payment: advance })
       );
-    advance &&
+    payment.value === "credit" &&
       dispatch(loanProductsAddAction({ products, profileid: clientInfo.id }));
     dispatch(invoiceAction(invoiceData));
     dispatch(removeAllAction());
@@ -314,7 +313,7 @@ export default function ConfirmScreen() {
                 <strong>{clientInfo.adress}</strong>
               </p>
             </div>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} className={classes.table}>
               <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>

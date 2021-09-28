@@ -228,10 +228,13 @@ adminRouter.put(
         }
         return acc;
       }, {});
-    } catch (error) {}
-    const updatedProduct = await product.save();
 
-    res.json(updatedProduct);
+      const updatedProduct = await product.save();
+
+      res.json(updatedProduct);
+    } catch (error) {
+      res.status(400).send(error);
+    }
   })
 );
 module.exports = adminRouter;
