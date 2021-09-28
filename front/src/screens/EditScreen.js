@@ -126,7 +126,15 @@ export default function EditScreen() {
   };
 
   const onSubmit = (data) => {
-    dispatch(editAction(id, data));
+    dispatch(
+      editAction(id, {
+        ...data,
+        img: {
+          url: productImg.url,
+          public_id: productImg.public_id,
+        },
+      })
+    );
   };
 
   const handleClose = useCallback((event, reason) => {

@@ -38,8 +38,9 @@ const useStyles = makeStyles((theme) => ({
     width: "94%",
     left: "50%",
     transform: "translateX(-50%)",
-    position: "absolute",
-    bottom: 10,
+    marginTop: theme.spacing(10),
+    // position: "absolute",
+    // bottom: 10,
   },
   price: {
     color: theme.palette.text.secondary,

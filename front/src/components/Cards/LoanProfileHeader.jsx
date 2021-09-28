@@ -128,7 +128,7 @@ export default function AdminProfile({
                 marginRight: "4px",
               }}
             />
-            <span>{phone}</span>
+            <span>{`0${phone}`}</span>
           </Typography>
         </div>
       </div>
