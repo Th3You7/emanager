@@ -56,8 +56,8 @@ export default function RemoveScreen() {
   };
 
   const handleBack = () => {
-    dispatch(resetInvoiceAction());
     history.goBack();
+    dispatch(resetInvoiceAction());
   };
 
   const handleDelete = () => {

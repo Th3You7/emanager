@@ -26,31 +26,31 @@ const columns = [
   { field: "invoiceId", headerName: "ID", width: 100 },
   { field: "date", headerName: "Date", width: 165 },
   { field: "client", headerName: "Client", width: 120 },
-  {
-    field: "download",
-    headerName: "Download",
-    width: 100,
-    // renderCell: (params) => (
-    //   <div
-    //     style={{
-    //       width: "100%",
-    //       lineHeight: "1",
-    //       display: "flex",
-    //       alignItems: "center",
-    //       justifyContent: "center",
-    //       color: "black",
-    //     }}
-    //   >
-    //     <PDFDownloadLink
-    //       document={<Invoice data={params.row} />}
-    //       fileName={`${params.row.invoiceId}.pdf`}
-    //       style={{ color: "black" }}
-    //     >
-    //       <CloudDownloadOutlined />
-    //     </PDFDownloadLink>
-    //   </div>
-    // ),
-  },
+  // {
+  //   field: "download",
+  //   headerName: "Download",
+  // width: 100,
+  // renderCell: (params) => (
+  //   <div
+  //     style={{
+  //       width: "100%",
+  //       lineHeight: "1",
+  //       display: "flex",
+  //       alignItems: "center",
+  //       justifyContent: "center",
+  //       color: "black",
+  //     }}
+  //   >
+  //     <PDFDownloadLink
+  //       document={<Invoice data={params.row} />}
+  //       fileName={`${params.row.invoiceId}.pdf`}
+  //       style={{ color: "black" }}
+  //     >
+  //       <CloudDownloadOutlined />
+  //     </PDFDownloadLink>
+  //   </div>
+  // ),
+  // },
 
   // {
   //   field: "delete",

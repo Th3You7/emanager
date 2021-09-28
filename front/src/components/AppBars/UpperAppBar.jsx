@@ -121,7 +121,7 @@ export default function UpperAppBar(props) {
               </Fab>
             )}
 
-          {invoiceId && (
+          {invoiceId && data?.invoiceId && (
             <IconButton>
               <PDFDownloadLink
                 className={classes.link}

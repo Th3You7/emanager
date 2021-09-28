@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 
 export default function Invoice({ data }) {
   const { client, invoiceId, products, date, total, paymentMethod, advance } =
-    useSelector((state) => state.currSelInvoiceReducer);
+    data;
 
   return (
     <>
