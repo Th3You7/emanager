@@ -33,6 +33,7 @@ import {
   loanAction,
   loanPaymentsAddAction,
   loanProductsAddAction,
+  loanReset,
 } from "../actions/loanAction";
 import { invoiceAction, resetInvoiceAction } from "../actions/invoiceAction";
 import { Link } from "react-router-dom";
@@ -118,6 +119,7 @@ export default function ConfirmScreen() {
   const handleBack = () => {
     dispatch(resetSales());
     dispatch(resetInvoiceAction());
+    dispatch(loanReset());
     history.replace("/cart");
   };
 
