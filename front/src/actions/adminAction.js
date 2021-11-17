@@ -22,7 +22,7 @@ import {
   LOGOUT,
 } from "../constants/adminConstant";
 
-const url = `https://manage-commerce.herokuapp.com`;
+const url = `https://jabstore.herokuapp.com/`;
 
 //sending token with all requests
 Axios.interceptors.request.use((req) => {

@@ -15,7 +15,7 @@ import {
   CONFIRM_SALES_FAIL,
 } from "../constants/salesConstants";
 
-const url = `https://manage-commerce.herokuapp.com`;
+const url = `https://jabstore.herokuapp.com/`;
 
 const salesAction = () => async (dispatch) => {
   dispatch({ type: SALES_REQUEST });

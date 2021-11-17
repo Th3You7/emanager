@@ -12,7 +12,7 @@ import {
 } from "../constants/categoriesConstant";
 import axios from "axios";
 
-const url = `https://manage-commerce.herokuapp.com`;
+const url = `https://jabstore.herokuapp.com/`;
 
 const categoriesAction = () => async (dispatch) => {
   dispatch({ type: CATEGORIES_REQUEST });

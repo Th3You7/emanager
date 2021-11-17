@@ -12,7 +12,7 @@ import {
   RESET_INVOICE,
 } from "../constants/invoiceConstants";
 
-const url = `https://manage-commerce.herokuapp.com`;
+const url = `https://jabstore.herokuapp.com/`;
 
 const allInvoicesAction = () => async (dispatch) => {
   dispatch({ type: ALL_INVOICES_REQUEST });

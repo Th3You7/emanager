@@ -13,7 +13,7 @@ import {
   REMOVE_SPENDING_FAIL,
 } from "../constants/spendingConstants";
 
-const url = `https://manage-commerce.herokuapp.com`;
+const url = `https://jabstore.herokuapp.com/`;
 
 const spendingsAction = () => async (dispatch) => {
   dispatch({ type: SPENDINGS_REQUEST });

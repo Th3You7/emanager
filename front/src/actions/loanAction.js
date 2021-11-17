@@ -36,7 +36,7 @@ import {
   LOAN_PRODUCTS_REMOVE_SUCCESS,
 } from "../constants/loanConstants";
 
-const url = `https://manage-commerce.herokuapp.com`;
+const url = `https://jabstore.herokuapp.com/`;
 
 const loanAction = () => async (dispatch) => {
   dispatch({ type: LOAN_REQUEST });

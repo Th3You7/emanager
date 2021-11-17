@@ -12,7 +12,7 @@ import {
   RESET,
 } from "../constants/productsConstants";
 
-const url = `https://manage-commerce.herokuapp.com`;
+const url = `https://jabstore.herokuapp.com/`;
 
 const productsAction =
   (category = "") =>
